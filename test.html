@@ -25,6 +25,8 @@
         .top-bar {
             height: 35px;
             background: #dfdfdf;
+            /* 요기 아래에 어두운 구분선이랑 밝은 하이라이트 넣어서 확실하게 분리함 */
+            border-bottom: 2px solid #808080; 
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -36,13 +38,14 @@
         .menu-bar {
             height: 30px;
             background: #dfdfdf;
-            border-bottom: 3px solid #999;
+            border-top: 2px solid #ffffff; /* 첫 번째 줄이랑 구분되게 윗선에 흰색 하이라이트 줌 */
+            border-bottom: 3px solid #808080;
             display: flex;
             align-items: center;
             padding: 0 10px;
         }
 
-        /* 우측 상단 X 버튼 (양각/음각 효과) */
+        /* 우측 상단 X 버튼 */
         .close-btn {
             background: #dfdfdf;
             border-top: 2px solid #fff;
@@ -54,13 +57,12 @@
             cursor: pointer;
             font-size: 14px;
         }
-        /* X 버튼 눌렀을 때 쏙 들어가는 효과 */
         .close-btn:active {
             border-top: 2px solid #555;
             border-left: 2px solid #555;
             border-right: 2px solid #fff;
             border-bottom: 2px solid #fff;
-            padding: 3px 9px 1px 11px; /* 글자 위치도 같이 눌리게 이동 */
+            padding: 3px 9px 1px 11px;
         }
 
         .content-area {
@@ -72,7 +74,6 @@
             position: relative;
         }
 
-        /* 왼쪽 이미지/텍스트 구역 */
         .left-image-zone {
             flex: 1;
             height: 100%;
@@ -111,18 +112,16 @@
             padding: 0 15px;
         }
         
-        /* 맨 아래 빈 버튼 (양각/음각 효과) */
         .start-btn {
             background: #dfdfdf;
             border-top: 2px solid #fff;
             border-left: 2px solid #fff;
             border-right: 2px solid #555;
             border-bottom: 2px solid #555;
-            padding: 4px 20px; /* 글씨가 없어도 버튼 모양 유지되게 여백 줌 */
+            padding: 4px 20px;
             height: 30px;
             cursor: pointer;
         }
-        /* 버튼 눌렀을 때 쏙 들어가는 효과 */
         .start-btn:active {
             border-top: 2px solid #555;
             border-left: 2px solid #555;
@@ -142,35 +141,26 @@
 
     <div class="win-wrapper">
         
-        <!-- 1. 첫 번째 상단바 (글씨 다 지우고 X버튼만 남김) -->
         <header class="top-bar">
-            <div></div> <!-- 빈 공간 -->
+            <div></div>
             <div class="close-btn">X</div>
         </header>
         
-        <!-- 2. 두 번째 상단바 (두 줄 요청) -->
         <div class="menu-bar"></div>
 
         <main class="content-area">
-            
-            <!-- 왼쪽 구역 (가운데 글씨 지움) -->
             <div class="left-image-zone"></div>
-
             <div class="right-menu-zone">
-                <!-- 요청한 대로 START! 만 남김 -->
                 <a href="start.html" class="os-btn">START!</a>
             </div>
-            
         </main>
 
         <footer class="bottom-bar">
-            <!-- 하단 좌측 버튼 (글씨 지우고 입체 효과만 줌) -->
             <div class="start-btn"></div>
             <div id="clock">00:00 PM</div>
         </footer>
     </div>
 
-    <!-- 시계 돌아가는 스크립트 -->
     <script>
         function updateClock() {
             const now = new Date();
