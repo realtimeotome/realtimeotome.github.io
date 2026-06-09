@@ -21,18 +21,47 @@
             flex-direction: column;
         }
 
+        /* 1. 상단바 첫 번째 줄 (타이틀 바) */
         .top-bar {
-            height: 40px;
+            height: 35px;
             background: #dfdfdf;
-            border-bottom: 3px solid #999;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 15px;
+            padding: 0 10px;
             user-select: none;
         }
-        /* 메인 창 제목 폰트 굵게 */
-        .win-title { font-weight: bold; }
+        
+        /* 2. 상단바 두 번째 줄 (메뉴 바) */
+        .menu-bar {
+            height: 30px;
+            background: #dfdfdf;
+            border-bottom: 3px solid #999;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+        }
+
+        /* 우측 상단 X 버튼 (양각/음각 효과) */
+        .close-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            padding: 2px 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        /* X 버튼 눌렀을 때 쏙 들어가는 효과 */
+        .close-btn:active {
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            padding: 3px 9px 1px 11px; /* 글자 위치도 같이 눌리게 이동 */
+        }
 
         .content-area {
             flex: 1;
@@ -43,15 +72,10 @@
             position: relative;
         }
 
-        /* 나중에 메인 이미지 들어갈 왼쪽 구역 */
+        /* 왼쪽 이미지/텍스트 구역 */
         .left-image-zone {
             flex: 1;
             height: 100%;
-            /* 텍스트 테스트용 (나중에 지워도 됨) */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #ccc;
         }
 
         .right-menu-zone {
@@ -86,13 +110,24 @@
             align-items: center;
             padding: 0 15px;
         }
+        
+        /* 맨 아래 빈 버튼 (양각/음각 효과) */
         .start-btn {
-            background: #ccc;
-            border: 2px solid #fff;
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
             border-right: 2px solid #555;
             border-bottom: 2px solid #555;
-            padding: 4px 12px;
-            font-weight: bold;
+            padding: 4px 20px; /* 글씨가 없어도 버튼 모양 유지되게 여백 줌 */
+            height: 30px;
+            cursor: pointer;
+        }
+        /* 버튼 눌렀을 때 쏙 들어가는 효과 */
+        .start-btn:active {
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
         }
 
         @media screen and (max-width: 768px) {
@@ -106,31 +141,36 @@
 <body>
 
     <div class="win-wrapper">
+        
+        <!-- 1. 첫 번째 상단바 (글씨 다 지우고 X버튼만 남김) -->
         <header class="top-bar">
-            <div class="win-title">💾 MY_PROJECT_ARCHIVE.exe</div>
-            <div class="win-title">X</div>
+            <div></div> <!-- 빈 공간 -->
+            <div class="close-btn">X</div>
         </header>
+        
+        <!-- 2. 두 번째 상단바 (두 줄 요청) -->
+        <div class="menu-bar"></div>
 
         <main class="content-area">
-            <div class="left-image-zone">
-                [ MAIN IMAGE OR TEXT ]
-            </div>
+            
+            <!-- 왼쪽 구역 (가운데 글씨 지움) -->
+            <div class="left-image-zone"></div>
 
             <div class="right-menu-zone">
+                <!-- 요청한 대로 START! 만 남김 -->
                 <a href="start.html" class="os-btn">START!</a>
-                <a href="sentinel_logs.html" class="os-btn">센티넬 설정집</a>
-                <a href="char_prompts.html" class="os-btn">프롬프트 태그 (병지/송곳니)</a>
-                <a href="saju_notes.html" class="os-btn">진술축미 분석 메모</a>
-                <a href="#" class="os-btn">SAVE FILE?</a>
             </div>
+            
         </main>
 
         <footer class="bottom-bar">
-            <div class="start-btn">START</div>
+            <!-- 하단 좌측 버튼 (글씨 지우고 입체 효과만 줌) -->
+            <div class="start-btn"></div>
             <div id="clock">00:00 PM</div>
         </footer>
     </div>
 
+    <!-- 시계 돌아가는 스크립트 -->
     <script>
         function updateClock() {
             const now = new Date();
