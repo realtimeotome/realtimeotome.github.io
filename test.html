@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 1. 요기가 사파리 탭에 뜨는 이름 바꾸는 곳 -->
     <title>realtimeotom3</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
+    
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
             width: 100vw;
-            /* 2. 하단바 짤림 해결: vh 대신 dvh(동적 높이)를 쓰면 사파리 주소창 빼고 딱 맞춰줌 */
             height: 100dvh; 
             overflow: hidden;
             background-color: #ffffff; 
             font-family: monospace;
+        }
+
+        /* 픽셀 폰트 적용할 클래스 */
+        .pixel-font {
+            font-family: 'NeoDunggeunmo', monospace;
+            -webkit-font-smoothing: none; /* 글씨 뭉개짐 방지 (찐 픽셀 느낌) */
         }
 
         .win-wrapper {
@@ -23,7 +29,6 @@
             flex-direction: column;
         }
 
-        /* 상단바 첫 번째 줄 (타이틀 바) */
         .top-bar {
             height: 35px;
             background: #dfdfdf;
@@ -35,7 +40,35 @@
             user-select: none;
         }
         
-        /* 상단바 두 번째 줄 (메뉴 바) */
+        /* 좌측 상단 메뉴 버튼들 묶음 */
+        .top-menu {
+            display: flex;
+            gap: 4px;
+        }
+
+        /* 메뉴 버튼 양각 효과 */
+        .menu-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #000;
+        }
+
+        /* 메뉴 버튼 눌렸을 때 (음각) + 현재 눌려있는 active 상태 */
+        .menu-btn:active, .menu-btn.active {
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            padding: 3px 7px 1px 9px; 
+            background: #d4d4d4; 
+        }
+
         .menu-bar {
             height: 30px;
             background: #dfdfdf;
@@ -46,7 +79,6 @@
             padding: 0 10px;
         }
 
-        /* 우측 상단 X 버튼 */
         .close-btn {
             background: #dfdfdf;
             border-top: 2px solid #fff;
@@ -57,6 +89,7 @@
             font-weight: bold;
             cursor: pointer;
             font-size: 14px;
+            font-family: sans-serif;
         }
         .close-btn:active {
             border-top: 2px solid #555;
@@ -130,6 +163,12 @@
             border-bottom: 2px solid #fff;
         }
 
+        /* 시계 폰트 크기 살짝 조정 */
+        #clock {
+            font-size: 16px;
+            user-select: none;
+        }
+
         @media screen and (max-width: 768px) {
             .content-area { flex-direction: column; padding: 20px; }
             .left-image-zone { height: 40%; width: 100%; }
@@ -143,7 +182,13 @@
     <div class="win-wrapper">
         
         <header class="top-bar">
-            <div></div>
+            <div class="top-menu">
+                <button class="menu-btn active pixel-font">main</button>
+                <button class="menu-btn pixel-font">file</button>
+                <button class="menu-btn pixel-font">favorites</button>
+                <button class="menu-btn pixel-font">help!</button>
+                <button class="menu-btn pixel-font">lucky?</button>
+            </div>
             <div class="close-btn">X</div>
         </header>
         
@@ -158,20 +203,35 @@
 
         <footer class="bottom-bar">
             <div class="start-btn"></div>
-            <div id="clock">00:00 PM</div>
+            <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
     </div>
 
     <script>
         function updateClock() {
             const now = new Date();
+            
+            // 미국식 날짜 세팅 (MM/DD/YYYY)
+            let month = now.getMonth() + 1;
+            let date = now.getDate();
+            let year = now.getFullYear();
+            
+            // 1자리 수면 앞에 0 붙여줌
+            month = month < 10 ? '0' + month : month;
+            date = date < 10 ? '0' + date : date;
+            const dateStr = month + '/' + date + '/' + year;
+
+            // 시간 세팅
             let hours = now.getHours();
             let minutes = now.getMinutes();
             const ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12;
             hours = hours ? hours : 12; 
-            minutes = minutes < 10 ? '0'+minutes : minutes;
-            document.getElementById('clock').innerHTML = hours + ':' + minutes + ' ' + ampm;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = hours + ':' + minutes + ' ' + ampm;
+
+            // 합쳐서 화면에 뿌림
+            document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
         }
         setInterval(updateClock, 1000);
         updateClock();
