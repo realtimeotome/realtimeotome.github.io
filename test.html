@@ -3,12 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MY_PROJECT_ARCHIVE</title>
+    <!-- 1. 요기가 사파리 탭에 뜨는 이름 바꾸는 곳 -->
+    <title>realtimeotom3</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body, html {
             width: 100vw;
-            height: 100vh;
+            /* 2. 하단바 짤림 해결: vh 대신 dvh(동적 높이)를 쓰면 사파리 주소창 빼고 딱 맞춰줌 */
+            height: 100dvh; 
             overflow: hidden;
             background-color: #ffffff; 
             font-family: monospace;
@@ -21,11 +23,10 @@
             flex-direction: column;
         }
 
-        /* 1. 상단바 첫 번째 줄 (타이틀 바) */
+        /* 상단바 첫 번째 줄 (타이틀 바) */
         .top-bar {
             height: 35px;
             background: #dfdfdf;
-            /* 요기 아래에 어두운 구분선이랑 밝은 하이라이트 넣어서 확실하게 분리함 */
             border-bottom: 2px solid #808080; 
             display: flex;
             justify-content: space-between;
@@ -34,11 +35,11 @@
             user-select: none;
         }
         
-        /* 2. 상단바 두 번째 줄 (메뉴 바) */
+        /* 상단바 두 번째 줄 (메뉴 바) */
         .menu-bar {
             height: 30px;
             background: #dfdfdf;
-            border-top: 2px solid #ffffff; /* 첫 번째 줄이랑 구분되게 윗선에 흰색 하이라이트 줌 */
+            border-top: 2px solid #ffffff; 
             border-bottom: 3px solid #808080;
             display: flex;
             align-items: center;
