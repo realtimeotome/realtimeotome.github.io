@@ -31,6 +31,7 @@
             padding: 0 15px;
             user-select: none;
         }
+        /* 메인 창 제목 폰트 굵게 */
         .win-title { font-weight: bold; }
 
         .content-area {
@@ -42,9 +43,15 @@
             position: relative;
         }
 
+        /* 나중에 메인 이미지 들어갈 왼쪽 구역 */
         .left-image-zone {
             flex: 1;
             height: 100%;
+            /* 텍스트 테스트용 (나중에 지워도 됨) */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
         }
 
         .right-menu-zone {
@@ -105,11 +112,15 @@
         </header>
 
         <main class="content-area">
-            <div class="left-image-zone"></div>
+            <div class="left-image-zone">
+                [ MAIN IMAGE OR TEXT ]
+            </div>
 
             <div class="right-menu-zone">
                 <a href="start.html" class="os-btn">START!</a>
-                <a href="#" class="os-btn">,,, ♡</a>
+                <a href="sentinel_logs.html" class="os-btn">센티넬 설정집</a>
+                <a href="char_prompts.html" class="os-btn">프롬프트 태그 (병지/송곳니)</a>
+                <a href="saju_notes.html" class="os-btn">진술축미 분석 메모</a>
                 <a href="#" class="os-btn">SAVE FILE?</a>
             </div>
         </main>
@@ -136,4 +147,3 @@
     </script>
 </body>
 </html>
-
