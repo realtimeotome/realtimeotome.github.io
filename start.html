@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>realtimeotom3 - START</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html {
+            width: 100vw;
+            height: 100dvh; 
+            overflow: hidden;
+            background-color: #ffffff; 
+            font-family: monospace;
+        }
+
+        .pixel-font {
+            font-family: 'NeoDunggeunmo', monospace;
+            -webkit-font-smoothing: none; 
+        }
+
+        .win-wrapper {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 첫 번째 상단바 */
+        .top-bar {
+            height: 35px;
+            background: #dfdfdf;
+            border-bottom: 2px solid #808080; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            user-select: none;
+        }
+        
+        .top-menu {
+            display: flex;
+            gap: 4px;
+        }
+
+        .menu-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #000;
+        }
+
+        .menu-btn:active, .menu-btn.active {
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            padding: 3px 7px 1px 9px; 
+            background: #d4d4d4; 
+        }
+
+        /* 뒤로가기 버튼 추가 (메인으로 돌아가기) */
+        .back-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            padding: 2px 8px;
+            cursor: pointer;
+            font-size: 16px;
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .back-btn:active {
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            padding: 3px 7px 1px 9px; 
+        }
+
+        .close-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            padding: 2px 10px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            font-family: sans-serif;
+        }
+
+        /* 두 번째 상단바 (주소창) */
+        .menu-bar {
+            height: 34px; 
+            background: #dfdfdf;
+            border-top: 2px solid #ffffff; 
+            border-bottom: 3px solid #808080;
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            gap: 8px; 
+        }
+
+        .address-label {
+            font-size: 16px;
+            color: #000;
+        }
+
+        .address-field {
+            flex-grow: 1; 
+            height: 22px;
+            background: #fff;
+            border-top: 2px solid #555;
+            border-left: 2px solid #555;
+            border-right: 2px solid #fff;
+            border-bottom: 2px solid #fff;
+            padding: 0 8px;
+            color: #000;
+            font-size: 14px;
+            outline: none; 
+        }
+
+        .address-dropdown-btn {
+            width: 22px;
+            height: 22px;
+            background: #dfdfdf;
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #555;
+            border-bottom: 2px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            color: #000;
+        }
+
+        /* 탐색기 메인 화면 */
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            background-color: #ffffff;
+            /* 안으로 푹 파인 효과 */
+            border-top: 3px solid #555;
+            border-left: 3px solid #555;
+            border-right: 3px solid #fff;
+            border-bottom: 3px solid #fff;
+            margin: 10px;
+            overflow-y: auto;
+        }
+
+        /* 파일 리스트 디자인 */
+        .file-list {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 10px;
+            font-size: 20px;
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+            border: 1px dotted transparent; /* 기본은 투명 테두리 */
+        }
+
+        /* 마우스 올렸을 때 옛날 윈도우 파란색 선택 효과 */
+        .file-item:hover {
+            background-color: #000080;
+            color: #ffffff;
+            border: 1px dotted #fff;
+        }
+
+        .file-icon {
+            margin-right: 15px;
+            font-size: 24px;
+        }
+
+        .bottom-bar {
+            height: 45px;
+            background: #dfdfdf;
+            border-top: 3px solid #999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+        }
+
+        #clock {
+            font-size: 16px;
+            user-select: none;
+        }
+
+        @media screen and (max-width: 768px) {
+            .address-label { display: none; }
+            .address-field { border-right: none; } 
+            .address-dropdown-btn { border-left: none; }
+            .file-item { font-size: 18px; padding: 12px 10px; } /* 모바일 터치하기 편하게 간격 늘림 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="win-wrapper">
+        
+        <header class="top-bar">
+            <div class="top-menu">
+                <a href="index.html" class="back-btn pixel-font">◀ Back</a>
+                <button class="menu-btn pixel-font">file</button>
+                <button class="menu-btn pixel-font">favorites</button>
+                <button class="menu-btn pixel-font">help!</button>
+            </div>
+            <div class="close-btn">X</div>
+        </header>
+        
+        <div class="menu-bar">
+            <div class="address-label pixel-font">Address</div>
+            <input type="text" class="address-field pixel-font" value="C:\MY_PROJECT_ARCHIVE\DATA" readonly>
+            <div class="address-dropdown-btn pixel-font">▼</div>
+        </div>
+
+        <main class="content-area">
+            <div class="file-list">
+                <a href="#" class="file-item pixel-font">
+                    <span class="file-icon">📝</span> 센티넬_세계관_설정집.txt
+                </a>
+                <a href="#" class="file-item pixel-font">
+                    <span class="file-icon">💾</span> 프롬프트_태그_백업(병지_송곳니).log
+                </a>
+                <a href="#" class="file-item pixel-font">
+                    <span class="file-icon">📊</span> 진술축미_분석_메모.hwp
+                </a>
+                <a href="#" class="file-item pixel-font">
+                    <span class="file-icon">⚙️</span> SAVE_FILE.sys
+                </a>
+            </div>
+        </main>
+
+        <footer class="bottom-bar">
+            <div></div> <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
+        </footer>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            let month = now.getMonth() + 1;
+            let date = now.getDate();
+            let year = now.getFullYear();
+            
+            month = month < 10 ? '0' + month : month;
+            date = date < 10 ? '0' + date : date;
+            const dateStr = month + '/' + date + '/' + year;
+
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12; 
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = hours + ':' + minutes + ' ' + ampm;
+
+            document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
