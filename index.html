@@ -65,22 +65,20 @@
             background: #d4d4d4; 
         }
 
-        /* 두 번째 상단바 설정 */
         .menu-bar {
-            height: 34px; /* 주소창 들어가게 높이 살짝 키움 */
+            height: 34px; 
             background: #dfdfdf;
             border-top: 2px solid #ffffff; 
             border-bottom: 3px solid #808080;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* 안쪽 요소들을 우측으로 밀어버림 */
+            justify-content: flex-end; 
             padding: 0 10px;
         }
 
-        /* 푹 파인 주소창 디자인 (음각 효과) */
         .address-bar {
             width: 60%;
-            max-width: 400px; /* 너무 길어지지 않게 락 걸어둠 */
+            max-width: 400px; 
             height: 22px;
             background: #fff;
             border-top: 2px solid #555;
@@ -92,6 +90,8 @@
             padding: 0 8px;
             color: #000;
             font-size: 14px;
+            /* 👇 핵심: X 버튼 크기(약 36px)만큼 오른쪽 여백을 줘서 칸을 왼쪽으로 밀어버림 */
+            margin-right: 36px; 
         }
 
         .close-btn {
@@ -183,14 +183,13 @@
             user-select: none;
         }
 
-        /* 폰 세로 모드 대응 */
         @media screen and (max-width: 768px) {
             .content-area { flex-direction: column; padding: 20px; }
             .left-image-zone { height: 40%; width: 100%; }
             .right-menu-zone { width: 100%; align-items: center; }
             .os-btn { font-size: 24px; }
-            /* 모바일에선 주소창이 꽉 차 보이게 늘려줌 */
-            .address-bar { width: 100%; }
+            /* 모바일에선 주소창이 꽉 차게 오른쪽 여백 없앰 */
+            .address-bar { width: 100%; margin-right: 0; }
         }
     </style>
 </head>
