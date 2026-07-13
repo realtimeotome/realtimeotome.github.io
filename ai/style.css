@@ -1,78 +1,42 @@
-:root {
-    --chat-bg: transparent; 
-    --chat-font-size: 1.05rem;
-    --chat-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    --user-color: #111111;
-    --ai-color: #2c5282;
-    --narrative-color: #777777;
-}
+:root { --chat-bg: transparent; --chat-font-size: 1.05rem; --chat-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; --user-color: #111111; --ai-color: #2c5282; --narrative-color: #777777; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-body {
-    background: linear-gradient(135deg, #fcfcfc, #dadada);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    height: 100dvh; display: flex; justify-content: center; align-items: center;
-    overflow: hidden; letter-spacing: -0.3px;
-}
+body { background: linear-gradient(135deg, #fcfcfc, #dadada); font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; height: 100dvh; display: flex; justify-content: center; align-items: center; overflow: hidden; letter-spacing: -0.3px; }
 
-.window {
-    width: 96vw; max-width: 1500px; height: 94dvh;
-    background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 16px;
-    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.08); display: flex; flex-direction: column; overflow: hidden;
-}
+.window { width: 96vw; max-width: 1500px; height: 94dvh; background: rgba(255, 255, 255, 0.4); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1.5px solid rgba(255, 255, 255, 0.7); border-radius: 16px; box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.08); display: flex; flex-direction: column; overflow: hidden; }
 
-.title-bar {
-    background: rgba(255, 255, 255, 0.4); padding: 14px 20px; display: flex;
-    justify-content: space-between; align-items: center; color: #111; font-size: 1.05rem;
-    font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-}
+.title-bar { background: rgba(255, 255, 255, 0.4); padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; color: #111; font-size: 1.05rem; font-weight: 600; border-bottom: 1px solid rgba(255, 255, 255, 0.5); }
 .title-left { display: flex; align-items: center; gap: 12px; }
 .menu-btn { display: none; }
-.title-bar-controls button {
-    background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 50%;
-    width: 28px; height: 28px; color: #333; cursor: pointer; font-weight: 600; transition: all 0.2s ease;
-    display: flex; justify-content: center; align-items: center;
-}
+.title-bar-controls button { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(0, 0, 0, 0.15); border-radius: 50%; width: 28px; height: 28px; color: #333; cursor: pointer; font-weight: 600; transition: all 0.2s ease; display: flex; justify-content: center; align-items: center; }
 .title-bar-controls button:hover { background: #111; color: #fff; border-color: #111; }
 
 .window-body { display: flex; flex: 1; padding: 24px; gap: 25px; overflow: hidden; position: relative; }
 
-.sidebar {
-    width: 260px; background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 12px; padding: 20px 12px; overflow-y: auto; transition: transform 0.3s ease;
-}
+.sidebar { width: 260px; background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 20px 12px; overflow-y: auto; transition: transform 0.3s ease; }
 .tree-view { list-style: none; }
-.tree-view li {
-    padding: 14px 16px; cursor: pointer; font-size: 1rem; font-weight: 500; margin-bottom: 8px;
-    border-radius: 8px; color: #555; transition: all 0.2s ease;
-}
+.tree-view li { padding: 14px 16px; cursor: pointer; font-size: 1rem; font-weight: 500; margin-bottom: 8px; border-radius: 8px; color: #555; transition: all 0.2s ease; }
 .tree-view li:hover { background: rgba(255, 255, 255, 0.6); color: #111; }
 .tree-view li.active { background: rgba(255, 255, 255, 0.85); color: #000; font-weight: 600; border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02); }
 
-.main-content {
-    flex: 1; background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 12px; padding: 30px; overflow-y: auto;
-}
+.main-content { flex: 1; background: rgba(255, 255, 255, 0.3); border: 1px solid rgba(255, 255, 255, 0.5); border-radius: 12px; padding: 30px; overflow-y: auto; }
 .main-title { font-size: 1.6rem; font-weight: 700; color: #111; margin-bottom: 25px; padding-bottom: 12px; border-bottom: 2px solid rgba(255, 255, 255, 0.6); }
 
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-.character-card {
-    background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px;
-    padding: 12px; cursor: pointer; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
-    transition: transform 0.2s ease, background-color 0.2s ease; position: relative;
-}
+.character-card { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 12px; cursor: pointer; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, background-color 0.2s ease; position: relative; }
 .character-card:hover { transform: translateY(-4px); border-color: rgba(0, 0, 0, 0.12); background: rgba(255, 255, 255, 0.85); }
-.char-img-placeholder {
-    width: 100%; height: 240px; background: rgba(0, 0, 0, 0.04); border-radius: 8px; color: #777;
-    display: flex; justify-content: center; align-items: center; border: 1px dashed rgba(0, 0, 0, 0.12);
-    margin-bottom: 14px; background-size: cover; background-position: center;
-}
+.char-img-placeholder { width: 100%; height: 240px; background: rgba(0, 0, 0, 0.04); border-radius: 8px; color: #777; display: flex; justify-content: center; align-items: center; border: 1px dashed rgba(0, 0, 0, 0.12); margin-bottom: 14px; background-size: cover; background-position: center; }
 .char-info h3 { font-size: 1rem; font-weight: 600; color: #222; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .add-new { justify-content: center; align-items: center; border: 1.5px dashed rgba(0, 0, 0, 0.15); min-height: 290px; }
+
+/* ✨ [세계관 카드 디자인] 여기에 쏙 추가됨! */
+.world-card { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 20px; cursor: pointer; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, background-color 0.2s ease; position: relative; height: 180px; }
+.world-card:hover { transform: translateY(-4px); border-color: rgba(0, 0, 0, 0.12); background: rgba(255, 255, 255, 0.85); }
+.world-card h3 { font-size: 1.1rem; color: #111; margin-bottom: 8px; padding-right: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.world-card p { font-size: 0.9rem; color: #666; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+.world-add-new { justify-content: center; align-items: center; border: 1.5px dashed rgba(0, 0, 0, 0.15); background: rgba(255, 255, 255, 0.15); }
+.world-add-new h3 { margin: 0; color: #444; font-size: 1rem; font-weight: 600; }
 
 .create-container { flex: 1; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 12px; padding: 30px; overflow-y: auto; }
 .form-row-top { display: flex; gap: 25px; margin-bottom: 20px; }
