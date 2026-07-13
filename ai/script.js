@@ -2,48 +2,36 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("AI Studio Loaded");
 
     // ==========================================
-    // 1. 공통 사이드바 조작 로직 (모바일)
+    // ✨ [추가됨] 나중에 메인화면에서 쓰일 전역 세계관 임시 데이터 세팅
     // ==========================================
+    if(!localStorage.getItem("ai_world_settings")) {
+        const dummyWorlds = [
+            { id: 1, name: "센티넬 아카데미 (기본)", content: "이곳은 이능력자들이 모인 센티넬 아카데미다. 주기적으로 폭주 위험이 있는 센티넬과, 그들을 진정시키는 가이드가 존재한다." },
+            { id: 2, name: "사이버펑크 네오서울", content: "2077년 네오서울. 네온사인이 번쩍이는 마천루와 비가 내리는 슬럼가가 공존한다. 거대 기업이 도시를 지배한다." }
+        ];
+        localStorage.setItem("ai_world_settings", JSON.stringify(dummyWorlds));
+    }
+
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
     const sidebarOverlay = document.getElementById("sidebarOverlay");
-
     if (menuBtn && sidebar && sidebarOverlay) {
-        menuBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-            sidebarOverlay.classList.toggle("active");
-        });
-        sidebarOverlay.addEventListener("click", () => {
-            sidebar.classList.remove("active");
-            sidebarOverlay.classList.remove("active");
-        });
+        menuBtn.addEventListener("click", () => { sidebar.classList.toggle("active"); sidebarOverlay.classList.toggle("active"); });
+        sidebarOverlay.addEventListener("click", () => { sidebar.classList.remove("active"); sidebarOverlay.classList.remove("active"); });
     }
 
-    // ==========================================
-    // 2. 메인 화면 (index.html) 전용 탭 스위칭 및 카드 로직
-    // ==========================================
     const cardGrid = document.querySelector(".card-grid");
     const mainTitle = document.querySelector(".main-title");
     const sideMenuItems = document.querySelectorAll(".tree-view li");
 
     if (cardGrid && !document.getElementById("characterForm")) {
-        
         const renderCards = () => {
-            cardGrid.className = "card-grid";
-            cardGrid.innerHTML = "";
+            cardGrid.className = "card-grid"; cardGrid.innerHTML = "";
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
-
             characters.forEach(char => {
-                const card = document.createElement("div");
-                card.className = "character-card";
+                const card = document.createElement("div"); card.className = "character-card";
                 const imgStyle = char.image ? `style="background-image: url('${char.image}'); color:transparent;"` : "";
-
-                card.innerHTML = `
-                    <button class="delete-btn card-del" title="Delete Character">×</button>
-                    <div class="char-img-placeholder" ${imgStyle}>IMG</div>
-                    <div class="char-info"><h3>${char.name}</h3></div>
-                `;
-                
+                card.innerHTML = `<button class="delete-btn card-del" title="Delete">×</button><div class="char-img-placeholder" ${imgStyle}>IMG</div><div class="char-info"><h3>${char.name}</h3></div>`;
                 card.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) return;
                     let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
@@ -52,35 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
                     window.location.href = `chat.html?roomId=${newRoomId}`;
                 });
-
-                const deleteBtn = card.querySelector(".delete-btn");
-                deleteBtn.addEventListener("click", (e) => {
+                card.querySelector(".delete-btn").addEventListener("click", (e) => {
                     e.stopPropagation();
-                    if (confirm(`⚠️ Warning!\n\n"${char.name}" 캐릭터를 삭제하시겠습니까?`)) {
-                        let currentChars = JSON.parse(localStorage.getItem("ai_characters")) || [];
-                        let updatedChars = currentChars.filter(item => item.id !== char.id);
-                        localStorage.setItem("ai_characters", JSON.stringify(updatedChars));
-                        renderCards();
+                    if (confirm(`⚠️ "${char.name}" 캐릭터를 삭제하시겠습니까?`)) {
+                        localStorage.setItem("ai_characters", JSON.stringify(characters.filter(item => item.id !== char.id))); renderCards();
                     }
                 });
                 cardGrid.appendChild(card);
             });
-
-            const addNewCard = document.createElement("div");
-            addNewCard.className = "character-card add-new";
+            const addNewCard = document.createElement("div"); addNewCard.className = "character-card add-new";
             addNewCard.innerHTML = `<div class="char-info"><h3>+ New Character</h3></div>`;
             addNewCard.addEventListener("click", () => { window.location.href = "create.html"; });
             cardGrid.appendChild(addNewCard);
         };
 
         const renderRecentChats = () => {
-            cardGrid.className = "recent-chat-list"; 
-            cardGrid.innerHTML = "";
+            cardGrid.className = "recent-chat-list"; cardGrid.innerHTML = "";
             let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-
             recentChats.forEach(room => {
-                const roomDiv = document.createElement("div");
-                roomDiv.className = "chat-room-item";
+                const roomDiv = document.createElement("div"); roomDiv.className = "chat-room-item";
                 const imgStyle = room.image ? `style="background-image: url('${room.image}'); color:transparent;"` : "";
                 
                 const chatHistoryKey = `ai_chat_${room.roomId}`;
@@ -93,9 +71,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     previewMessage = lastAiText.split('\n')[0]; 
                 }
 
-                // ✏️ 이모지 대신 흑백 SVG 아이콘으로 교체!
                 roomDiv.innerHTML = `
-                    <button class="delete-btn room-del" title="Delete Chat">×</button>
+                    <button class="delete-btn room-del" title="Delete">×</button>
                     <div class="room-profile" ${imgStyle}>IMG</div>
                     <div class="room-info">
                         <h4 class="editable-name" style="cursor: pointer;" title="이름 수정하기">
@@ -108,14 +85,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
 
-                const nameElement = roomDiv.querySelector(".editable-name");
-                nameElement.addEventListener("click", (e) => {
+                roomDiv.querySelector(".editable-name").addEventListener("click", (e) => {
                     e.stopPropagation(); 
                     const newName = prompt("이 대화방의 이름을 수정하세요:", room.name);
                     if (newName && newName.trim() !== "") {
                         room.name = newName.trim();
-                        localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
-                        renderRecentChats(); 
+                        localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats)); renderRecentChats(); 
                     }
                 });
 
@@ -123,13 +98,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (e.target.classList.contains("delete-btn")) {
                         e.stopPropagation();
                         if (confirm(`⚠️ 이 대화방을 삭제하시겠습니까?`)) {
-                            let currentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-                            let updatedChats = currentChats.filter(item => item.roomId !== room.roomId);
-                            localStorage.setItem("ai_recent_chats", JSON.stringify(updatedChats));
-                            
-                            localStorage.removeItem(chatHistoryKey);
-                            localStorage.removeItem(`ai_theme_${room.roomId}`);
-                            
+                            localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats.filter(item => item.roomId !== room.roomId)));
+                            localStorage.removeItem(chatHistoryKey); localStorage.removeItem(`ai_theme_${room.roomId}`);
+                            localStorage.removeItem(`ai_room_settings_${room.roomId}`); // 설정도 같이 삭제!
                             renderRecentChats(); 
                         }
                         return;
@@ -141,32 +112,16 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         if (sideMenuItems.length >= 2) {
-            sideMenuItems[0].addEventListener("click", () => {
-                sideMenuItems[0].classList.add("active");
-                sideMenuItems[1].classList.remove("active");
-                mainTitle.textContent = "My Characters";
-                renderCards();
-            });
-            sideMenuItems[1].addEventListener("click", () => {
-                sideMenuItems[1].classList.add("active");
-                sideMenuItems[0].classList.remove("active");
-                mainTitle.textContent = "Recent Chats";
-                renderRecentChats();
-            });
+            sideMenuItems[0].addEventListener("click", () => { sideMenuItems[0].classList.add("active"); sideMenuItems[1].classList.remove("active"); mainTitle.textContent = "My Characters"; renderCards(); });
+            sideMenuItems[1].addEventListener("click", () => { sideMenuItems[1].classList.add("active"); sideMenuItems[0].classList.remove("active"); mainTitle.textContent = "Recent Chats"; renderRecentChats(); });
         }
-        
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.get('tab') === 'recent' ? renderRecentChats() : renderCards();
+        new URLSearchParams(window.location.search).get('tab') === 'recent' ? renderRecentChats() : renderCards();
     }
 
-    // ==========================================
-    // 3. 캐릭터 생성 폼 (create.html)
-    // ==========================================
     const charForm = document.getElementById("characterForm");
     if (charForm) {
         charForm.addEventListener("submit", () => {
-            const name = document.getElementById("charName").value.trim();
-            const prompt = document.getElementById("charPrompt").value.trim();
+            const name = document.getElementById("charName").value.trim(); const prompt = document.getElementById("charPrompt").value.trim();
             if (!name || !prompt) return;
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
             characters.push({ id: Date.now(), name: name, prompt: prompt, image: document.getElementById("charImage").value.trim() });
@@ -181,27 +136,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatSettingsBtn = document.getElementById("chatSettingsBtn");
     const closeSettingsBtn = document.getElementById("closeSettingsBtn"); 
     const chatSettingsPanel = document.getElementById("chatSettingsPanel");
-    
     const chatMainArea = document.querySelector(".chat-main");
 
     if (chatSettingsBtn) chatSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.toggle("open"));
     if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.remove("open"));
-
     if (chatMainArea && chatSettingsPanel) {
-        chatMainArea.addEventListener("click", () => {
-            if (chatSettingsPanel.classList.contains("open")) {
-                chatSettingsPanel.classList.remove("open");
-            }
-        });
+        chatMainArea.addEventListener("click", () => { if (chatSettingsPanel.classList.contains("open")) chatSettingsPanel.classList.remove("open"); });
     }
 
     const modelSelect = document.getElementById("modelSelect");
     const modelDisplay = document.getElementById("modelDisplay");
     if (modelSelect && modelDisplay) {
         modelDisplay.textContent = modelSelect.value; 
-        modelSelect.addEventListener("change", (e) => {
-            modelDisplay.textContent = e.target.value; 
-        });
+        modelSelect.addEventListener("change", (e) => { modelDisplay.textContent = e.target.value; });
     }
 
     const themeToggleBtn = document.getElementById("themeToggleBtn");
@@ -209,8 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (themeToggleBtn && themeSubmenu) {
         themeToggleBtn.addEventListener("click", () => {
             themeSubmenu.classList.toggle("open");
-            const arrow = themeToggleBtn.querySelector(".arrow");
-            if(arrow) arrow.classList.toggle("open");
+            const arrow = themeToggleBtn.querySelector(".arrow"); if(arrow) arrow.classList.toggle("open");
         });
     }
 
@@ -222,60 +168,112 @@ document.addEventListener("DOMContentLoaded", () => {
     if (chatInput && sendBtn && chatHistory && currentRoomId) {
         const chatStorageKey = `ai_chat_${currentRoomId}`;
         const themeStorageKey = `ai_theme_${currentRoomId}`;
+        
+        // -----------------------------------------------------
+        // ✨ [추가됨] 팝업창 (Modal) 로직 (페르소나, 유저노트, 로어북)
+        // -----------------------------------------------------
+        const roomSettingsKey = `ai_room_settings_${currentRoomId}`;
+        
+        const menuPersona = document.getElementById("menuPersona");
+        const menuUserNotes = document.getElementById("menuUserNotes");
+        const menuLorebook = document.getElementById("menuLorebook");
+        
+        const modalOverlay = document.getElementById("settingModalOverlay");
+        const modalTitle = document.getElementById("modalTitle");
+        const modalTextarea = document.getElementById("modalTextarea");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const cancelModalBtn = document.getElementById("cancelModalBtn");
+        const saveModalBtn = document.getElementById("saveModalBtn");
+        
+        const lorebookSelector = document.getElementById("lorebookSelector");
+        const worldSelect = document.getElementById("worldSelect");
+        
+        let currentModalType = "";
 
-        const defaultTheme = {
-            bg: "transparent",
-            font: "'Inter', sans-serif",
-            size: "1.05",
-            userColor: "#111111",
-            aiColor: "#2c5282",
-            narrationColor: "#777777"
+        // 모달 열기 함수
+        const openModal = (type) => {
+            currentModalType = type;
+            const settings = JSON.parse(localStorage.getItem(roomSettingsKey)) || { persona: "", userNotes: "", lorebook: "" };
+            
+            if (type === "persona") {
+                modalTitle.textContent = "📝 Edit Persona";
+                modalTextarea.value = settings.persona || "";
+                modalTextarea.placeholder = "내 이름, 성격, 외형, 봇과의 관계 등을 자유롭게 적어주세요.";
+                lorebookSelector.style.display = "none";
+            } else if (type === "userNotes") {
+                modalTitle.textContent = "👤 User Notes";
+                modalTextarea.value = settings.userNotes || "";
+                modalTextarea.placeholder = "봇의 행동 지침, 단기 목표, 롤플레잉 형식 등을 시스템에 지시하세요.";
+                lorebookSelector.style.display = "none";
+            } else if (type === "lorebook") {
+                modalTitle.textContent = "📚 Lorebook";
+                modalTextarea.value = settings.lorebook || "";
+                modalTextarea.placeholder = "이 방에서 쓰일 세계관 설정, 고유명사, 규칙 등을 입력하세요.";
+                lorebookSelector.style.display = "block";
+                
+                // 드롭다운에 전역 세계관 목록 쫙 깔아주기
+                const worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
+                worldSelect.innerHTML = '<option value="">-- 자유 입력 (Custom) --</option>';
+                worlds.forEach(w => {
+                    const opt = document.createElement("option");
+                    opt.value = w.content; // 선택하면 이 내용이 복사됨
+                    opt.textContent = w.name;
+                    worldSelect.appendChild(opt);
+                });
+            }
+            modalOverlay.classList.add("active");
         };
-        let currentTheme = JSON.parse(localStorage.getItem(themeStorageKey)) || defaultTheme;
 
-        const themeBg = document.getElementById("themeBg");
-        const themeFont = document.getElementById("themeFont");
-        const themeSize = document.getElementById("themeSize");
-        const themeUserColor = document.getElementById("themeUserColor");
-        const themeAiColor = document.getElementById("themeAiColor");
-        const themeNarrationColor = document.getElementById("themeNarrationColor");
+        // 드롭다운에서 세계관을 고르면 텍스트창에 꽂아주는 마법!
+        if (worldSelect) {
+            worldSelect.addEventListener("change", (e) => {
+                if (e.target.value !== "") {
+                    // 고른 세계관 내용을 텍스트 박스에 덮어씀
+                    modalTextarea.value = e.target.value; 
+                }
+            });
+        }
+
+        const closeModal = () => { modalOverlay.classList.remove("active"); };
+
+        const saveModal = () => {
+            let settings = JSON.parse(localStorage.getItem(roomSettingsKey)) || { persona: "", userNotes: "", lorebook: "" };
+            settings[currentModalType] = modalTextarea.value.trim();
+            localStorage.setItem(roomSettingsKey, JSON.stringify(settings));
+            closeModal();
+            // 살짝 피드백 주기
+            const originalTitle = modalTitle.textContent;
+            modalTitle.textContent = "✅ 저장 완료!";
+            setTimeout(() => { modalTitle.textContent = originalTitle; }, 1000);
+        };
+
+        if (menuPersona) menuPersona.addEventListener("click", () => openModal("persona"));
+        if (menuUserNotes) menuUserNotes.addEventListener("click", () => openModal("userNotes"));
+        if (menuLorebook) menuLorebook.addEventListener("click", () => openModal("lorebook"));
+        if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
+        if (cancelModalBtn) cancelModalBtn.addEventListener("click", closeModal);
+        if (saveModalBtn) saveModalBtn.addEventListener("click", saveModal);
+
+        // -----------------------------------------------------
+
+        const defaultTheme = { bg: "transparent", font: "'Inter', sans-serif", size: "1.05", userColor: "#111111", aiColor: "#2c5282", narrationColor: "#777777" };
+        let currentTheme = JSON.parse(localStorage.getItem(themeStorageKey)) || defaultTheme;
+        const themeBg = document.getElementById("themeBg"); const themeFont = document.getElementById("themeFont"); const themeSize = document.getElementById("themeSize");
+        const themeUserColor = document.getElementById("themeUserColor"); const themeAiColor = document.getElementById("themeAiColor"); const themeNarrationColor = document.getElementById("themeNarrationColor");
 
         const applyTheme = (theme) => {
-            document.documentElement.style.setProperty('--chat-bg', theme.bg);
-            document.documentElement.style.setProperty('--chat-font-family', theme.font);
-            document.documentElement.style.setProperty('--chat-font-size', theme.size + 'rem');
-            document.documentElement.style.setProperty('--user-color', theme.userColor);
-            document.documentElement.style.setProperty('--ai-color', theme.aiColor);
-            document.documentElement.style.setProperty('--narrative-color', theme.narrationColor);
-
-            if(themeBg) themeBg.value = theme.bg === "transparent" ? "#ffffff" : theme.bg;
-            if(themeFont) themeFont.value = theme.font;
-            if(themeSize) themeSize.value = theme.size;
-            if(themeUserColor) themeUserColor.value = theme.userColor;
-            if(themeAiColor) themeAiColor.value = theme.aiColor;
-            if(themeNarrationColor) themeNarrationColor.value = theme.narrationColor;
+            document.documentElement.style.setProperty('--chat-bg', theme.bg); document.documentElement.style.setProperty('--chat-font-family', theme.font); document.documentElement.style.setProperty('--chat-font-size', theme.size + 'rem'); document.documentElement.style.setProperty('--user-color', theme.userColor); document.documentElement.style.setProperty('--ai-color', theme.aiColor); document.documentElement.style.setProperty('--narrative-color', theme.narrationColor);
+            if(themeBg) themeBg.value = theme.bg === "transparent" ? "#ffffff" : theme.bg; if(themeFont) themeFont.value = theme.font; if(themeSize) themeSize.value = theme.size;
+            if(themeUserColor) themeUserColor.value = theme.userColor; if(themeAiColor) themeAiColor.value = theme.aiColor; if(themeNarrationColor) themeNarrationColor.value = theme.narrationColor;
         };
 
         const saveAndApplyTheme = () => {
-            currentTheme = {
-                bg: themeBg.value,
-                font: themeFont.value,
-                size: themeSize.value,
-                userColor: themeUserColor.value,
-                aiColor: themeAiColor.value,
-                narrationColor: themeNarrationColor.value
-            };
-            localStorage.setItem(themeStorageKey, JSON.stringify(currentTheme));
-            applyTheme(currentTheme);
+            currentTheme = { bg: themeBg.value, font: themeFont.value, size: themeSize.value, userColor: themeUserColor.value, aiColor: themeAiColor.value, narrationColor: themeNarrationColor.value };
+            localStorage.setItem(themeStorageKey, JSON.stringify(currentTheme)); applyTheme(currentTheme);
         };
 
-        if (themeBg) themeBg.addEventListener("input", saveAndApplyTheme);
-        if (themeFont) themeFont.addEventListener("change", saveAndApplyTheme);
-        if (themeSize) themeSize.addEventListener("input", saveAndApplyTheme);
-        if (themeUserColor) themeUserColor.addEventListener("input", saveAndApplyTheme);
-        if (themeAiColor) themeAiColor.addEventListener("input", saveAndApplyTheme);
-        if (themeNarrationColor) themeNarrationColor.addEventListener("input", saveAndApplyTheme);
-
+        if (themeBg) themeBg.addEventListener("input", saveAndApplyTheme); if (themeFont) themeFont.addEventListener("change", saveAndApplyTheme); if (themeSize) themeSize.addEventListener("input", saveAndApplyTheme);
+        if (themeUserColor) themeUserColor.addEventListener("input", saveAndApplyTheme); if (themeAiColor) themeAiColor.addEventListener("input", saveAndApplyTheme); if (themeNarrationColor) themeNarrationColor.addEventListener("input", saveAndApplyTheme);
         applyTheme(currentTheme);
 
         let currentMessages = JSON.parse(localStorage.getItem(chatStorageKey)) || [];
@@ -288,70 +286,39 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const renderMessages = () => {
             chatHistory.innerHTML = "";
-            const wrapper = document.createElement("div");
-            wrapper.className = "novel-block";
-            
+            const wrapper = document.createElement("div"); wrapper.className = "novel-block";
             currentMessages.forEach((msg, index) => {
-                const msgBox = document.createElement("div");
-                msgBox.className = `msg-container ${msg.role}-container`;
-                
+                const msgBox = document.createElement("div"); msgBox.className = `msg-container ${msg.role}-container`;
                 const safeHtml = parseText(msg.text);
-
                 if (msg.role === "user") {
-                    msgBox.innerHTML = `
-                        <div class="user-msg-box">
-                            <div class="msg-actions">
-                                <button onclick="editMessage(${index})" title="Edit">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                </button>
-                                <button onclick="deleteMessage(${index})" title="Delete">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
-                            </div>
-                            <p class="dialogue user-dialogue">${safeHtml}</p>
-                        </div>
-                    `;
+                    msgBox.innerHTML = `<div class="user-msg-box"><div class="msg-actions"><button onclick="editMessage(${index})" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button><button onclick="deleteMessage(${index})" title="Delete"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button></div><p class="dialogue user-dialogue">${safeHtml}</p></div>`;
                 } else {
                     msgBox.innerHTML = `<p class="dialogue ai-dialogue">${safeHtml}</p>`;
                 }
                 wrapper.appendChild(msgBox);
             });
-            chatHistory.appendChild(wrapper);
-            chatHistory.scrollTop = chatHistory.scrollHeight;
+            chatHistory.appendChild(wrapper); chatHistory.scrollTop = chatHistory.scrollHeight;
         };
 
         window.deleteMessage = (index) => {
             if (confirm("이 대화를 삭제하시겠습니까? (이어진 봇의 답장도 함께 지워집니다)")) {
-                if (index + 1 < currentMessages.length && currentMessages[index + 1].role === "ai") {
-                    currentMessages.splice(index, 2); 
-                } else {
-                    currentMessages.splice(index, 1); 
-                }
-                localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
-                renderMessages();
+                if (index + 1 < currentMessages.length && currentMessages[index + 1].role === "ai") currentMessages.splice(index, 2); 
+                else currentMessages.splice(index, 1); 
+                localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages)); renderMessages();
             }
         };
 
         window.editMessage = (index) => {
             const newText = prompt("수정할 내용을 입력하세요:", currentMessages[index].text);
-            if (newText !== null) {
-                currentMessages[index].text = newText;
-                localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
-                renderMessages();
-            }
+            if (newText !== null) { currentMessages[index].text = newText; localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages)); renderMessages(); }
         };
 
         const sendMessage = () => {
-            const text = chatInput.value.trim();
-            if (!text) return;
-            currentMessages.push({ role: "user", text: text });
-            localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
-            chatInput.value = "";
-            renderMessages();
+            const text = chatInput.value.trim(); if (!text) return;
+            currentMessages.push({ role: "user", text: text }); localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages)); chatInput.value = ""; renderMessages();
             setTimeout(() => {
                 currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며* 첫 줄입니다.\n그리고 이건 두 번째 줄이죠." });
-                localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
-                renderMessages();
+                localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages)); renderMessages();
             }, 1000);
         };
 
