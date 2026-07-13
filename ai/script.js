@@ -73,6 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cardGrid.appendChild(addNewCard);
         };
 
+        // ✨ [업데이트 됨] 최근 대화 렌더링 (이름 수정 + 봇 응답 첫 줄 미리보기)
         const renderRecentChats = () => {
             cardGrid.className = "recent-chat-list"; 
             cardGrid.innerHTML = "";
@@ -82,14 +83,40 @@ document.addEventListener("DOMContentLoaded", () => {
                 const roomDiv = document.createElement("div");
                 roomDiv.className = "chat-room-item";
                 const imgStyle = room.image ? `style="background-image: url('${room.image}'); color:transparent;"` : "";
+                
+                // 🔍 해당 방의 대화 내역을 뒤져서 '가장 마지막 봇(AI)의 대답'을 찾아냄!
+                const chatHistoryKey = `ai_chat_${room.roomId}`;
+                const roomMessages = JSON.parse(localStorage.getItem(chatHistoryKey)) || [];
+                const aiMessages = roomMessages.filter(msg => msg.role === "ai");
+                
+                let previewMessage = "대화를 시작해보세요...";
+                if (aiMessages.length > 0) {
+                    const lastAiText = aiMessages[aiMessages.length - 1].text;
+                    // 엔터(\n)를 기준으로 쪼갠 뒤 맨 첫 번째 줄만 쏙 빼옴
+                    previewMessage = lastAiText.split('\n')[0]; 
+                }
+
                 roomDiv.innerHTML = `
                     <button class="delete-btn room-del" title="Delete Chat">×</button>
                     <div class="room-profile" ${imgStyle}>IMG</div>
                     <div class="room-info">
-                        <h4>${room.name}</h4>
-                        <p>${room.lastMessage}</p>
+                        <h4 class="editable-name" style="cursor: pointer;" title="이름 수정하기">${room.name} <span style="font-size: 0.7em; opacity: 0.5;">✏️</span></h4>
+                        <p>${previewMessage}</p>
                     </div>
                 `;
+
+                // ✏️ 이름 변경 기능
+                const nameElement = roomDiv.querySelector(".editable-name");
+                nameElement.addEventListener("click", (e) => {
+                    e.stopPropagation(); // 이거 없으면 쌩하고 채팅방으로 들어가버림
+                    const newName = prompt("이 대화방의 이름을 수정하세요:", room.name);
+                    if (newName && newName.trim() !== "") {
+                        room.name = newName.trim();
+                        localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
+                        renderRecentChats(); // 이름 바꾸고 새로고침
+                    }
+                });
+
                 roomDiv.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) {
                         e.stopPropagation();
@@ -97,6 +124,11 @@ document.addEventListener("DOMContentLoaded", () => {
                             let currentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
                             let updatedChats = currentChats.filter(item => item.roomId !== room.roomId);
                             localStorage.setItem("ai_recent_chats", JSON.stringify(updatedChats));
+                            
+                            // 방 지울 때 테마랑 대화내역도 깔끔하게 같이 삭제! (찌꺼기 방지)
+                            localStorage.removeItem(chatHistoryKey);
+                            localStorage.removeItem(`ai_theme_${room.roomId}`);
+                            
                             renderRecentChats(); 
                         }
                         return;
@@ -149,13 +181,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeSettingsBtn = document.getElementById("closeSettingsBtn"); 
     const chatSettingsPanel = document.getElementById("chatSettingsPanel");
     
-    // ✨ [추가] 메인 채팅 영역 전체를 감싸는 요소 선택
+    // 메인 채팅 영역 전체를 감싸는 요소 선택
     const chatMainArea = document.querySelector(".chat-main");
 
     if (chatSettingsBtn) chatSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.toggle("open"));
     if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.remove("open"));
 
-    // ✨ [추가] 파란 동그라미 친 빈 공간(채팅 영역) 누르면 사이드바 닫히는 로직
+    // 파란 동그라미 친 빈 공간(채팅 영역) 누르면 사이드바 닫히는 로직
     if (chatMainArea && chatSettingsPanel) {
         chatMainArea.addEventListener("click", () => {
             if (chatSettingsPanel.classList.contains("open")) {
@@ -319,7 +351,8 @@ document.addEventListener("DOMContentLoaded", () => {
             chatInput.value = "";
             renderMessages();
             setTimeout(() => {
-                currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며* 테스트 응답입니다." });
+                // 여러 줄 응답 테스트용
+                currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며* 첫 줄입니다.\n그리고 이건 두 번째 줄이죠." });
                 localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
                 renderMessages();
             }, 1000);
