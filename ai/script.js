@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     // 중요: 만약 삭제 버튼을 누른 거라면 채팅방으로 이동하는 걸 막음!
                     if (e.target.classList.contains("delete-btn")) return;
                     
-                    alert(`${char.name}과 대화를 시작합니다. (다음 단계에서 구현!)`);
+                    window.location.href = `chat.html?id=${char.id}`;
                 });
 
                 // [이벤트 B] 삭제 버튼(X)을 눌렀을 때 작동할 팝업 경고창 로직!
