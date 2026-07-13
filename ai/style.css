@@ -744,3 +744,61 @@ body {
 
 .chat-room-item { position: relative; }
 .delete-btn.room-del { top: 12px; right: 12px; width: 22px; height: 22px; font-size: 0.75rem; }
+
+
+/* ========================================== */
+/* 💬 메시지 영역 분리 및 수정/삭제 버튼 스타일 */
+/* ========================================== */
+.msg-container {
+    width: 100%;
+}
+
+.ai-container {
+    /* AI 대사는 기존처럼 배경 없이 텍스트만 자연스럽게 배치 */
+    padding: 4px 0;
+}
+
+.user-container {
+    /* 유저 대사는 말풍선처럼 확실히 구분되는 박스 형태로 분리 */
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 16px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
+}
+
+.user-msg-box {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 박스 우측 상단 수정/삭제 버튼 컨테이너 */
+.msg-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 8px;
+    margin-bottom: 8px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
+    padding-bottom: 8px;
+}
+
+/* 수정/삭제 버튼 세부 디자인 */
+.msg-actions button {
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.msg-actions button:hover {
+    background: #111;
+    color: white;
+    border-color: #111;
+}
