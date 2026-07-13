@@ -405,7 +405,7 @@ body {
 /* ========================================== */
 
 .chat-body {
-    padding: 0; /* 채팅방은 여백 없이 꽉 채움 */
+    padding: 0; 
     position: relative;
     overflow: hidden;
 }
@@ -436,15 +436,15 @@ body {
     padding: 40px;
     display: flex;
     flex-direction: column;
-    align-items: center; /* 텍스트를 중앙에 예쁘게 정렬 */
+    align-items: center; 
 }
 
 .novel-block {
     width: 100%;
-    max-width: 800px; /* 소설 읽기 가장 편한 가로 폭 제한 */
+    max-width: 800px; 
     display: flex;
     flex-direction: column;
-    gap: 16px; /* 문단 사이 여백 */
+    gap: 16px; 
 }
 
 /* 지문(행동/배경 묘사) 스타일 */
@@ -465,7 +465,7 @@ body {
 
 /* 캐릭터 대사 (푸른빛/강조) */
 .novel-block .ai-dialogue {
-    color: #2c5282; /* 캡처본 느낌의 은은한 푸른색 */
+    color: #2c5282; 
 }
 
 /* 유저 대사 (어두운 색) */
@@ -559,12 +559,12 @@ body {
 .send-btn:hover { background: #333; transform: scale(1.05); }
 
 /* ========================================== */
-/* ⚙️ 우측 슬라이드 설정 패널 (캡처 2번) */
+/* ⚙️ 우측 슬라이드 설정 패널 */
 /* ========================================== */
 .chat-settings-panel {
     position: absolute;
     top: 0;
-    right: -320px; /* 기본은 화면 밖으로 숨김 */
+    right: -320px; 
     width: 320px;
     height: 100%;
     background: rgba(245, 245, 245, 0.95);
@@ -578,7 +578,7 @@ body {
 }
 
 .chat-settings-panel.open {
-    right: 0; /* 클래스가 붙으면 튀어나옴 */
+    right: 0; 
 }
 
 .panel-header {
@@ -632,7 +632,7 @@ body {
 @media (max-width: 768px) {
     .chat-history { padding: 20px 15px; }
     .chat-input-wrapper { padding: 10px 15px calc(15px + env(safe-area-inset-bottom)) 15px; }
-    .chat-settings-panel { width: 85%; right: -100%; } /* 폰에서는 화면을 거의 덮게 */
+    .chat-settings-panel { width: 85%; right: -100%; } 
 }
 
 
@@ -693,20 +693,20 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 300px; /* 길면 자동으로 ... 처리 */
+    max-width: 300px; 
 }
 
 /* ========================================== */
 /* 3단계: 모델 디스플레이 단순 표기 (선택 X) */
 /* ========================================== */
 .model-display {
-    background: rgba(255,255,255,0.6); /* 살짝 투명하게 */
+    background: rgba(255,255,255,0.6); 
     padding: 6px 14px;
     border-radius: 20px;
     border: 1px solid rgba(0,0,0,0.08);
     font-weight: 600;
     color: #555;
-    cursor: default; /* 클릭 안 되게 마우스 포인터 기본값 */
+    cursor: default; 
     user-select: none;
 }
 
@@ -747,25 +747,23 @@ body {
 
 
 /* ========================================== */
-/* 💬 메시지 영역 분리 및 수정/삭제 버튼 스타일 */
+/* 💬 [수정] 메시지 영역 분리 및 수정/삭제 버튼 스타일 */
 /* ========================================== */
 .msg-container {
     width: 100%;
 }
 
 .ai-container {
-    /* AI 대사는 기존처럼 배경 없이 텍스트만 자연스럽게 배치 */
     padding: 4px 0;
 }
 
 .user-container {
-    /* 유저 대사는 말풍선처럼 확실히 구분되는 박스 형태로 분리 */
-    background: rgba(0, 0, 0, 0.04);
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 12px;
-    padding: 14px 16px;
+    /* 요구사항 반영: 배경색/명암/테두리 상자 전부 제거! 오직 윗줄 분리 라인만 딱! */
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08); 
+    padding: 16px 0 0 0;
     margin: 16px 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.01);
 }
 
 .user-msg-box {
@@ -773,24 +771,22 @@ body {
     flex-direction: column;
 }
 
-/* 박스 우측 상단 수정/삭제 버튼 컨테이너 */
+/* 내 대사 위 칸 버튼 영역 */
 .msg-actions {
     display: flex;
     justify-content: flex-end; 
     gap: 8px;
     margin-bottom: 8px;
-    border-bottom: 1px dashed rgba(0, 0, 0, 0.1);
-    padding-bottom: 8px;
 }
 
-/* 수정/삭제 버튼 세부 디자인 */
+/* 수정/삭제 버튼 디자인 */
 .msg-actions button {
-    background: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.6);
     border: 1px solid rgba(0, 0, 0, 0.1);
     border-radius: 6px;
     cursor: pointer;
-    font-size: 13px;
-    padding: 4px 8px;
+    font-size: 12px;
+    padding: 3px 6px;
     transition: all 0.2s ease;
     display: flex;
     align-items: center;
