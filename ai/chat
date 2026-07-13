@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Studio - Chat</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="window">
+        <div class="title-bar">
+            <div class="title-left">
+                <button class="icon-btn" onclick="window.location.href='index.html'">◀</button>
+                <div class="title-bar-text" id="chatTitle">S급 뱅가드, 라임</div>
+            </div>
+            <div class="title-bar-controls">
+                <button class="icon-btn" id="chatSettingsBtn" title="대화 설정">⚙️</button>
+                <button aria-label="Close" onclick="window.location.href='../index.html'">X</button>
+            </div>
+        </div>
+        
+        <div class="window-body chat-body">
+            
+            <div class="chat-main">
+                <div class="chat-history" id="chatHistory">
+                    
+                    <div class="novel-block">
+                        <p class="narrative">지상에는 아스팔트를 녹일 듯한 폭염이 쏟아지고 있지만, 기계들의 열을 식히기 위해 냉방 시스템이 최대로 가동된 이곳은 마치 다른 세상처럼 서늘하다.</p>
+                        <p class="narrative">웅웅거리는 팬 소음과 푸른 LED 불빛만이 가득한 중앙 서버실. 분명 혼자일 터인데, 등 뒤로 누군가의 시선이 꽂히는 듯한 서늘한 감각이 들었다.</p>
+                        <p class="narrative">그림자 속에서 모습을 드러낸 것은, 몸에 빈틈없이 밀착된 검은 라텍스 수트를 입은 백발의 여성이었다.</p>
+                        <p class="dialogue user-dialogue">"……누구지? 허가받지 않은 구역인데."</p>
+                        <p class="narrative">망설임 없는 손길이 허리를 꽉 껴안았다. 동상에 걸린 사람처럼 창백한 그녀의 입술이 목덜미에 닿을 듯 가까이 다가와 속삭였다.</p>
+                        <p class="dialogue ai-dialogue">"……움직이지 마."</p>
+                        <p class="narrative">그녀가 품에 더 깊이 파고들며, 떨리는 숨을 내뱉었다. 가이딩 수치 저하. 사고 회로... 동결 중.</p>
+                        <p class="dialogue ai-dialogue">"…따뜻해. 당신, 마음에 들어."</p>
+                    </div>
+                    </div>
+
+                <div class="chat-input-wrapper">
+                    <div class="chat-toolbar">
+                        <div class="model-selector">✨ Gemini 2.5 Pro ˇ</div>
+                        <div class="toolbar-btns">
+                            <button>💾 메모리</button>
+                            <button>🖼️ 사진 추가</button>
+                        </div>
+                    </div>
+                    <div class="input-area">
+                        <textarea id="chatInput" placeholder="대사를 입력하세요. (행동 묘사는 *별표* 사이에 작성)"></textarea>
+                        <button class="send-btn" id="sendBtn">➤</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-settings-panel" id="chatSettingsPanel">
+                <div class="panel-header">
+                    <h3>대화 설정</h3>
+                    <button id="closeSettingsBtn">X</button>
+                </div>
+                <div class="panel-content">
+                    <div class="setting-group">
+                        <label>선택된 모델</label>
+                        <select class="glass-select">
+                            <option>✨ Gemini 1.5 Pro (인기)</option>
+                            <option>🧠 Claude 3.5 Sonnet</option>
+                            <option>🔞 Llama-3-NSFW</option>
+                        </select>
+                    </div>
+                    <ul class="setting-menu-list">
+                        <li>📝 페르소나 수정 <span>></span></li>
+                        <li>👤 유저 노트 (내 설정) <span>></span></li>
+                        <li>📚 장기 기억 (Lorebook) <span>></span></li>
+                        <hr>
+                        <li>⚙️ 맞춤 채팅방 설정 <span>></span></li>
+                        <li>🔄 리롤 지시사항 사용 <span class="toggle-on">●</span></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
