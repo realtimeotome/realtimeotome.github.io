@@ -709,3 +709,38 @@ body {
     cursor: default; /* 클릭 안 되게 마우스 포인터 기본값 */
     user-select: none;
 }
+
+/* ========================================== */
+/* 🗑️ 공통 삭제 버튼 (X) 스타일 */
+/* ========================================== */
+.delete-btn {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    transition: all 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #ff5f56;
+    color: white;
+    border-color: #ff5f56;
+    transform: scale(1.1);
+}
+
+.character-card { position: relative; }
+.delete-btn.card-del { top: 8px; right: 8px; }
+
+.chat-room-item { position: relative; }
+.delete-btn.room-del { top: 12px; right: 12px; width: 22px; height: 22px; font-size: 0.75rem; }
