@@ -284,13 +284,11 @@
     updateClock();
 
     function openChatStudio() {
-        document.body.style.transition = "opacity 0.4s ease";
-        document.body.style.opacity = "0";
-
-        setTimeout(() => {
-            window.location.href = "ai/index.html";
-        }, 400);
-    }
+    window.location.href = "ai/";
+}
 </script>
 </body>
 </html>
+window.addEventListener("pageshow", () => {
+    document.body.style.opacity = "1";
+});
