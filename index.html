@@ -239,13 +239,16 @@
     <div class="win-wrapper">
         
         <header class="top-bar">
-            <div class="top-menu">
-                <button class="menu-btn active pixel-font">main</button>
-                <button class="menu-btn pixel-font">file</button>
-                <button class="menu-btn pixel-font">favorites</button>
-                <button class="menu-btn pixel-font">help!</button>
-                <button class="menu-btn pixel-font">lucky?</button>
-            </div>
+          <div class="top-menu">
+    <button class="menu-btn active pixel-font">main</button>
+    <button class="menu-btn pixel-font">file</button>
+    <button class="menu-btn pixel-font">favorites</button>
+    <button class="menu-btn pixel-font" onclick="openChatStudio()">
+        chat♡ </button>
+    <button class="menu-btn pixel-font">help!</button>
+    <button class="menu-btn pixel-font">lucky?</button>
+</div>
+        
             <div class="close-btn">X</div>
         </header>
         
@@ -254,44 +257,40 @@
             <input type="text" class="address-field pixel-font" placeholder="">
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
+<script>
+    function updateClock() {
+        const now = new Date();
 
-        <main class="content-area">
-            <div class="left-image-zone"></div>
-            <div class="right-menu-zone">
-                <a href="start.html" class="os-btn">START!</a>
-            </div>
-        </main>
+        let month = now.getMonth() + 1;
+        let date = now.getDate();
+        let year = now.getFullYear();
 
-        <footer class="bottom-bar">
-            <div class="start-btn"></div>
-            <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
-        </footer>
-    </div>
+        month = month < 10 ? '0' + month : month;
+        date = date < 10 ? '0' + date : date;
+        const dateStr = month + '/' + date + '/' + year;
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            
-            let month = now.getMonth() + 1;
-            let date = now.getDate();
-            let year = now.getFullYear();
-            
-            month = month < 10 ? '0' + month : month;
-            date = date < 10 ? '0' + date : date;
-            const dateStr = month + '/' + date + '/' + year;
+        let hours = now.getHours();
+        let minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        const timeStr = hours + ':' + minutes + ' ' + ampm;
 
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12; 
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            const timeStr = hours + ':' + minutes + ' ' + ampm;
+        document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
+    }
 
-            document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function openChatStudio() {
+        document.body.style.transition = "opacity 0.4s ease";
+        document.body.style.opacity = "0";
+
+        setTimeout(() => {
+            window.location.href = "ai/index.html";
+        }, 400);
+    }
+</script>
 </body>
 </html>
