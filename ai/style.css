@@ -52,7 +52,6 @@ body {
     gap: 12px;
 }
 
-/* 메뉴 토글 버튼 (PC에서는 기본 숨김 처리) */
 .menu-btn {
     display: none;
     background: rgba(0, 0, 0, 0.05);
@@ -106,7 +105,7 @@ body {
     border-radius: 12px;
     padding: 20px 12px;
     overflow-y: auto;
-    transition: transform 0.3s ease; /* 여닫힐 때 부드럽게 */
+    transition: transform 0.3s ease;
 }
 
 .tree-view {
@@ -163,7 +162,6 @@ body {
     gap: 20px;
 }
 
-/* 캐릭터 카드 */
 .character-card {
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.8);
@@ -196,6 +194,8 @@ body {
     align-items: center;
     border: 1px dashed rgba(0, 0, 0, 0.12);
     margin-bottom: 14px;
+    background-size: cover;
+    background-position: center;
 }
 
 .char-info h3 {
@@ -226,107 +226,176 @@ body {
     border-color: rgba(0, 0, 0, 0.3);
 }
 
-.sidebar-overlay {
-    display: none;
+/* ========================================== */
+/* 🛠️ 캐릭터 생성 페이지 폼 전용 CSS 스타일 */
+/* ========================================== */
+.create-container {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
+    padding: 30px;
+    overflow-y: auto;
+    width: 100%;
 }
 
+.form-row-top {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
+.img-upload-box {
+    width: 180px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.img-preview {
+    width: 100%;
+    height: 240px;
+    background: rgba(0, 0, 0, 0.04);
+    border: 1.5px dashed rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: 500;
+    background-size: cover;
+    background-position: center;
+}
+
+.info-input-box {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #222;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    color: #111;
+    outline: none;
+    transition: all 0.2s ease;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: #111111;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.03);
+}
+
+.form-group textarea {
+    height: 220px;
+    resize: none;
+    line-height: 1.6;
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 10px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.btn {
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-cancel {
+    background: rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    color: #555;
+}
+
+.btn-cancel:hover {
+    background: rgba(0, 0, 0, 0.08);
+    color: #222;
+}
+
+.btn-save {
+    background: #111111;
+    border: 1px solid #111111;
+    color: #ffffff;
+}
+
+.btn-save:hover {
+    background: #333333;
+    border-color: #333333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.sidebar-overlay { display: none; }
+
 /* ========================================== */
-/* 📱 모바일 / 스마트폰 화면 최적화 (가로 768px 이하) */
+/* 📱 모바일 화면 반응형 설정 */
 /* ========================================== */
 @media (max-width: 768px) {
-    /* 폰에서는 전체적으로 창 여백 조절 */
-    .window {
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0px; /* 전체화면식으로 꽉 채움 */
-        border: none;
-    }
-
-    .title-bar {
-        padding: 12px 15px;
-    }
-
-    /* ☰ 메뉴 버튼 활성화 */
-    .menu-btn {
-        display: flex;
-    }
-
-    .window-body {
-        padding: 15px;
-        gap: 0;
-    }
-
-    /* 사이드바를 스마트폰 외부(왼쪽)로 완전히 빼두고 숨김 */
+    .window { width: 100vw; height: 100vh; border-radius: 0px; border: none; }
+    .title-bar { padding: 12px 15px; }
+    .menu-btn { display: flex; }
+    .window-body { padding: 15px; gap: 0; }
+    
     .sidebar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 260px;
-        height: 100%;
-        z-index: 10;
-        background: rgba(255, 255, 255, 0.85); /* 덮을 때 흐릿하게 보이도록 불투명도 조절 */
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-radius: 0 16px 16px 0;
-        border: none;
-        border-right: 1px solid rgba(255, 255, 255, 0.5);
-        transform: translateX(-100%); /* 왼쪽으로 완전히 숨김 */
-        box-shadow: none;
+        position: absolute; top: 0; left: 0; width: 260px; height: 100%; z-index: 10;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 0 16px 16px 0; border: none; border-right: 1px solid rgba(255, 255, 255, 0.5);
+        transform: translateX(-100%);
     }
-
-    /* 자바스크립트로 active 클래스가 붙으면 우측으로 튀어나옴 */
-    .sidebar.active {
-        transform: translateX(0);
-        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
-    }
-
-    /* 메인 화면 가득 채우기 */
-    .main-content {
-        padding: 15px;
-        border: none;
-        background: transparent; /* 본체 유리 질감 그대로 비치게 */
-    }
-
-    .main-title {
-        font-size: 1.4rem;
-        margin-bottom: 20px;
-    }
-
-    /* 폰 화면 좁은 폭에 맞춰 2열 배치 세로버전으로 카드 그리드 자동 재배치 */
-    .card-grid {
-        grid-template-columns: repeat(2, 1fr); /* 폰에서는 예쁘게 2줄씩 배치 */
-        gap: 15px;
-    }
-
-    .char-img-placeholder {
-        height: 180px; /* 세로 폭 폰 화면 비율로 알맞게 축소 */
-    }
-
-    /* 사이드바 열렸을 때 화면 어둡게 해줄 오버레이 */
+    .sidebar.active { transform: translateX(0); box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1); }
+    .main-content { padding: 15px; border: none; background: transparent; }
+    .main-title { font-size: 1.4rem; margin-bottom: 20px; }
+    
+    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .char-img-placeholder { height: 180px; }
+    
     .sidebar-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.2);
-        backdrop-filter: blur(2px);
-        z-index: 5;
-        transition: opacity 0.3s ease;
-        opacity: 0;
-        pointer-events: none;
-        display: block;
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px); z-index: 5;
+        transition: opacity 0.3s ease; opacity: 0; pointer-events: none; display: block;
     }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
 
-    .sidebar-overlay.active {
-        opacity: 1;
-        pointer-events: auto;
-    }
+    /* 모바일 생성 창 대응 */
+    .form-row-top { flex-direction: column; align-items: center; gap: 15px; }
+    .img-upload-box { width: 100%; max-width: 200px; }
+    .img-preview { height: 220px; }
+    .info-input-box { width: 100%; }
+    .create-container { padding: 15px; }
 }
 
-/* 초소형 폰 (가로 380px 이하) 에서는 카드 1줄 배치 */
 @media (max-width: 380px) {
-    .card-grid {
-        grid-template-columns: 1fr;
-    }
+    .card-grid { grid-template-columns: 1fr; }
 }
