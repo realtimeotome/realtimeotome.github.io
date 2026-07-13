@@ -28,7 +28,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (cardGrid && !document.getElementById("characterForm")) {
         
-        // --- 👥 My Characters (기존 캐릭터 카드) ---
         const renderCards = () => {
             cardGrid.className = "card-grid";
             cardGrid.innerHTML = "";
@@ -52,12 +51,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     <div class="char-info"><h3>${char.name}</h3></div>
                 `;
                 
-                // [핵심 변경] 캐릭터 누를 때마다 무조건 '새로운 방 번호(roomId)' 생성!
                 card.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) return;
                     
                     let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-                    const newRoomId = Date.now(); // 지금 클릭한 시간으로 고유 방 번호 생성
+                    const newRoomId = Date.now(); 
                     
                     recentChats.unshift({
                         roomId: newRoomId,
@@ -69,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
                     localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
                     
-                    // 해당 방 번호를 달고 채팅방으로 입장
                     window.location.href = `chat.html?roomId=${newRoomId}`;
                 });
 
@@ -94,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
             cardGrid.appendChild(addNewCard);
         };
 
-        // --- 💬 Recent Chats (카톡방 목록 및 삭제) ---
         const renderRecentChats = () => {
             cardGrid.className = "recent-chat-list"; 
             cardGrid.innerHTML = "";
@@ -110,7 +106,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 roomDiv.className = "chat-room-item";
                 const imgStyle = room.image ? `style="background-image: url('${room.image}'); color:transparent;"` : "";
 
-                // 방 목록에도 X(삭제) 버튼 추가
                 roomDiv.innerHTML = `
                     <button class="delete-btn room-del" title="Delete Chat">×</button>
                     <div class="room-profile" ${imgStyle}>IMG</div>
@@ -121,19 +116,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 `;
 
                 roomDiv.addEventListener("click", (e) => {
-                    // 삭제 버튼을 눌렀을 때의 로직
                     if (e.target.classList.contains("delete-btn")) {
                         e.stopPropagation();
                         if (confirm(`⚠️ 이 대화방을 삭제하시겠습니까?`)) {
                             let currentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-                            // 현재 누른 방 번호(roomId)만 필터링해서 날려버림
                             let updatedChats = currentChats.filter(item => item.roomId !== room.roomId);
                             localStorage.setItem("ai_recent_chats", JSON.stringify(updatedChats));
-                            renderRecentChats(); // 리스트 새로고침
+                            renderRecentChats(); 
                         }
                         return;
                     }
-                    // 방 누르면 해당 방 번호로 입장
                     window.location.href = `chat.html?roomId=${room.roomId}`;
                 });
 
@@ -157,7 +149,20 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        renderCards();
+        // [핵심 로직] URL 파라미터를 읽어서 탭을 결정함
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTab = urlParams.get('tab');
+
+        if (activeTab === 'recent' && sideMenuItems.length >= 2) {
+            // 주소창에 ?tab=recent 가 있으면 최근 대화 목록을 바로 켬
+            sideMenuItems[1].classList.add("active");
+            sideMenuItems[0].classList.remove("active");
+            mainTitle.textContent = "Recent Chats";
+            renderRecentChats();
+        } else {
+            // 그 외의 경우는 기본 My Characters 화면
+            renderCards();
+        }
     }
 
     // ==========================================
@@ -223,12 +228,9 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // [핵심 변경] 모델 선택 시 위쪽 디스플레이 자동 변경 기능
     const modelSelect = document.getElementById("modelSelect");
     const modelDisplay = document.getElementById("modelDisplay");
-
     if (modelSelect && modelDisplay) {
-        // 셀렉트 박스에서 선택을 바꿀 때마다 글씨가 똑같이 바뀜
         modelSelect.addEventListener("change", (e) => {
             modelDisplay.textContent = e.target.value;
         });
