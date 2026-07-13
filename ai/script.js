@@ -174,7 +174,77 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (chatInput && sendBtn && chatHistory && currentRoomId) {
         const chatStorageKey = `ai_chat_${currentRoomId}`;
+        const themeStorageKey = `ai_theme_${currentRoomId}`;
+
+        // -----------------------------------------------------
+        // ✨ [추가됨] 방별 테마 (물감통) 로드 및 저장 로직
+        // -----------------------------------------------------
+        const defaultTheme = {
+            bg: "transparent",
+            font: "'Inter', sans-serif",
+            size: "1.05",
+            userColor: "#111111",
+            aiColor: "#2c5282",
+            narrationColor: "#777777"
+        };
+        let currentTheme = JSON.parse(localStorage.getItem(themeStorageKey)) || defaultTheme;
+
+        const themeBg = document.getElementById("themeBg");
+        const themeFont = document.getElementById("themeFont");
+        const themeSize = document.getElementById("themeSize");
+        const themeUserColor = document.getElementById("themeUserColor");
+        const themeAiColor = document.getElementById("themeAiColor");
+        const themeNarrationColor = document.getElementById("themeNarrationColor");
+
+        const applyTheme = (theme) => {
+            document.documentElement.style.setProperty('--chat-bg', theme.bg);
+            document.documentElement.style.setProperty('--chat-font-family', theme.font);
+            document.documentElement.style.setProperty('--chat-font-size', theme.size + 'rem');
+            document.documentElement.style.setProperty('--user-color', theme.userColor);
+            document.documentElement.style.setProperty('--ai-color', theme.aiColor);
+            document.documentElement.style.setProperty('--narrative-color', theme.narrationColor);
+
+            if(themeBg) themeBg.value = theme.bg === "transparent" ? "#ffffff" : theme.bg;
+            if(themeFont) themeFont.value = theme.font;
+            if(themeSize) themeSize.value = theme.size;
+            if(themeUserColor) themeUserColor.value = theme.userColor;
+            if(themeAiColor) themeAiColor.value = theme.aiColor;
+            if(themeNarrationColor) themeNarrationColor.value = theme.narrationColor;
+        };
+
+        const saveAndApplyTheme = () => {
+            currentTheme = {
+                bg: themeBg.value,
+                font: themeFont.value,
+                size: themeSize.value,
+                userColor: themeUserColor.value,
+                aiColor: themeAiColor.value,
+                narrationColor: themeNarrationColor.value
+            };
+            localStorage.setItem(themeStorageKey, JSON.stringify(currentTheme));
+            applyTheme(currentTheme);
+        };
+
+        if (themeBg) themeBg.addEventListener("input", saveAndApplyTheme);
+        if (themeFont) themeFont.addEventListener("change", saveAndApplyTheme);
+        if (themeSize) themeSize.addEventListener("input", saveAndApplyTheme);
+        if (themeUserColor) themeUserColor.addEventListener("input", saveAndApplyTheme);
+        if (themeAiColor) themeAiColor.addEventListener("input", saveAndApplyTheme);
+        if (themeNarrationColor) themeNarrationColor.addEventListener("input", saveAndApplyTheme);
+
+        applyTheme(currentTheme);
+        // -----------------------------------------------------
+
         let currentMessages = JSON.parse(localStorage.getItem(chatStorageKey)) || [];
+
+        // -----------------------------------------------------
+        // ✨ [추가됨] 별표(*) 마법 스캐너 함수
+        // -----------------------------------------------------
+        const parseText = (text) => {
+            let parsed = text.replace(/\n/g, "<br>"); 
+            parsed = parsed.replace(/\*(.*?)\*/g, '<span class="narrative-text">$1</span>');
+            return parsed;
+        };
 
         const renderMessages = () => {
             chatHistory.innerHTML = "";
@@ -185,6 +255,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 const msgBox = document.createElement("div");
                 msgBox.className = `msg-container ${msg.role}-container`;
                 
+                // 화면 렌더링 시 별표 파싱 적용
+                const safeHtml = parseText(msg.text);
+
                 if (msg.role === "user") {
                     msgBox.innerHTML = `
                         <div class="user-msg-box">
@@ -196,11 +269,11 @@ document.addEventListener("DOMContentLoaded", () => {
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                                 </button>
                             </div>
-                            <p class="dialogue user-dialogue">${msg.text}</p>
+                            <p class="dialogue user-dialogue">${safeHtml}</p>
                         </div>
                     `;
                 } else {
-                    msgBox.innerHTML = `<p class="dialogue ai-dialogue">${msg.text}</p>`;
+                    msgBox.innerHTML = `<p class="dialogue ai-dialogue">${safeHtml}</p>`;
                 }
                 wrapper.appendChild(msgBox);
             });
@@ -239,7 +312,8 @@ document.addEventListener("DOMContentLoaded", () => {
             chatInput.value = "";
             renderMessages();
             setTimeout(() => {
-                currentMessages.push({ role: "ai", text: "테스트 응답입니다." });
+                // 봇 테스트 응답에도 별표 추가해서 테스트
+                currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며* 테스트 응답입니다." });
                 localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
                 renderMessages();
             }, 1000);
