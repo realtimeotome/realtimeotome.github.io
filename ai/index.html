@@ -12,14 +12,19 @@
 <body>
     <div class="window">
         <div class="title-bar">
-            <div class="title-bar-text">AI Studio v2.0</div>
+            <div class="title-left">
+                <button class="menu-btn" id="menuBtn" aria-label="Toggle Menu">☰</button>
+                <div class="title-bar-text">AI Studio v2.0</div>
+            </div>
             <div class="title-bar-controls">
                 <button aria-label="Close" onclick="window.location.href='../index.html'">X</button>
             </div>
         </div>
         
         <div class="window-body">
-            <div class="sidebar">
+            <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+            <div class="sidebar" id="sidebar">
                 <ul class="tree-view">
                     <li class="active">👥 My Characters</li>
                     <li>💬 Recent Chats</li>
