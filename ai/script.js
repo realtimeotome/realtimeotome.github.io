@@ -1,49 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("AI Studio Loaded");
 
-    // ==========================================
-    // 1. 공통 사이드바 조작 로직 (모바일)
-    // ==========================================
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
     const sidebarOverlay = document.getElementById("sidebarOverlay");
 
     if (menuBtn && sidebar && sidebarOverlay) {
-        menuBtn.addEventListener("click", () => {
-            sidebar.classList.toggle("active");
-            sidebarOverlay.classList.toggle("active");
-        });
-        sidebarOverlay.addEventListener("click", () => {
-            sidebar.classList.remove("active");
-            sidebarOverlay.classList.remove("active");
-        });
+        menuBtn.addEventListener("click", () => { sidebar.classList.toggle("active"); sidebarOverlay.classList.toggle("active"); });
+        sidebarOverlay.addEventListener("click", () => { sidebar.classList.remove("active"); sidebarOverlay.classList.remove("active"); });
     }
 
-    // ==========================================
-    // 2. 메인 화면 (index.html) 전용 탭 스위칭 및 카드 로직
-    // ==========================================
     const cardGrid = document.querySelector(".card-grid");
     const mainTitle = document.querySelector(".main-title");
     const sideMenuItems = document.querySelectorAll(".tree-view li");
 
     if (cardGrid && !document.getElementById("characterForm")) {
-        
         const renderCards = () => {
-            cardGrid.className = "card-grid";
-            cardGrid.innerHTML = "";
+            cardGrid.className = "card-grid"; cardGrid.innerHTML = "";
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
-
             characters.forEach(char => {
-                const card = document.createElement("div");
-                card.className = "character-card";
+                const card = document.createElement("div"); card.className = "character-card";
                 const imgStyle = char.image ? `style="background-image: url('${char.image}'); color:transparent;"` : "";
-
-                card.innerHTML = `
-                    <button class="delete-btn card-del" title="Delete Character">×</button>
-                    <div class="char-img-placeholder" ${imgStyle}>IMG</div>
-                    <div class="char-info"><h3>${char.name}</h3></div>
-                `;
-                
+                card.innerHTML = `<button class="delete-btn card-del" title="Delete Character">×</button><div class="char-img-placeholder" ${imgStyle}>IMG</div><div class="char-info"><h3>${char.name}</h3></div>`;
                 card.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) return;
                     let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
@@ -52,52 +30,32 @@ document.addEventListener("DOMContentLoaded", () => {
                     localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
                     window.location.href = `chat.html?roomId=${newRoomId}`;
                 });
-
-                const deleteBtn = card.querySelector(".delete-btn");
-                deleteBtn.addEventListener("click", (e) => {
+                card.querySelector(".delete-btn").addEventListener("click", (e) => {
                     e.stopPropagation();
                     if (confirm(`⚠️ Warning!\n\n"${char.name}" 캐릭터를 삭제하시겠습니까?`)) {
-                        let currentChars = JSON.parse(localStorage.getItem("ai_characters")) || [];
-                        let updatedChars = currentChars.filter(item => item.id !== char.id);
-                        localStorage.setItem("ai_characters", JSON.stringify(updatedChars));
-                        renderCards();
+                        localStorage.setItem("ai_characters", JSON.stringify(characters.filter(item => item.id !== char.id))); renderCards();
                     }
                 });
                 cardGrid.appendChild(card);
             });
-
-            const addNewCard = document.createElement("div");
-            addNewCard.className = "character-card add-new";
+            const addNewCard = document.createElement("div"); addNewCard.className = "character-card add-new";
             addNewCard.innerHTML = `<div class="char-info"><h3>+ New Character</h3></div>`;
             addNewCard.addEventListener("click", () => { window.location.href = "create.html"; });
             cardGrid.appendChild(addNewCard);
         };
 
         const renderRecentChats = () => {
-            cardGrid.className = "recent-chat-list"; 
-            cardGrid.innerHTML = "";
+            cardGrid.className = "recent-chat-list"; cardGrid.innerHTML = "";
             let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-
             recentChats.forEach(room => {
-                const roomDiv = document.createElement("div");
-                roomDiv.className = "chat-room-item";
+                const roomDiv = document.createElement("div"); roomDiv.className = "chat-room-item";
                 const imgStyle = room.image ? `style="background-image: url('${room.image}'); color:transparent;"` : "";
-                roomDiv.innerHTML = `
-                    <button class="delete-btn room-del" title="Delete Chat">×</button>
-                    <div class="room-profile" ${imgStyle}>IMG</div>
-                    <div class="room-info">
-                        <h4>${room.name}</h4>
-                        <p>${room.lastMessage}</p>
-                    </div>
-                `;
+                roomDiv.innerHTML = `<button class="delete-btn room-del" title="Delete Chat">×</button><div class="room-profile" ${imgStyle}>IMG</div><div class="room-info"><h4>${room.name}</h4><p>${room.lastMessage}</p></div>`;
                 roomDiv.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) {
                         e.stopPropagation();
                         if (confirm(`⚠️ 이 대화방을 삭제하시겠습니까?`)) {
-                            let currentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-                            let updatedChats = currentChats.filter(item => item.roomId !== room.roomId);
-                            localStorage.setItem("ai_recent_chats", JSON.stringify(updatedChats));
-                            renderRecentChats(); 
+                            localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats.filter(item => item.roomId !== room.roomId))); renderRecentChats(); 
                         }
                         return;
                     }
@@ -108,32 +66,16 @@ document.addEventListener("DOMContentLoaded", () => {
         };
 
         if (sideMenuItems.length >= 2) {
-            sideMenuItems[0].addEventListener("click", () => {
-                sideMenuItems[0].classList.add("active");
-                sideMenuItems[1].classList.remove("active");
-                mainTitle.textContent = "My Characters";
-                renderCards();
-            });
-            sideMenuItems[1].addEventListener("click", () => {
-                sideMenuItems[1].classList.add("active");
-                sideMenuItems[0].classList.remove("active");
-                mainTitle.textContent = "Recent Chats";
-                renderRecentChats();
-            });
+            sideMenuItems[0].addEventListener("click", () => { sideMenuItems[0].classList.add("active"); sideMenuItems[1].classList.remove("active"); mainTitle.textContent = "My Characters"; renderCards(); });
+            sideMenuItems[1].addEventListener("click", () => { sideMenuItems[1].classList.add("active"); sideMenuItems[0].classList.remove("active"); mainTitle.textContent = "Recent Chats"; renderRecentChats(); });
         }
-        
-        const urlParams = new URLSearchParams(window.location.search);
-        urlParams.get('tab') === 'recent' ? renderRecentChats() : renderCards();
+        new URLSearchParams(window.location.search).get('tab') === 'recent' ? renderRecentChats() : renderCards();
     }
 
-    // ==========================================
-    // 3. 캐릭터 생성 폼 (create.html)
-    // ==========================================
     const charForm = document.getElementById("characterForm");
     if (charForm) {
         charForm.addEventListener("submit", () => {
-            const name = document.getElementById("charName").value.trim();
-            const prompt = document.getElementById("charPrompt").value.trim();
+            const name = document.getElementById("charName").value.trim(); const prompt = document.getElementById("charPrompt").value.trim();
             if (!name || !prompt) return;
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
             characters.push({ id: Date.now(), name: name, prompt: prompt, image: document.getElementById("charImage").value.trim() });
@@ -142,28 +84,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ==========================================
-    // 4. 채팅방 (chat.html) - 버그 수정 & 로직 개편
-    // ==========================================
     const chatSettingsBtn = document.getElementById("chatSettingsBtn");
-    const closeSettingsBtn = document.getElementById("closeSettingsBtn"); // X 닫기 버튼 부활
+    const closeSettingsBtn = document.getElementById("closeSettingsBtn"); 
     const chatSettingsPanel = document.getElementById("chatSettingsPanel");
 
-    // 패널 열고 닫기
-    if (chatSettingsBtn && chatSettingsPanel) {
-        chatSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.toggle("open"));
-    }
-    if (closeSettingsBtn && chatSettingsPanel) {
-        closeSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.remove("open"));
-    }
+    if (chatSettingsBtn) chatSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.toggle("open"));
+    if (closeSettingsBtn) closeSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.remove("open"));
 
-    // 하단 툴바 모델 디스플레이 연동 부활
     const modelSelect = document.getElementById("modelSelect");
     const modelDisplay = document.getElementById("modelDisplay");
     if (modelSelect && modelDisplay) {
-        modelDisplay.textContent = modelSelect.value; // 처음 들어올 때 값 맞춰주기
-        modelSelect.addEventListener("change", (e) => {
-            modelDisplay.textContent = e.target.value; // 바꿀 때 즉시 반영
+        modelDisplay.textContent = modelSelect.value;
+        modelSelect.addEventListener("change", (e) => { modelDisplay.textContent = e.target.value; });
+    }
+
+    // ✨ [추가] 테마 세팅 아코디언 메뉴 토글 로직
+    const themeToggleBtn = document.getElementById("themeToggleBtn");
+    const themeSubmenu = document.getElementById("themeSubmenu");
+    if (themeToggleBtn && themeSubmenu) {
+        themeToggleBtn.addEventListener("click", () => {
+            themeSubmenu.classList.toggle("open");
+            const arrow = themeToggleBtn.querySelector(".arrow");
+            if(arrow) arrow.classList.toggle("open");
         });
     }
 
@@ -176,16 +118,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const chatStorageKey = `ai_chat_${currentRoomId}`;
         const themeStorageKey = `ai_theme_${currentRoomId}`;
 
-        // -----------------------------------------------------
-        // ✨ [추가됨] 방별 테마 (물감통) 로드 및 저장 로직
-        // -----------------------------------------------------
         const defaultTheme = {
-            bg: "transparent",
-            font: "'Inter', sans-serif",
-            size: "1.05",
-            userColor: "#111111",
-            aiColor: "#2c5282",
-            narrationColor: "#777777"
+            bg: "transparent", font: "'Inter', sans-serif", size: "1.05",
+            userColor: "#111111", aiColor: "#2c5282", narrationColor: "#777777"
         };
         let currentTheme = JSON.parse(localStorage.getItem(themeStorageKey)) || defaultTheme;
 
@@ -214,12 +149,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const saveAndApplyTheme = () => {
             currentTheme = {
-                bg: themeBg.value,
-                font: themeFont.value,
-                size: themeSize.value,
-                userColor: themeUserColor.value,
-                aiColor: themeAiColor.value,
-                narrationColor: themeNarrationColor.value
+                bg: themeBg.value, font: themeFont.value, size: themeSize.value,
+                userColor: themeUserColor.value, aiColor: themeAiColor.value, narrationColor: themeNarrationColor.value
             };
             localStorage.setItem(themeStorageKey, JSON.stringify(currentTheme));
             applyTheme(currentTheme);
@@ -233,13 +164,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (themeNarrationColor) themeNarrationColor.addEventListener("input", saveAndApplyTheme);
 
         applyTheme(currentTheme);
-        // -----------------------------------------------------
 
         let currentMessages = JSON.parse(localStorage.getItem(chatStorageKey)) || [];
 
-        // -----------------------------------------------------
-        // ✨ [추가됨] 별표(*) 마법 스캐너 함수
-        // -----------------------------------------------------
         const parseText = (text) => {
             let parsed = text.replace(/\n/g, "<br>"); 
             parsed = parsed.replace(/\*(.*?)\*/g, '<span class="narrative-text">$1</span>');
@@ -254,20 +181,14 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMessages.forEach((msg, index) => {
                 const msgBox = document.createElement("div");
                 msgBox.className = `msg-container ${msg.role}-container`;
-                
-                // 화면 렌더링 시 별표 파싱 적용
                 const safeHtml = parseText(msg.text);
 
                 if (msg.role === "user") {
                     msgBox.innerHTML = `
                         <div class="user-msg-box">
                             <div class="msg-actions">
-                                <button onclick="editMessage(${index})" title="Edit">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-                                </button>
-                                <button onclick="deleteMessage(${index})" title="Delete">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                                </button>
+                                <button onclick="editMessage(${index})" title="Edit"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                                <button onclick="deleteMessage(${index})" title="Delete"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
                             </div>
                             <p class="dialogue user-dialogue">${safeHtml}</p>
                         </div>
@@ -281,14 +202,12 @@ document.addEventListener("DOMContentLoaded", () => {
             chatHistory.scrollTop = chatHistory.scrollHeight;
         };
 
-        // 삭제 기능 업그레이드: 세트 삭제
         window.deleteMessage = (index) => {
             if (confirm("이 대화를 삭제하시겠습니까? (이어진 봇의 답장도 함께 지워집니다)")) {
-                // 내 대사 바로 뒤 인덱스가 존재하고, 그게 AI 대사라면 같이 날려버림
                 if (index + 1 < currentMessages.length && currentMessages[index + 1].role === "ai") {
-                    currentMessages.splice(index, 2); // 2개 지우기
+                    currentMessages.splice(index, 2);
                 } else {
-                    currentMessages.splice(index, 1); // 1개만 지우기
+                    currentMessages.splice(index, 1);
                 }
                 localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
                 renderMessages();
@@ -312,8 +231,7 @@ document.addEventListener("DOMContentLoaded", () => {
             chatInput.value = "";
             renderMessages();
             setTimeout(() => {
-                // 봇 테스트 응답에도 별표 추가해서 테스트
-                currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며* 테스트 응답입니다." });
+                currentMessages.push({ role: "ai", text: "*고개를 갸웃거리며*  테스트 응답입니다." });
                 localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
                 renderMessages();
             }, 1000);
