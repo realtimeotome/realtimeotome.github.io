@@ -30,13 +30,26 @@ body { background: linear-gradient(135deg, #fcfcfc, #dadada); font-family: 'Inte
 .char-info h3 { font-size: 1rem; font-weight: 600; color: #222; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .add-new { justify-content: center; align-items: center; border: 1.5px dashed rgba(0, 0, 0, 0.15); min-height: 290px; }
 
-/* ✨ [세계관 카드 디자인] 여기에 쏙 추가됨! */
-.world-card { background: rgba(255, 255, 255, 0.5); border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 12px; padding: 20px; cursor: pointer; display: flex; flex-direction: column; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); transition: transform 0.2s ease, background-color 0.2s ease; position: relative; height: 180px; }
+/* ✨ 세계관 카드 전용 스타일 (이거 없으면 X버튼 날아감!) */
+.world-card { 
+    background: rgba(255, 255, 255, 0.5); 
+    border: 1px solid rgba(255, 255, 255, 0.8); 
+    border-radius: 12px; 
+    padding: 20px; 
+    cursor: pointer; 
+    display: flex; 
+    flex-direction: column; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); 
+    transition: transform 0.2s ease, background-color 0.2s ease; 
+    position: relative; /* 💡 이게 핵심! 삭제 버튼 도망 못 가게 가두기 */
+    height: 180px; 
+}
 .world-card:hover { transform: translateY(-4px); border-color: rgba(0, 0, 0, 0.12); background: rgba(255, 255, 255, 0.85); }
-.world-card h3 { font-size: 1.1rem; color: #111; margin-bottom: 8px; padding-right: 20px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.world-card h3 { font-size: 1.1rem; color: #111; margin-bottom: 8px; padding-right: 24px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .world-card p { font-size: 0.9rem; color: #666; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
 .world-add-new { justify-content: center; align-items: center; border: 1.5px dashed rgba(0, 0, 0, 0.15); background: rgba(255, 255, 255, 0.15); }
 .world-add-new h3 { margin: 0; color: #444; font-size: 1rem; font-weight: 600; }
+
 
 .create-container { flex: 1; background: rgba(255, 255, 255, 0.25); border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 12px; padding: 30px; overflow-y: auto; }
 .form-row-top { display: flex; gap: 25px; margin-bottom: 20px; }
