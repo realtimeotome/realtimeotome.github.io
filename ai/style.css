@@ -5,7 +5,8 @@
 }
 
 body {
-    background-color: #008080; /* 클래식 윈도우 청록색 바탕 */
+    /* 부드러운 화이트-실버-아주 연한 블루 그라데이션 배경 */
+    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
     font-family: 'NeoDunggeunmo', monospace;
     height: 100vh;
     display: flex;
@@ -14,136 +15,60 @@ body {
     overflow: hidden;
 }
 
-/* 윈도우 창 껍데기 */
+/* 반투명 유리 메인 창 */
 .window {
     width: 90%;
     max-width: 1000px;
     height: 85vh;
-    background: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #0a0a0a #0a0a0a #ffffff;
+    /* 핵심: 반투명 화이트 + 배경 블러 효과 */
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 16px; /* 둥근 모서리 */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1); /* 은은한 그림자 */
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
-/* 파란색 상단 제목 표시줄 */
+/* 상단 제목 표시줄 (유리 느낌 연장) */
 .title-bar {
-    background: linear-gradient(90deg, #000080, #1084d0);
-    padding: 5px 8px;
+    background: rgba(255, 255, 255, 0.4);
+    padding: 12px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: white;
+    color: #333;
     font-size: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .title-bar-controls button {
-    background: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #0a0a0a #0a0a0a #ffffff;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
     font-family: 'NeoDunggeunmo', monospace;
-    font-size: 1rem;
+    color: #555;
     cursor: pointer;
-    padding: 2px 6px;
-    font-weight: bold;
+    transition: all 0.2s ease;
 }
 
-.title-bar-controls button:active {
-    border-color: #0a0a0a #ffffff #ffffff #0a0a0a;
+.title-bar-controls button:hover {
+    background: #ff5f56; /* 마우스 올리면 빨간색 X 버튼으로 변함 */
+    color: white;
+    border-color: #ff5f56;
 }
 
 /* 창 내부 분할 구조 */
 .window-body {
     display: flex;
     flex: 1;
-    padding: 10px;
-    gap: 15px;
+    padding: 20px;
+    gap: 20px;
     overflow: hidden;
 }
 
-/* 왼쪽 사이드바 (폴더 트리 느낌) */
-.sidebar {
-    width: 250px;
-    background: #ffffff;
-    border: 2px solid;
-    border-color: #0a0a0a #ffffff #ffffff #0a0a0a;
-    padding: 10px;
-    overflow-y: auto;
-}
-
-.tree-view {
-    list-style: none;
-}
-
-.tree-view li {
-    padding: 8px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    margin-bottom: 5px;
-}
-
-.tree-view li.active {
-    background: #000080;
-    color: white;
-}
-
-/* 오른쪽 캐릭터 카드 영역 */
-.main-content {
-    flex: 1;
-    background: #ffffff;
-    border: 2px solid;
-    border-color: #0a0a0a #ffffff #ffffff #0a0a0a;
-    padding: 20px;
-    overflow-y: auto;
-}
-
-.card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-/* 개별 캐릭터 카드 디자인 */
-.character-card {
-    background: #c0c0c0;
-    border: 2px solid;
-    border-color: #ffffff #0a0a0a #0a0a0a #ffffff;
-    padding: 15px;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.character-card:active {
-    border-color: #0a0a0a #ffffff #ffffff #0a0a0a;
-}
-
-.char-img-placeholder {
-    width: 100%;
-    height: 150px;
-    background: #808080;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: inset 2px;
-}
-
-.char-info h3 {
-    font-size: 1.2rem;
-    margin-bottom: 5px;
-}
-
-.char-info p {
-    font-size: 0.9rem;
-    line-height: 1.4;
-}
-
-.add-new {
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    border-style: dashed;
-    background: transparent;
-}
+/* 왼쪽 사이드바 (반투명
