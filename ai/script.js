@@ -1,9 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     console.log("AI Studio Loaded");
 
-    // ==========================================
-    // ✨ [추가됨] 나중에 메인화면에서 쓰일 전역 세계관 임시 데이터 세팅
-    // ==========================================
+    // 초기 더미 세계관 데이터 세팅
     if(!localStorage.getItem("ai_world_settings")) {
         const dummyWorlds = [
             { id: 1, name: "센티넬 아카데미 (기본)", content: "이곳은 이능력자들이 모인 센티넬 아카데미다. 주기적으로 폭주 위험이 있는 센티넬과, 그들을 진정시키는 가이드가 존재한다." },
@@ -15,16 +13,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const menuBtn = document.getElementById("menuBtn");
     const sidebar = document.getElementById("sidebar");
     const sidebarOverlay = document.getElementById("sidebarOverlay");
+
     if (menuBtn && sidebar && sidebarOverlay) {
         menuBtn.addEventListener("click", () => { sidebar.classList.toggle("active"); sidebarOverlay.classList.toggle("active"); });
         sidebarOverlay.addEventListener("click", () => { sidebar.classList.remove("active"); sidebarOverlay.classList.remove("active"); });
     }
 
+    // 메인 화면 로직 (index.html)
     const cardGrid = document.querySelector(".card-grid");
     const mainTitle = document.querySelector(".main-title");
     const sideMenuItems = document.querySelectorAll(".tree-view li");
 
     if (cardGrid && !document.getElementById("characterForm")) {
+        
+        // 1. 캐릭터 목록 렌더링
         const renderCards = () => {
             cardGrid.className = "card-grid"; cardGrid.innerHTML = "";
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
@@ -54,6 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
             cardGrid.appendChild(addNewCard);
         };
 
+        // 2. 최근 대화 렌더링
         const renderRecentChats = () => {
             cardGrid.className = "recent-chat-list"; cardGrid.innerHTML = "";
             let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
@@ -100,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         if (confirm(`⚠️ 이 대화방을 삭제하시겠습니까?`)) {
                             localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats.filter(item => item.roomId !== room.roomId)));
                             localStorage.removeItem(chatHistoryKey); localStorage.removeItem(`ai_theme_${room.roomId}`);
-                            localStorage.removeItem(`ai_room_settings_${room.roomId}`); // 설정도 같이 삭제!
+                            localStorage.removeItem(`ai_room_settings_${room.roomId}`);
                             renderRecentChats(); 
                         }
                         return;
@@ -111,13 +114,122 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         };
 
-        if (sideMenuItems.length >= 2) {
-            sideMenuItems[0].addEventListener("click", () => { sideMenuItems[0].classList.add("active"); sideMenuItems[1].classList.remove("active"); mainTitle.textContent = "My Characters"; renderCards(); });
-            sideMenuItems[1].addEventListener("click", () => { sideMenuItems[1].classList.add("active"); sideMenuItems[0].classList.remove("active"); mainTitle.textContent = "Recent Chats"; renderRecentChats(); });
+        // ✨ 3. [새로 추가됨] 세계관(World Settings) 렌더링
+        const renderWorlds = () => {
+            cardGrid.className = "card-grid"; // 캐릭터 그리드 뷰랑 같은 모양 사용
+            cardGrid.innerHTML = "";
+            let worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
+
+            worlds.forEach(world => {
+                const card = document.createElement("div"); card.className = "world-card";
+                card.innerHTML = `
+                    <button class="delete-btn card-del" title="Delete World">×</button>
+                    <h3>${world.name}</h3>
+                    <p>${world.content}</p>
+                `;
+                
+                card.addEventListener("click", (e) => {
+                    if (e.target.classList.contains("delete-btn")) return;
+                    openWorldModal(world.id); // 카드 누르면 편집 팝업창 띄우기
+                });
+
+                card.querySelector(".delete-btn").addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    if (confirm(`⚠️ "${world.name}" 세계관을 삭제하시겠습니까?`)) {
+                        localStorage.setItem("ai_world_settings", JSON.stringify(worlds.filter(item => item.id !== world.id)));
+                        renderWorlds();
+                    }
+                });
+                cardGrid.appendChild(card);
+            });
+
+            // 세계관 추가 버튼
+            const addNewCard = document.createElement("div"); addNewCard.className = "world-card world-add-new";
+            addNewCard.innerHTML = `<h3>+ New World</h3>`;
+            addNewCard.addEventListener("click", () => { openWorldModal(null); }); // null을 주면 새 세계관 생성
+            cardGrid.appendChild(addNewCard);
+        };
+
+        // 탭 메뉴 클릭 이벤트 세팅
+        if (sideMenuItems.length >= 3) {
+            sideMenuItems[0].addEventListener("click", () => { sideMenuItems.forEach(li => li.classList.remove("active")); sideMenuItems[0].classList.add("active"); mainTitle.textContent = "My Characters"; renderCards(); });
+            sideMenuItems[1].addEventListener("click", () => { sideMenuItems.forEach(li => li.classList.remove("active")); sideMenuItems[1].classList.add("active"); mainTitle.textContent = "Recent Chats"; renderRecentChats(); });
+            sideMenuItems[2].addEventListener("click", () => { sideMenuItems.forEach(li => li.classList.remove("active")); sideMenuItems[2].classList.add("active"); mainTitle.textContent = "World Settings"; renderWorlds(); });
         }
-        new URLSearchParams(window.location.search).get('tab') === 'recent' ? renderRecentChats() : renderCards();
+        
+        // 페이지 로드 시 탭 확인
+        const urlParams = new URLSearchParams(window.location.search);
+        if(urlParams.get('tab') === 'recent') {
+            sideMenuItems[1].click();
+        } else {
+            renderCards();
+        }
+
+        // -----------------------------------------------------
+        // ✨ [새로 추가됨] 메인 화면 전용 세계관 팝업창(Modal) 로직
+        // -----------------------------------------------------
+        const worldModalOverlay = document.getElementById("worldModalOverlay");
+        const worldNameInput = document.getElementById("worldNameInput");
+        const worldContentInput = document.getElementById("worldContentInput");
+        const closeWorldModalBtn = document.getElementById("closeWorldModalBtn");
+        const cancelWorldModalBtn = document.getElementById("cancelWorldModalBtn");
+        const saveWorldModalBtn = document.getElementById("saveWorldModalBtn");
+        let editingWorldId = null; // 수정 중인 세계관 ID 기억하기
+
+        if(worldModalOverlay) {
+            window.openWorldModal = (worldId) => {
+                editingWorldId = worldId;
+                if (worldId === null) {
+                    // 새 세계관 만들기
+                    worldNameInput.value = "";
+                    worldContentInput.value = "";
+                } else {
+                    // 기존 세계관 수정하기
+                    let worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
+                    let targetWorld = worlds.find(w => w.id === worldId);
+                    if (targetWorld) {
+                        worldNameInput.value = targetWorld.name;
+                        worldContentInput.value = targetWorld.content;
+                    }
+                }
+                worldModalOverlay.classList.add("active");
+            };
+
+            const closeWorldModal = () => { worldModalOverlay.classList.remove("active"); };
+
+            const saveWorldModal = () => {
+                const newName = worldNameInput.value.trim();
+                const newContent = worldContentInput.value.trim();
+                if (!newName || !newContent) return alert("이름과 설정을 모두 입력해주세요!");
+
+                let worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
+                
+                if (editingWorldId === null) {
+                    // 새로 추가
+                    worlds.push({ id: Date.now(), name: newName, content: newContent });
+                } else {
+                    // 기존 것 덮어쓰기
+                    let index = worlds.findIndex(w => w.id === editingWorldId);
+                    if (index !== -1) {
+                        worlds[index].name = newName;
+                        worlds[index].content = newContent;
+                    }
+                }
+                
+                localStorage.setItem("ai_world_settings", JSON.stringify(worlds));
+                closeWorldModal();
+                renderWorlds(); // 저장 후 목록 새로고침
+            };
+
+            closeWorldModalBtn.addEventListener("click", closeWorldModal);
+            cancelWorldModalBtn.addEventListener("click", closeWorldModal);
+            saveWorldModalBtn.addEventListener("click", saveWorldModal);
+        }
     }
 
+    // ==========================================
+    // 3. 캐릭터 생성 폼 (create.html)
+    // ==========================================
     const charForm = document.getElementById("characterForm");
     if (charForm) {
         charForm.addEventListener("submit", () => {
@@ -169,11 +281,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const chatStorageKey = `ai_chat_${currentRoomId}`;
         const themeStorageKey = `ai_theme_${currentRoomId}`;
         
-        // -----------------------------------------------------
-        // ✨ [추가됨] 팝업창 (Modal) 로직 (페르소나, 유저노트, 로어북)
-        // -----------------------------------------------------
+        // 채팅방 내부 설정 서랍 (Lorebook 등)
         const roomSettingsKey = `ai_room_settings_${currentRoomId}`;
-        
         const menuPersona = document.getElementById("menuPersona");
         const menuUserNotes = document.getElementById("menuUserNotes");
         const menuLorebook = document.getElementById("menuLorebook");
@@ -187,64 +296,41 @@ document.addEventListener("DOMContentLoaded", () => {
         
         const lorebookSelector = document.getElementById("lorebookSelector");
         const worldSelect = document.getElementById("worldSelect");
-        
         let currentModalType = "";
 
-        // 모달 열기 함수
         const openModal = (type) => {
             currentModalType = type;
             const settings = JSON.parse(localStorage.getItem(roomSettingsKey)) || { persona: "", userNotes: "", lorebook: "" };
             
             if (type === "persona") {
-                modalTitle.textContent = "📝 Edit Persona";
-                modalTextarea.value = settings.persona || "";
-                modalTextarea.placeholder = "내 이름, 성격, 외형, 봇과의 관계 등을 자유롭게 적어주세요.";
-                lorebookSelector.style.display = "none";
+                modalTitle.textContent = "📝 Edit Persona"; modalTextarea.value = settings.persona || ""; modalTextarea.placeholder = "내 이름, 성격, 외형, 봇과의 관계 등을 자유롭게 적어주세요.";
+                if(lorebookSelector) lorebookSelector.style.display = "none";
             } else if (type === "userNotes") {
-                modalTitle.textContent = "👤 User Notes";
-                modalTextarea.value = settings.userNotes || "";
-                modalTextarea.placeholder = "봇의 행동 지침, 단기 목표, 롤플레잉 형식 등을 시스템에 지시하세요.";
-                lorebookSelector.style.display = "none";
+                modalTitle.textContent = "👤 User Notes"; modalTextarea.value = settings.userNotes || ""; modalTextarea.placeholder = "봇의 행동 지침, 단기 목표, 롤플레잉 형식 등을 시스템에 지시하세요.";
+                if(lorebookSelector) lorebookSelector.style.display = "none";
             } else if (type === "lorebook") {
-                modalTitle.textContent = "📚 Lorebook";
-                modalTextarea.value = settings.lorebook || "";
-                modalTextarea.placeholder = "이 방에서 쓰일 세계관 설정, 고유명사, 규칙 등을 입력하세요.";
-                lorebookSelector.style.display = "block";
-                
-                // 드롭다운에 전역 세계관 목록 쫙 깔아주기
-                const worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
-                worldSelect.innerHTML = '<option value="">-- 자유 입력 (Custom) --</option>';
-                worlds.forEach(w => {
-                    const opt = document.createElement("option");
-                    opt.value = w.content; // 선택하면 이 내용이 복사됨
-                    opt.textContent = w.name;
-                    worldSelect.appendChild(opt);
-                });
+                modalTitle.textContent = "📚 Lorebook"; modalTextarea.value = settings.lorebook || ""; modalTextarea.placeholder = "이 방에서 쓰일 세계관 설정, 고유명사, 규칙 등을 입력하세요.";
+                if(lorebookSelector) {
+                    lorebookSelector.style.display = "block";
+                    const worlds = JSON.parse(localStorage.getItem("ai_world_settings")) || [];
+                    worldSelect.innerHTML = '<option value="">-- 자유 입력 (Custom) --</option>';
+                    worlds.forEach(w => {
+                        const opt = document.createElement("option"); opt.value = w.content; opt.textContent = w.name; worldSelect.appendChild(opt);
+                    });
+                }
             }
-            modalOverlay.classList.add("active");
+            if(modalOverlay) modalOverlay.classList.add("active");
         };
 
-        // 드롭다운에서 세계관을 고르면 텍스트창에 꽂아주는 마법!
-        if (worldSelect) {
-            worldSelect.addEventListener("change", (e) => {
-                if (e.target.value !== "") {
-                    // 고른 세계관 내용을 텍스트 박스에 덮어씀
-                    modalTextarea.value = e.target.value; 
-                }
-            });
-        }
-
-        const closeModal = () => { modalOverlay.classList.remove("active"); };
+        if (worldSelect) { worldSelect.addEventListener("change", (e) => { if (e.target.value !== "") modalTextarea.value = e.target.value; }); }
+        const closeModal = () => { if(modalOverlay) modalOverlay.classList.remove("active"); };
 
         const saveModal = () => {
             let settings = JSON.parse(localStorage.getItem(roomSettingsKey)) || { persona: "", userNotes: "", lorebook: "" };
             settings[currentModalType] = modalTextarea.value.trim();
             localStorage.setItem(roomSettingsKey, JSON.stringify(settings));
             closeModal();
-            // 살짝 피드백 주기
-            const originalTitle = modalTitle.textContent;
-            modalTitle.textContent = "✅ 저장 완료!";
-            setTimeout(() => { modalTitle.textContent = originalTitle; }, 1000);
+            const originalTitle = modalTitle.textContent; modalTitle.textContent = "✅ 저장 완료!"; setTimeout(() => { modalTitle.textContent = originalTitle; }, 1000);
         };
 
         if (menuPersona) menuPersona.addEventListener("click", () => openModal("persona"));
@@ -253,8 +339,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (closeModalBtn) closeModalBtn.addEventListener("click", closeModal);
         if (cancelModalBtn) cancelModalBtn.addEventListener("click", closeModal);
         if (saveModalBtn) saveModalBtn.addEventListener("click", saveModal);
-
-        // -----------------------------------------------------
 
         const defaultTheme = { bg: "transparent", font: "'Inter', sans-serif", size: "1.05", userColor: "#111111", aiColor: "#2c5282", narrationColor: "#777777" };
         let currentTheme = JSON.parse(localStorage.getItem(themeStorageKey)) || defaultTheme;
