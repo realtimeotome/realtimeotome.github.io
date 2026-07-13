@@ -152,3 +152,42 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// ==========================================
+// 📖 3단계: 채팅방(chat.html) 전용 스크립트
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    
+    // 1. 우측 슬라이드 설정창 여닫기 로직
+    const chatSettingsBtn = document.getElementById("chatSettingsBtn");
+    const closeSettingsBtn = document.getElementById("closeSettingsBtn");
+    const chatSettingsPanel = document.getElementById("chatSettingsPanel");
+
+    if (chatSettingsBtn && chatSettingsPanel) {
+        // 톱니바퀴 누르면 열림
+        chatSettingsBtn.addEventListener("click", () => {
+            chatSettingsPanel.classList.add("open");
+        });
+        // X 누르면 닫힘
+        closeSettingsBtn.addEventListener("click", () => {
+            chatSettingsPanel.classList.remove("open");
+        });
+    }
+
+    // 2. 채팅 입력창(textarea) 자동 높이 조절 로직 (카톡처럼)
+    const chatInput = document.getElementById("chatInput");
+    if (chatInput) {
+        chatInput.addEventListener("input", function() {
+            this.style.height = "auto"; // 높이 초기화
+            this.style.height = (this.scrollHeight) + "px"; // 글자 길이에 맞춰 늘림
+            
+            // 최대 높이 제한 (CSS의 max-height와 연동)
+            if (this.scrollHeight > 150) {
+                this.style.overflowY = "auto";
+            } else {
+                this.style.overflowY = "hidden";
+            }
+        });
+    }
+});
+
