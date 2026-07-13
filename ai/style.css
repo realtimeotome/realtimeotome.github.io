@@ -6,7 +6,6 @@
 
 body {
     background: linear-gradient(135deg, #fcfcfc, #dadada);
-    /* 세련된 테크 폰트 Inter 적용 및 애플 기기 폰트 선명도 극대화 */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -15,7 +14,7 @@ body {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    letter-spacing: -0.3px; /* 글자 사이를 아주 살짝 좁혀서 더 샤프하게 만듦 */
+    letter-spacing: -0.3px;
 }
 
 /* 반투명 유리 메인 창 */
@@ -45,7 +44,27 @@ body {
     font-size: 1.05rem;
     font-weight: 600; 
     border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    letter-spacing: 0px;
+}
+
+.title-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* 메뉴 토글 버튼 (PC에서는 기본 숨김 처리) */
+.menu-btn {
+    display: none;
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.2rem;
+    color: #333;
+    cursor: pointer;
+    justify-content: center;
+    align-items: center;
 }
 
 .title-bar-controls button {
@@ -76,6 +95,7 @@ body {
     padding: 24px;
     gap: 25px;
     overflow: hidden;
+    position: relative;
 }
 
 /* 왼쪽 사이드바 패널 */
@@ -86,6 +106,7 @@ body {
     border-radius: 12px;
     padding: 20px 12px;
     overflow-y: auto;
+    transition: transform 0.3s ease; /* 여닫힐 때 부드럽게 */
 }
 
 .tree-view {
@@ -108,7 +129,6 @@ body {
     color: #111;
 }
 
-/* 선택된 메뉴 하이라이트 */
 .tree-view li.active {
     background: rgba(255, 255, 255, 0.85);
     color: #000;
@@ -163,7 +183,6 @@ body {
     background: rgba(255, 255, 255, 0.85);
 }
 
-/* 일러스트 자리 */
 .char-img-placeholder {
     width: 100%;
     height: 240px;
@@ -189,7 +208,6 @@ body {
     text-overflow: ellipsis;
 }
 
-/* 새 캐릭터 추가 버튼 */
 .add-new {
     justify-content: center;
     align-items: center;
@@ -206,4 +224,109 @@ body {
 .add-new:hover {
     background: rgba(255, 255, 255, 0.4);
     border-color: rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-overlay {
+    display: none;
+}
+
+/* ========================================== */
+/* 📱 모바일 / 스마트폰 화면 최적화 (가로 768px 이하) */
+/* ========================================== */
+@media (max-width: 768px) {
+    /* 폰에서는 전체적으로 창 여백 조절 */
+    .window {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0px; /* 전체화면식으로 꽉 채움 */
+        border: none;
+    }
+
+    .title-bar {
+        padding: 12px 15px;
+    }
+
+    /* ☰ 메뉴 버튼 활성화 */
+    .menu-btn {
+        display: flex;
+    }
+
+    .window-body {
+        padding: 15px;
+        gap: 0;
+    }
+
+    /* 사이드바를 스마트폰 외부(왼쪽)로 완전히 빼두고 숨김 */
+    .sidebar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 260px;
+        height: 100%;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.85); /* 덮을 때 흐릿하게 보이도록 불투명도 조절 */
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 0 16px 16px 0;
+        border: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        transform: translateX(-100%); /* 왼쪽으로 완전히 숨김 */
+        box-shadow: none;
+    }
+
+    /* 자바스크립트로 active 클래스가 붙으면 우측으로 튀어나옴 */
+    .sidebar.active {
+        transform: translateX(0);
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* 메인 화면 가득 채우기 */
+    .main-content {
+        padding: 15px;
+        border: none;
+        background: transparent; /* 본체 유리 질감 그대로 비치게 */
+    }
+
+    .main-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+
+    /* 폰 화면 좁은 폭에 맞춰 2열 배치 세로버전으로 카드 그리드 자동 재배치 */
+    .card-grid {
+        grid-template-columns: repeat(2, 1fr); /* 폰에서는 예쁘게 2줄씩 배치 */
+        gap: 15px;
+    }
+
+    .char-img-placeholder {
+        height: 180px; /* 세로 폭 폰 화면 비율로 알맞게 축소 */
+    }
+
+    /* 사이드바 열렸을 때 화면 어둡게 해줄 오버레이 */
+    .sidebar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(2px);
+        z-index: 5;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+        pointer-events: none;
+        display: block;
+    }
+
+    .sidebar-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+}
+
+/* 초소형 폰 (가로 380px 이하) 에서는 카드 1줄 배치 */
+@media (max-width: 380px) {
+    .card-grid {
+        grid-template-columns: 1fr;
+    }
 }
