@@ -24,15 +24,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // ==========================================
     const cardGrid = document.querySelector(".card-grid");
     const mainTitle = document.querySelector(".main-title");
-    
-    // 사이드바 메뉴 버튼들 (0번째: My Characters, 1번째: Recent Chats)
     const sideMenuItems = document.querySelectorAll(".tree-view li");
 
     if (cardGrid && !document.getElementById("characterForm")) {
         
-        // --- 👥 My Characters (기존 캐릭터 카드 렌더링) ---
+        // --- 👥 My Characters (기존 캐릭터 카드) ---
         const renderCards = () => {
-            cardGrid.className = "card-grid"; // 그리드 복구
+            cardGrid.className = "card-grid";
             cardGrid.innerHTML = "";
             let characters = JSON.parse(localStorage.getItem("ai_characters")) || [];
 
@@ -46,36 +44,33 @@ document.addEventListener("DOMContentLoaded", () => {
             characters.forEach(char => {
                 const card = document.createElement("div");
                 card.className = "character-card";
-                card.dataset.id = char.id;
                 const imgStyle = char.image ? `style="background-image: url('${char.image}'); color:transparent;"` : "";
 
                 card.innerHTML = `
-                    <button class="delete-btn" title="Delete Character">×</button>
+                    <button class="delete-btn card-del" title="Delete Character">×</button>
                     <div class="char-img-placeholder" ${imgStyle}>IMG</div>
                     <div class="char-info"><h3>${char.name}</h3></div>
                 `;
                 
-                // 캐릭터 카드 클릭하면 채팅방(chat.html)으로 들어가면서 최근 대화 목록에 방 생성!
+                // [핵심 변경] 캐릭터 누를 때마다 무조건 '새로운 방 번호(roomId)' 생성!
                 card.addEventListener("click", (e) => {
                     if (e.target.classList.contains("delete-btn")) return;
                     
-                    // 최근 대화방 기록하기 (카톡 방 만들기)
                     let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
-                    // 이미 있는 방인지 확인
-                    const existingRoom = recentChats.find(room => room.id === char.id);
+                    const newRoomId = Date.now(); // 지금 클릭한 시간으로 고유 방 번호 생성
                     
-                    if (!existingRoom) {
-                        recentChats.unshift({ // 맨 앞에 추가
-                            id: char.id,
-                            name: char.name,
-                            image: char.image,
-                            lastMessage: "대화를 시작해보세요...", // 임시 마지막 대화
-                            timestamp: Date.now()
-                        });
-                        localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
-                    }
+                    recentChats.unshift({
+                        roomId: newRoomId,
+                        charId: char.id,
+                        name: char.name,
+                        image: char.image,
+                        lastMessage: "대화를 시작해보세요...",
+                        timestamp: newRoomId
+                    });
+                    localStorage.setItem("ai_recent_chats", JSON.stringify(recentChats));
                     
-                    window.location.href = `chat.html?id=${char.id}`;
+                    // 해당 방 번호를 달고 채팅방으로 입장
+                    window.location.href = `chat.html?roomId=${newRoomId}`;
                 });
 
                 const deleteBtn = card.querySelector(".delete-btn");
@@ -99,9 +94,9 @@ document.addEventListener("DOMContentLoaded", () => {
             cardGrid.appendChild(addNewCard);
         };
 
-        // --- 💬 Recent Chats (카톡방 목록 렌더링) ---
+        // --- 💬 Recent Chats (카톡방 목록 및 삭제) ---
         const renderRecentChats = () => {
-            cardGrid.className = "recent-chat-list"; // 그리드 대신 세로 리스트 클래스로 변경
+            cardGrid.className = "recent-chat-list"; 
             cardGrid.innerHTML = "";
             let recentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
 
@@ -115,7 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 roomDiv.className = "chat-room-item";
                 const imgStyle = room.image ? `style="background-image: url('${room.image}'); color:transparent;"` : "";
 
+                // 방 목록에도 X(삭제) 버튼 추가
                 roomDiv.innerHTML = `
+                    <button class="delete-btn room-del" title="Delete Chat">×</button>
                     <div class="room-profile" ${imgStyle}>IMG</div>
                     <div class="room-info">
                         <h4>${room.name}</h4>
@@ -123,16 +120,27 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
 
-                // 방 누르면 다시 채팅방으로 입장
-                roomDiv.addEventListener("click", () => {
-                    window.location.href = `chat.html?id=${room.id}`;
+                roomDiv.addEventListener("click", (e) => {
+                    // 삭제 버튼을 눌렀을 때의 로직
+                    if (e.target.classList.contains("delete-btn")) {
+                        e.stopPropagation();
+                        if (confirm(`⚠️ 이 대화방을 삭제하시겠습니까?`)) {
+                            let currentChats = JSON.parse(localStorage.getItem("ai_recent_chats")) || [];
+                            // 현재 누른 방 번호(roomId)만 필터링해서 날려버림
+                            let updatedChats = currentChats.filter(item => item.roomId !== room.roomId);
+                            localStorage.setItem("ai_recent_chats", JSON.stringify(updatedChats));
+                            renderRecentChats(); // 리스트 새로고침
+                        }
+                        return;
+                    }
+                    // 방 누르면 해당 방 번호로 입장
+                    window.location.href = `chat.html?roomId=${room.roomId}`;
                 });
 
                 cardGrid.appendChild(roomDiv);
             });
         };
 
-        // 사이드바 메뉴 클릭 이벤트 연동
         if (sideMenuItems.length >= 2) {
             sideMenuItems[0].addEventListener("click", () => {
                 sideMenuItems[0].classList.add("active");
@@ -149,16 +157,14 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
 
-        // 초기 화면 로드
         renderCards();
     }
 
     // ==========================================
-    // 3. 캐릭터 생성 폼 저장 로직 (create.html)
+    // 3. 캐릭터 생성 폼 (create.html)
     // ==========================================
     const charForm = document.getElementById("characterForm");
     if (charForm) {
-        // (기존 코드와 동일하게 유지)
         const charImageInput = document.getElementById("charImage");
         const imgPreview = document.getElementById("imgPreview");
         if (charImageInput && imgPreview) {
@@ -199,7 +205,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatSettingsPanel = document.getElementById("chatSettingsPanel");
 
     if (chatSettingsBtn && chatSettingsPanel) {
-        // 요구사항 반영: 토글 기능 (누르면 열리고 한 번 더 누르면 닫힘)
         chatSettingsBtn.addEventListener("click", () => {
             chatSettingsPanel.classList.toggle("open");
         });
@@ -215,6 +220,17 @@ document.addEventListener("DOMContentLoaded", () => {
             this.style.height = (this.scrollHeight) + "px";
             if (this.scrollHeight > 150) this.style.overflowY = "auto";
             else this.style.overflowY = "hidden";
+        });
+    }
+
+    // [핵심 변경] 모델 선택 시 위쪽 디스플레이 자동 변경 기능
+    const modelSelect = document.getElementById("modelSelect");
+    const modelDisplay = document.getElementById("modelDisplay");
+
+    if (modelSelect && modelDisplay) {
+        // 셀렉트 박스에서 선택을 바꿀 때마다 글씨가 똑같이 바뀜
+        modelSelect.addEventListener("change", (e) => {
+            modelDisplay.textContent = e.target.value;
         });
     }
 });
