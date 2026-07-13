@@ -3,14 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Studio</title>
-
+    <title>AI Studio - Character Select</title>
+    <!-- 기존 메인 사이트와 동일한 픽셀 폰트 적용 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+    <div class="os-background">
+        <!-- 윈도우 프로그램 창 UI -->
+        <div class="window">
+            <div class="title-bar">
+                <div class="title-bar-text">AI_Studio.exe</div>
+                <div class="title-bar-controls">
+                    <!-- X 버튼을 누르면 다시 원래 홈페이지로 돌아가게 설정 -->
+                    <button aria-label="Close" onclick="window.location.href='../index.html'">X</button>
+                </div>
+            </div>
+            
+            <div class="window-body">
+                <!-- 왼쪽 사이드바 -->
+                <div class="sidebar">
+                    <ul class="tree-view">
+                        <li class="active">📁 캐릭터 목록</li>
+                        <li>💬 최근 대화</li>
+                        <li>🌍 세계관 설정</li>
+                        <li>⚙️ 시스템 설정</li>
+                    </ul>
+                </div>
 
-<script src="script.js"></script>
+                <!-- 오른쪽 메인 화면 (캐릭터 카드) -->
+                <div class="main-content">
+                    <div class="card-grid">
+                        
+                        <!-- 캐릭터 카드 1 -->
+                        <div class="character-card">
+                            <div class="char-img-placeholder">IMG</div>
+                            <div class="char-info">
+                                <h3>S급 전투계 에스퍼</h3>
+                                <p>까칠하고 예민하지만, 내면에 상처를 숨기고 있는 에스퍼.</p>
+                            </div>
+                        </div>
 
+                        <!-- 캐릭터 카드 2 -->
+                        <div class="character-card">
+                            <div class="char-img-placeholder">IMG</div>
+                            <div class="char-info">
+                                <h3>A급 소속 가이드</h3>
+                                <p>차분하고 다정하며, 어떤 상황에서도 평정심을 유지한다.</p>
+                            </div>
+                        </div>
+
+                        <!-- 새 캐릭터 추가 버튼 -->
+                        <div class="character-card add-new">
+                            <div class="char-info">
+                                <h3>+ 새 캐릭터 생성</h3>
+                                <p>나만의 새로운 캐릭터를 만들어보세요.</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
