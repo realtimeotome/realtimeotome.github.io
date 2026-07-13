@@ -24,9 +24,7 @@
         <div class="window-body chat-body">
             
             <div class="chat-main">
-                <div class="chat-history" id="chatHistory">
-                    <!-- 자바스크립트가 여기 대화를 그려줌 -->
-                </div>
+                <div class="chat-history" id="chatHistory"></div>
 
                 <div class="chat-input-wrapper">
                     <div class="chat-toolbar">
@@ -43,7 +41,6 @@
                 </div>
             </div>
 
-            <!-- 우측 설정 패널 -->
             <div class="chat-settings-panel" id="chatSettingsPanel">
                 <div class="panel-header">
                     <h3>Chat Settings</h3>
@@ -62,11 +59,10 @@
                     <hr class="panel-divider">
 
                     <ul class="setting-menu-list">
-                        <li>📝 Edit Persona <span>></span></li>
-                        <li>👤 User Notes <span>></span></li>
-                        <li>📚 Lorebook <span>></span></li>
+                        <li id="menuPersona">📝 Edit Persona <span>></span></li>
+                        <li id="menuUserNotes">👤 User Notes <span>></span></li>
+                        <li id="menuLorebook">📚 Lorebook <span>></span></li>
                         
-                        <!-- 🎨 펼침형(아코디언) 테마 세팅 메뉴 -->
                         <li class="has-submenu">
                             <div class="menu-header" id="themeToggleBtn">
                                 <span>🎨 Theme Settings</span>
@@ -104,6 +100,29 @@
 
         </div>
     </div>
+
+    <div class="modal-overlay" id="settingModalOverlay">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3 id="modalTitle">Title</h3>
+                <button class="icon-btn" id="closeModalBtn" style="font-weight: bold;">✕</button>
+            </div>
+            <div class="modal-body">
+                <div id="lorebookSelector" style="display: none; margin-bottom: 15px;">
+                    <label style="font-size: 0.85rem; font-weight: 600; color: #555; display: block; margin-bottom: 6px;">🌍 세계관 불러오기</label>
+                    <select id="worldSelect" class="glass-select">
+                        <option value="">-- 자유 입력 (Custom) --</option>
+                        </select>
+                </div>
+                <textarea id="modalTextarea" class="modal-textarea" placeholder="내용을 입력하세요..."></textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" id="cancelModalBtn" style="margin-right: 10px;">취소</button>
+                <button class="btn btn-save" id="saveModalBtn">저장하기</button>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
