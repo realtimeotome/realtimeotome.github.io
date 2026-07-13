@@ -5,8 +5,8 @@
 }
 
 body {
-    /* 푸른 기를 완전히 제거한 맑은 화이트-연한 그레이 무채색 그라데이션 바탕 */
-    background: linear-gradient(135deg, #fafafa, #e0e0e0);
+    /* 배경 대비를 위해 그라데이션 명도를 살짝 조절 */
+    background: linear-gradient(135deg, #fcfcfc, #dadada);
     font-family: 'NeoDunggeunmo', monospace;
     height: 100vh;
     display: flex;
@@ -15,51 +15,50 @@ body {
     overflow: hidden;
 }
 
-/* 반투명 유리 메인 창 (명암과 테두리를 아주 옅게 조절) */
+/* 반투명 유리 메인 창 (테두리 두께 및 그림자 명암 강화) */
 .window {
     width: 96vw;
     max-width: 1500px;
     height: 94vh;
-    background: rgba(255, 255, 255, 0.25); /* 투명도 높임 */
+    background: rgba(255, 255, 255, 0.4); /* 투명도 살짝 낮춰서 선명하게 */
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.4); /* 테두리를 더 흐리고 투명하게 */
+    border: 1.5px solid rgba(255, 255, 255, 0.7); /* 흰색 유리 테두리를 더 두껍고 선명하게 */
     border-radius: 16px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.03); /* 그림자 명암 대폭 옅게 변경 */
+    box-shadow: 0 12px 40px 0 rgba(0, 0, 0, 0.08); /* 그림자 농도를 올려서 입체감 부여 */
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
-/* 상단 타이틀바 (무채색 매칭) */
+/* 상단 타이틀바 */
 .title-bar {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
     padding: 12px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    color: #222;
+    color: #111;
     font-size: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .title-bar-controls button {
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.15); /* 버튼 테두리 가시성 확보 */
     border-radius: 50%;
     width: 30px;
     height: 30px;
     font-family: 'NeoDunggeunmo', monospace;
-    color: #444;
+    color: #333;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
-/* 닫기 버튼 호버 시 무채색 톤(어두운 그레이)으로 반응 */
 .title-bar-controls button:hover {
-    background: #333333;
+    background: #222222;
     color: #ffffff;
-    border-color: #333333;
+    border-color: #222222;
 }
 
 .window-body {
@@ -70,11 +69,11 @@ body {
     overflow: hidden;
 }
 
-/* 왼쪽 사이드바 (연한 무채색 패널) */
+/* 왼쪽 사이드바 패널 */
 .sidebar {
     width: 260px;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
     padding: 20px 15px;
     overflow-y: auto;
@@ -90,28 +89,29 @@ body {
     font-size: 1.15rem;
     margin-bottom: 8px;
     border-radius: 8px;
-    color: #555;
+    color: #444;
     transition: all 0.2s ease;
 }
 
 .tree-view li:hover {
-    background: rgba(255, 255, 255, 0.4);
-    color: #222;
+    background: rgba(255, 255, 255, 0.6);
+    color: #111;
 }
 
-/* 선택된 메뉴 하이라이트도 옅고 투명한 화이트로 처리 */
+/* 선택된 메뉴 하이라이트 경계 명확하게 조절 */
 .tree-view li.active {
-    background: rgba(255, 255, 255, 0.7);
-    color: #111;
+    background: rgba(255, 255, 255, 0.85);
+    color: #000;
     font-weight: bold;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(0, 0, 0, 0.08); /* 옅은 먹색 테두리로 눈에 띄게 변경 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
 }
 
 /* 오른쪽 캐릭터 메인 영역 */
 .main-content {
     flex: 1;
-    background: rgba(255, 255, 255, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     border-radius: 12px;
     padding: 30px;
     overflow-y: auto;
@@ -119,10 +119,10 @@ body {
 
 .main-title {
     font-size: 1.8rem;
-    color: #222;
+    color: #111;
     margin-bottom: 25px;
     padding-bottom: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.6);
 }
 
 /* 캐릭터 카드 그리드 */
@@ -132,61 +132,64 @@ body {
     gap: 20px;
 }
 
-/* 캐릭터 포트레이트 카드 (명암 옅게 조정) */
+/* 캐릭터 카드 (경계선 명도 조절) */
 .character-card {
-    background: rgba(255, 255, 255, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8); /* 흰색 경계선 더 또렷하게 */
     border-radius: 12px;
     padding: 12px;
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02); /* 기본 카드 은은한 그림자 추가 */
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
 }
 
-/* 마우스 올렸을 때도 명암을 아주 연하게 줌 */
+/* 호버 시 카드 명확하게 포커싱 효과 */
 .character-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.02);
-    background: rgba(255, 255, 255, 0.65);
+    border-color: rgba(0, 0, 0, 0.12); /* 마우스 올리면 어두운 테두리가 잡히면서 눈에 띔 */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.85);
 }
 
-/* 일러스트 자리 (옅은 그레이 톤) */
+/* 일러스트 자리 (구분선 명확하게 수정) */
 .char-img-placeholder {
     width: 100%;
     height: 240px;
-    background: rgba(0, 0, 0, 0.03);
+    background: rgba(0, 0, 0, 0.04); /* 안쪽 명도를 살짝 낮춤 */
     border-radius: 8px;
-    color: #999;
+    color: #777;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px dashed rgba(0, 0, 0, 0.06);
+    border: 1px dashed rgba(0, 0, 0, 0.12); /* 점선을 더 또렷하게 */
     margin-bottom: 12px;
 }
 
 .char-info h3 {
     font-size: 1.1rem;
-    color: #333;
+    color: #222;
     text-align: center;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* 새 캐릭터 추가 버튼 (옅은 점선 스타일) */
+/* 새 캐릭터 추가 버튼 (무채색 점선 스타일 강화) */
 .add-new {
     justify-content: center;
     align-items: center;
-    border: 1px dashed rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.1);
+    border: 1.5px dashed rgba(0, 0, 0, 0.15); /* 점선 테두리 명도 조절 */
+    background: rgba(255, 255, 255, 0.15);
     min-height: 290px;
 }
 
 .add-new h3 {
-    color: #666;
+    color: #444;
 }
 
 .add-new:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.4);
+    border-color: rgba(0, 0, 0, 0.3);
 }
