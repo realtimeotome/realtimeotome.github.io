@@ -143,12 +143,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ==========================================
-    // 4. 채팅방 (chat.html) - 픽토그램 아이콘 적용 버전!
+    // 4. 채팅방 (chat.html) - 버그 수정 & 로직 개편
     // ==========================================
     const chatSettingsBtn = document.getElementById("chatSettingsBtn");
+    const closeSettingsBtn = document.getElementById("closeSettingsBtn"); // X 닫기 버튼 부활
     const chatSettingsPanel = document.getElementById("chatSettingsPanel");
+
+    // 패널 열고 닫기
     if (chatSettingsBtn && chatSettingsPanel) {
         chatSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.toggle("open"));
+    }
+    if (closeSettingsBtn && chatSettingsPanel) {
+        closeSettingsBtn.addEventListener("click", () => chatSettingsPanel.classList.remove("open"));
+    }
+
+    // 하단 툴바 모델 디스플레이 연동 부활
+    const modelSelect = document.getElementById("modelSelect");
+    const modelDisplay = document.getElementById("modelDisplay");
+    if (modelSelect && modelDisplay) {
+        modelDisplay.textContent = modelSelect.value; // 처음 들어올 때 값 맞춰주기
+        modelSelect.addEventListener("change", (e) => {
+            modelDisplay.textContent = e.target.value; // 바꿀 때 즉시 반영
+        });
     }
 
     const chatInput = document.getElementById("chatInput");
@@ -170,7 +186,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 msgBox.className = `msg-container ${msg.role}-container`;
                 
                 if (msg.role === "user") {
-                    // 요구사항 반영: 이모지 대신 정교한 흑백 SVG 픽토그램 라인 아이콘 삽입
                     msgBox.innerHTML = `
                         <div class="user-msg-box">
                             <div class="msg-actions">
@@ -193,9 +208,15 @@ document.addEventListener("DOMContentLoaded", () => {
             chatHistory.scrollTop = chatHistory.scrollHeight;
         };
 
+        // 삭제 기능 업그레이드: 세트 삭제
         window.deleteMessage = (index) => {
-            if (confirm("이 메시지를 삭제할까요?")) {
-                currentMessages.splice(index, 1);
+            if (confirm("이 대화를 삭제하시겠습니까? (이어진 봇의 답장도 함께 지워집니다)")) {
+                // 내 대사 바로 뒤 인덱스가 존재하고, 그게 AI 대사라면 같이 날려버림
+                if (index + 1 < currentMessages.length && currentMessages[index + 1].role === "ai") {
+                    currentMessages.splice(index, 2); // 2개 지우기
+                } else {
+                    currentMessages.splice(index, 1); // 1개만 지우기
+                }
                 localStorage.setItem(chatStorageKey, JSON.stringify(currentMessages));
                 renderMessages();
             }
