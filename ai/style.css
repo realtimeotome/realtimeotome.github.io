@@ -634,3 +634,78 @@ body {
     .chat-input-wrapper { padding: 10px 15px 15px 15px; }
     .chat-settings-panel { width: 85%; right: -100%; } /* 폰에서는 화면을 거의 덮게 */
 }
+
+
+/* ========================================== */
+/* 🛠️ 최근 대화(Recent Chats) 카톡방 리스트 스타일 */
+/* ========================================== */
+.recent-chat-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.chat-room-item {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 12px;
+    padding: 16px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chat-room-item:hover {
+    background: rgba(255, 255, 255, 0.85);
+    transform: translateX(4px);
+}
+
+.room-profile {
+    width: 50px;
+    height: 50px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.05);
+    margin-right: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #777;
+    background-size: cover;
+    background-position: center;
+}
+
+.room-info {
+    flex: 1;
+}
+
+.room-info h4 {
+    font-size: 1.05rem;
+    color: #111;
+    margin-bottom: 4px;
+}
+
+.room-info p {
+    font-size: 0.9rem;
+    color: #666;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 300px; /* 길면 자동으로 ... 처리 */
+}
+
+/* ========================================== */
+/* 3단계: 모델 디스플레이 단순 표기 (선택 X) */
+/* ========================================== */
+.model-display {
+    background: rgba(255,255,255,0.6); /* 살짝 투명하게 */
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.08);
+    font-weight: 600;
+    color: #555;
+    cursor: default; /* 클릭 안 되게 마우스 포인터 기본값 */
+    user-select: none;
+}
