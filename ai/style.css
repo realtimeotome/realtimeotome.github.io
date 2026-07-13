@@ -9,7 +9,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    height: 100vh;
+    height: 100dvh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,7 +21,7 @@ body {
 .window {
     width: 96vw;
     max-width: 1500px;
-    height: 94vh;
+    height: 94dvh;
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
@@ -363,7 +363,7 @@ body {
 /* 📱 모바일 화면 반응형 설정 */
 /* ========================================== */
 @media (max-width: 768px) {
-    .window { width: 100vw; height: 100vh; border-radius: 0px; border: none; }
+    .window { width: 100vw; height: 100dvh; border-radius: 0px; border: none; }
     .title-bar { padding: 12px 15px; }
     .menu-btn { display: flex; }
     .window-body { padding: 15px; gap: 0; }
@@ -631,7 +631,7 @@ body {
 /* 📱 모바일 대응 */
 @media (max-width: 768px) {
     .chat-history { padding: 20px 15px; }
-    .chat-input-wrapper { padding: 10px 15px 15px 15px; }
+    .chat-input-wrapper { padding: 10px 15px calc(15px + env(safe-area-inset-bottom)) 15px; }
     .chat-settings-panel { width: 85%; right: -100%; } /* 폰에서는 화면을 거의 덮게 */
 }
 
