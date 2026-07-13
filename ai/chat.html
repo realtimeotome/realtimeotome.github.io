@@ -26,20 +26,17 @@
             
             <div class="chat-main">
                 <div class="chat-history" id="chatHistory">
-                    
                     <!-- 더미 데이터: 영어 예시 2줄 -->
                     <div class="novel-block">
                         <p class="narrative">The cold wind blew through the empty server room, chilling everything it touched.</p>
                         <p class="dialogue ai-dialogue">"Are you the one they sent?"</p>
                     </div>
-                    <!-- // 더미 데이터 끝 -->
-
                 </div>
 
                 <div class="chat-input-wrapper">
                     <div class="chat-toolbar">
-                        <!-- 선택 불가한 단순 표기용 클래스로 변경 (기호 삭제) -->
-                        <div class="model-display">✨ Gemini 1.5 Pro</div>
+                        <!-- id="modelDisplay" 추가됨 -->
+                        <div class="model-display" id="modelDisplay">✨ Gemini 1.5 Pro</div>
                         <div class="toolbar-btns">
                             <button>💾 Memory</button>
                             <button>🖼️ Image</button>
@@ -60,10 +57,11 @@
                 <div class="panel-content">
                     <div class="setting-group">
                         <label>Selected Model</label>
-                        <select class="glass-select">
-                            <option>✨ Gemini 1.5 Pro</option>
-                            <option>🧠 Claude 3.5 Sonnet</option>
-                            <option>🔞 Llama-3-NSFW</option>
+                        <!-- id="modelSelect" 추가됨 -->
+                        <select class="glass-select" id="modelSelect">
+                            <option value="✨ Gemini 1.5 Pro">✨ Gemini 1.5 Pro</option>
+                            <option value="🧠 Claude 3.5 Sonnet">🧠 Claude 3.5 Sonnet</option>
+                            <option value="🔞 Llama-3-NSFW">🔞 Llama-3-NSFW</option>
                         </select>
                     </div>
                     <ul class="setting-menu-list">
