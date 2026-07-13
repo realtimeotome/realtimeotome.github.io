@@ -1,3 +1,13 @@
+:root {
+    /* 🎨 마법의 물감통 (자바스크립트가 이 값을 실시간으로 바꿔줌) */
+    --chat-bg: transparent; 
+    --chat-font-size: 1.05rem;
+    --chat-font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --user-color: #111111;
+    --ai-color: #2c5282;
+    --narrative-color: #777777;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -172,6 +182,7 @@ body {
     flex-direction: column;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    position: relative;
 }
 
 .character-card:hover {
@@ -331,6 +342,7 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
+    border: none;
 }
 
 .btn-cancel {
@@ -346,13 +358,11 @@ body {
 
 .btn-save {
     background: #111111;
-    border: 1px solid #111111;
     color: #ffffff;
 }
 
 .btn-save:hover {
     background: #333333;
-    border-color: #333333;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
@@ -360,48 +370,7 @@ body {
 .sidebar-overlay { display: none; }
 
 /* ========================================== */
-/* 📱 모바일 화면 반응형 설정 */
-/* ========================================== */
-@media (max-width: 768px) {
-    .window { width: 100vw; height: 100dvh; border-radius: 0px; border: none; }
-    .title-bar { padding: 12px 15px; }
-    .menu-btn { display: flex; }
-    .window-body { padding: 15px; gap: 0; }
-    
-    .sidebar {
-        position: absolute; top: 0; left: 0; width: 260px; height: 100%; z-index: 10;
-        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-        border-radius: 0 16px 16px 0; border: none; border-right: 1px solid rgba(255, 255, 255, 0.5);
-        transform: translateX(-100%);
-    }
-    .sidebar.active { transform: translateX(0); box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1); }
-    .main-content { padding: 15px; border: none; background: transparent; }
-    .main-title { font-size: 1.4rem; margin-bottom: 20px; }
-    
-    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    .char-img-placeholder { height: 180px; }
-    
-    .sidebar-overlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px); z-index: 5;
-        transition: opacity 0.3s ease; opacity: 0; pointer-events: none; display: block;
-    }
-    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
-
-    /* 모바일 생성 창 대응 */
-    .form-row-top { flex-direction: column; align-items: center; gap: 15px; }
-    .img-upload-box { width: 100%; max-width: 200px; }
-    .img-preview { height: 220px; }
-    .info-input-box { width: 100%; }
-    .create-container { padding: 15px; }
-}
-
-@media (max-width: 380px) {
-    .card-grid { grid-template-columns: 1fr; }
-}
-
-/* ========================================== */
-/* 📖 3단계: 채팅방(Chat) - 웹소설 뷰어 스타일 */
+/* 📖 3단계: 채팅방(Chat) - 웹소설 뷰어 스타일 & 물감통 연동 */
 /* ========================================== */
 
 .chat-body {
@@ -421,15 +390,17 @@ body {
 }
 .icon-btn:hover { background: rgba(0,0,0,0.1); }
 
+/* 마법의 배경색 적용 (변수 연동) */
 .chat-main {
     flex: 1;
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: rgba(255, 255, 255, 0.2);
+    background-color: var(--chat-bg); 
+    transition: background-color 0.3s ease;
 }
 
-/* 대화 기록 스크롤 영역 (소설 페이지 느낌) */
+/* 대화 기록 스크롤 영역 */
 .chat-history {
     flex: 1;
     overflow-y: auto;
@@ -439,38 +410,90 @@ body {
     align-items: center; 
 }
 
+/* 폰트 및 글씨 크기 연동 */
 .novel-block {
     width: 100%;
     max-width: 800px; 
     display: flex;
     flex-direction: column;
     gap: 16px; 
+    font-family: var(--chat-font-family);
+    font-size: var(--chat-font-size);
 }
 
-/* 지문(행동/배경 묘사) 스타일 */
-.novel-block .narrative {
-    font-size: 1.05rem;
-    line-height: 1.7;
-    color: #444;
-    letter-spacing: -0.2px;
-}
-
-/* 대사 스타일 */
+/* 대사 기본 스타일 */
 .novel-block .dialogue {
-    font-size: 1.1rem;
-    line-height: 1.6;
+    line-height: 1.7;
     font-weight: 600;
     margin: 4px 0;
 }
 
-/* 캐릭터 대사 (푸른빛/강조) */
+/* 🤖 AI 대사 색상 연동 */
 .novel-block .ai-dialogue {
-    color: #2c5282; 
+    color: var(--ai-color); 
+    transition: color 0.3s ease;
 }
 
-/* 유저 대사 (어두운 색) */
+/* 👤 유저 대사 색상 연동 */
 .novel-block .user-dialogue {
-    color: #111;
+    color: var(--user-color); 
+    transition: color 0.3s ease;
+}
+
+/* 🎭 별표(*)로 감싼 묘사 전용 클래스 (이탤릭체 + 색상 연동) */
+.narrative-text {
+    color: var(--narrative-color);
+    font-style: italic;
+    font-weight: 400; /* 묘사는 보통 굵기를 얇게 함 */
+    transition: color 0.3s ease;
+}
+
+/* ========================================== */
+/* 💬 메시지 영역 분리 및 수정/삭제 버튼 스타일 */
+/* ========================================== */
+.msg-container { width: 100%; }
+.ai-container { padding: 4px 0; }
+
+.user-container {
+    background: none;
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08); 
+    padding: 16px 0 0 0;
+    margin: 16px 0;
+}
+
+.user-msg-box {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 내 대사 위 칸 버튼 영역 */
+.msg-actions {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+/* 수정/삭제 버튼 디자인 */
+.msg-actions button {
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 3px 6px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #111; 
+}
+
+.msg-actions button:hover {
+    background: #111;
+    color: white;
+    border-color: #111;
 }
 
 /* 하단 입력창 래퍼 */
@@ -493,14 +516,15 @@ body {
     font-size: 0.85rem;
 }
 
-.model-selector {
-    background: rgba(255,255,255,0.8);
-    padding: 6px 12px;
+.model-display {
+    background: rgba(255,255,255,0.6); 
+    padding: 6px 14px;
     border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.1);
+    border: 1px solid rgba(0,0,0,0.08);
     font-weight: 600;
-    color: #333;
-    cursor: pointer;
+    color: #555;
+    cursor: default; 
+    user-select: none;
 }
 
 .toolbar-btns button {
@@ -600,7 +624,8 @@ body {
 }
 
 .setting-group { margin-bottom: 20px; }
-.setting-group label { display: block; font-size: 0.9rem; font-weight: 600; color: #555; margin-bottom: 8px; }
+.setting-group h4 { margin-bottom: 15px; color: #111; font-size: 1.05rem; }
+.setting-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 6px; margin-top: 15px; }
 
 .glass-select {
     width: 100%;
@@ -611,6 +636,9 @@ body {
     font-family: 'Inter', sans-serif;
     outline: none;
 }
+
+.color-picker { width: 100%; height: 40px; border: none; border-radius: 8px; cursor: pointer; background: transparent; }
+.panel-divider { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 20px 0; }
 
 .setting-menu-list { list-style: none; }
 .setting-menu-list li {
@@ -627,14 +655,6 @@ body {
 .setting-menu-list li:hover { background: rgba(0,0,0,0.05); }
 .setting-menu-list hr { border: none; border-top: 1px solid rgba(0,0,0,0.08); margin: 10px 0; }
 .toggle-on { color: #f5a623; font-size: 1.2rem; }
-
-/* 📱 모바일 대응 */
-@media (max-width: 768px) {
-    .chat-history { padding: 20px 15px; }
-    .chat-input-wrapper { padding: 10px 15px calc(15px + env(safe-area-inset-bottom)) 15px; }
-    .chat-settings-panel { width: 85%; right: -100%; } 
-}
-
 
 /* ========================================== */
 /* 🛠️ 최근 대화(Recent Chats) 카톡방 리스트 스타일 */
@@ -655,6 +675,7 @@ body {
     padding: 16px;
     cursor: pointer;
     transition: all 0.2s ease;
+    position: relative;
 }
 
 .chat-room-item:hover {
@@ -697,20 +718,6 @@ body {
 }
 
 /* ========================================== */
-/* 3단계: 모델 디스플레이 단순 표기 (선택 X) */
-/* ========================================== */
-.model-display {
-    background: rgba(255,255,255,0.6); 
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(0,0,0,0.08);
-    font-weight: 600;
-    color: #555;
-    cursor: default; 
-    user-select: none;
-}
-
-/* ========================================== */
 /* 🗑️ 공통 삭제 버튼 (X) 스타일 */
 /* ========================================== */
 .delete-btn {
@@ -741,60 +748,48 @@ body {
 
 .character-card { position: relative; }
 .delete-btn.card-del { top: 8px; right: 8px; }
-
-.chat-room-item { position: relative; }
 .delete-btn.room-del { top: 12px; right: 12px; width: 22px; height: 22px; font-size: 0.75rem; }
 
-
 /* ========================================== */
-/* 💬 [수정] 메시지 영역 분리 및 수정/삭제 버튼 스타일 */
+/* 📱 모바일 화면 반응형 설정 */
 /* ========================================== */
-.msg-container {
-    width: 100%;
+@media (max-width: 768px) {
+    .window { width: 100vw; height: 100dvh; border-radius: 0px; border: none; }
+    .title-bar { padding: 12px 15px; }
+    .menu-btn { display: flex; }
+    .window-body { padding: 15px; gap: 0; }
+    
+    .sidebar {
+        position: absolute; top: 0; left: 0; width: 260px; height: 100%; z-index: 10;
+        background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+        border-radius: 0 16px 16px 0; border: none; border-right: 1px solid rgba(255, 255, 255, 0.5);
+        transform: translateX(-100%);
+    }
+    .sidebar.active { transform: translateX(0); box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1); }
+    .main-content { padding: 15px; border: none; background: transparent; }
+    .main-title { font-size: 1.4rem; margin-bottom: 20px; }
+    
+    .card-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .char-img-placeholder { height: 180px; }
+    
+    .sidebar-overlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.2); backdrop-filter: blur(2px); z-index: 5;
+        transition: opacity 0.3s ease; opacity: 0; pointer-events: none; display: block;
+    }
+    .sidebar-overlay.active { opacity: 1; pointer-events: auto; }
+
+    .form-row-top { flex-direction: column; align-items: center; gap: 15px; }
+    .img-upload-box { width: 100%; max-width: 200px; }
+    .img-preview { height: 220px; }
+    .info-input-box { width: 100%; }
+    .create-container { padding: 15px; }
+    
+    .chat-history { padding: 20px 15px; }
+    .chat-input-wrapper { padding: 10px 15px calc(15px + env(safe-area-inset-bottom)) 15px; }
+    .chat-settings-panel { width: 85%; right: -100%; } 
 }
 
-.ai-container {
-    padding: 4px 0;
-}
-
-.user-container {
-    background: none;
-    border: none;
-    border-top: 1px solid rgba(0, 0, 0, 0.08); 
-    padding: 16px 0 0 0;
-    margin: 16px 0;
-}
-
-.user-msg-box {
-    display: flex;
-    flex-direction: column;
-}
-
-/* 내 대사 위 칸 버튼 영역 */
-.msg-actions {
-    display: flex;
-    justify-content: flex-end; 
-    gap: 8px;
-    margin-bottom: 8px;
-}
-
-/* 수정/삭제 버튼 디자인 */
-.msg-actions button {
-    background: rgba(255, 255, 255, 0.6);
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    padding: 3px 6px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #111; /* SVG 선 색상을 완전 흑백으로 강제! */
-}
-
-.msg-actions button:hover {
-    background: #111;
-    color: white;
-    border-color: #111;
+@media (max-width: 380px) {
+    .card-grid { grid-template-columns: 1fr; }
 }
