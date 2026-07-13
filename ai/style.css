@@ -758,7 +758,6 @@ body {
 }
 
 .user-container {
-    /* 요구사항 반영: 배경색/명암/테두리 상자 전부 제거! 오직 윗줄 분리 라인만 딱! */
     background: none;
     border: none;
     border-top: 1px solid rgba(0, 0, 0, 0.08); 
@@ -791,6 +790,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    color: #111; /* SVG 선 색상을 완전 흑백으로 강제! */
 }
 
 .msg-actions button:hover {
