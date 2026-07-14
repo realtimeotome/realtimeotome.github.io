@@ -4,8 +4,14 @@ body, html {
     background-color: #ffffff; font-family: monospace;
 }
 
-/* 💡 갈무리 폰트로 변경 */
+/* 💡 1. 오리지널 윈도우 98 느낌의 두꺼운 픽셀 폰트 (상/하단 바 전용) */
 .pixel-font {
+    font-family: 'NeoDunggeunmo', monospace;
+    -webkit-font-smoothing: none; 
+}
+
+/* 💡 2. 시스템/해커 느낌의 얇고 날카로운 픽셀 폰트 (내부 대시보드 전용) */
+.galmuri-font {
     font-family: 'Galmuri11', monospace;
     -webkit-font-smoothing: none; 
 }
@@ -25,7 +31,7 @@ body, html {
 .menu-btn {
     background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff;
     border-right: 2px solid #555; border-bottom: 2px solid #555;
-    padding: 2px 8px; cursor: pointer; font-size: 15px; color: #000; flex-shrink: 0;
+    padding: 2px 8px; cursor: pointer; font-size: 16px; color: #000; flex-shrink: 0;
 }
 .menu-btn:active, .menu-btn.active {
     border-top: 2px solid #555; border-left: 2px solid #555;
@@ -37,12 +43,12 @@ body, html {
     border-bottom: 3px solid #808080; display: flex; align-items: center;
     padding: 0 10px; gap: 8px; flex-shrink: 0;
 }
-.address-label { font-size: 15px; color: #000; }
+.address-label { font-size: 16px; color: #000; }
 .address-field {
     flex-grow: 1; height: 22px; background: #fff;
     border-top: 2px solid #555; border-left: 2px solid #555;
     border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    padding: 0 8px; color: #000; font-size: 13px; outline: none; 
+    padding: 0 8px; color: #000; font-size: 14px; outline: none; 
 }
 .address-dropdown-btn {
     width: 22px; height: 22px; background: #dfdfdf;
@@ -70,7 +76,7 @@ body, html {
     border-top: 2px solid #555; border-left: 2px solid #555;
     border-right: 2px solid #fff; border-bottom: 2px solid #fff;
 }
-#clock { font-size: 15px; user-select: none; }
+#clock { font-size: 16px; user-select: none; }
 
 .panel-raised {
     background: #dfdfdf; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
@@ -103,14 +109,9 @@ body, html {
 .status-box, .media-box { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 
-/* 💡 레트로 드롭다운(선택창) 디자인 */
 .retro-select {
-    padding: 0px 4px;
-    height: 20px;
-    outline: none;
-    cursor: pointer;
-    font-size: 13px;
-    color: #000;
+    padding: 0px 4px; height: 20px; outline: none; cursor: pointer;
+    font-size: 13px; color: #000;
 }
 
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
