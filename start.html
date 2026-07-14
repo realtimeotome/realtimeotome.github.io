@@ -12,8 +12,17 @@
             width: 100vw;
             height: 100dvh; 
             overflow: hidden;
-            background-color: #ffffff; 
+            background-color: #000000;
             font-family: monospace;
+        }
+
+        #screen-wrapper {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* 메인 배경 화이트 유지 */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .pixel-font {
@@ -28,7 +37,9 @@
             flex-direction: column;
         }
 
-        /* 첫 번째 상단바 */
+        /* -------------------------------------------
+           상단 & 하단 바 (오리지널과 100% 동일)
+           ------------------------------------------- */
         .top-bar {
             height: 35px;
             background: #dfdfdf;
@@ -38,12 +49,19 @@
             align-items: center;
             padding: 0 10px;
             user-select: none;
+            flex-shrink: 0;
         }
         
         .top-menu {
             display: flex;
             gap: 4px;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
+        .top-menu::-webkit-scrollbar { display: none; }
 
         .menu-btn {
             background: #dfdfdf;
@@ -55,6 +73,7 @@
             cursor: pointer;
             font-size: 16px;
             color: #000;
+            flex-shrink: 0;
         }
 
         .menu-btn:active, .menu-btn.active {
@@ -66,43 +85,6 @@
             background: #d4d4d4; 
         }
 
-        /* 뒤로가기 버튼 추가 (메인으로 돌아가기) */
-        .back-btn {
-            background: #dfdfdf;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #555;
-            border-bottom: 2px solid #555;
-            padding: 2px 8px;
-            cursor: pointer;
-            font-size: 16px;
-            color: #000;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .back-btn:active {
-            border-top: 2px solid #555;
-            border-left: 2px solid #555;
-            border-right: 2px solid #fff;
-            border-bottom: 2px solid #fff;
-            padding: 3px 7px 1px 9px; 
-        }
-
-        .close-btn {
-            background: #dfdfdf;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #555;
-            border-bottom: 2px solid #555;
-            padding: 2px 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 14px;
-            font-family: sans-serif;
-        }
-
-        /* 두 번째 상단바 (주소창) */
         .menu-bar {
             height: 34px; 
             background: #dfdfdf;
@@ -112,12 +94,10 @@
             align-items: center;
             padding: 0 10px;
             gap: 8px; 
+            flex-shrink: 0;
         }
 
-        .address-label {
-            font-size: 16px;
-            color: #000;
-        }
+        .address-label { font-size: 16px; color: #000; }
 
         .address-field {
             flex-grow: 1; 
@@ -141,56 +121,13 @@
             border-left: 2px solid #fff;
             border-right: 2px solid #555;
             border-bottom: 2px solid #555;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 12px;
-            color: #000;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; font-size: 12px; color: #000;
         }
-
-        /* 탐색기 메인 화면 */
-        .content-area {
-            flex: 1;
-            padding: 20px;
-            background-color: #ffffff;
-            /* 안으로 푹 파인 효과 */
-            border-top: 3px solid #555;
-            border-left: 3px solid #555;
-            border-right: 3px solid #fff;
-            border-bottom: 3px solid #fff;
-            margin: 10px;
-            overflow-y: auto;
-        }
-
-        /* 파일 리스트 디자인 */
-        .file-list {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            padding: 8px 10px;
-            font-size: 20px;
-            color: #000;
-            text-decoration: none;
-            cursor: pointer;
-            border: 1px dotted transparent; /* 기본은 투명 테두리 */
-        }
-
-        /* 마우스 올렸을 때 옛날 윈도우 파란색 선택 효과 */
-        .file-item:hover {
-            background-color: #000080;
-            color: #ffffff;
-            border: 1px dotted #fff;
-        }
-
-        .file-icon {
-            margin-right: 15px;
-            font-size: 24px;
+        .address-dropdown-btn:active {
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            padding: 1px 0 0 1px; 
         }
 
         .bottom-bar {
@@ -201,61 +138,393 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 15px;
+            flex-shrink: 0;
+            z-index: 10; /* 대시보드 스크롤 위로 고정 */
+        }
+        
+        .start-btn {
+            background: #dfdfdf;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #555; border-bottom: 2px solid #555;
+            padding: 4px 20px; height: 30px; cursor: pointer;
+        }
+        .start-btn:active {
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+        }
+        #clock { font-size: 16px; user-select: none; }
+
+        /* ==========================================
+           👇 여기서부터 START! 대시보드용 신규 CSS
+           ========================================== */
+        
+        .dashboard-container {
+            flex: 1;
+            display: flex;
+            padding: 20px 30px;
+            gap: 30px;
+            overflow-y: auto;
+            background-color: #ffffff;
         }
 
-        #clock {
+        /* 공통 레트로 패널 (회색 상자) */
+        .retro-panel {
+            background: #dfdfdf; /* 기본 윈도우 98 회색 */
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #000; border-bottom: 2px solid #000;
+            box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .col-title {
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* --- 1. 좌측 (프로필 & 네비게이션) --- */
+        .col-left {
+            width: 250px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .profile-img-box {
+            width: 100%;
+            aspect-ratio: 1;
+            background: #ccc; /* 나중에 실제 이미지 경로로 수정 */
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            margin-bottom: 10px;
+            display: flex; justify-content: center; align-items: center;
+            color: #555;
+        }
+
+        .profile-status {
             font-size: 16px;
-            user-select: none;
+            line-height: 1.6;
+        }
+        .status-green { color: #008000; font-weight: bold; }
+
+        .nav-links {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .nav-links a {
+            color: #000;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            color: #000080;
+            text-decoration: underline;
         }
 
-        @media screen and (max-width: 768px) {
-            .address-label { display: none; }
-            .address-field { border-right: none; } 
-            .address-dropdown-btn { border-left: none; }
-            .file-item { font-size: 18px; padding: 12px 10px; } /* 모바일 터치하기 편하게 간격 늘림 */
+        /* --- 2. 중앙 (메인 아카이브) --- */
+        .col-center {
+            flex: 1;
+            min-width: 450px;
+            display: flex;
+            flex-direction: column;
         }
+
+        /* 마키(전광판) 배너 */
+        .marquee-box {
+            background-color: #000;
+            color: #fff;
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            padding: 10px;
+            font-size: 18px;
+            margin-bottom: 30px;
+            white-space: nowrap;
+        }
+
+        /* 폴더 그리드 */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .folder-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            text-align: center;
+        }
+        .folder-item:hover {
+            transform: scale(1.05);
+        }
+        .folder-icon {
+            font-size: 60px; /* 레트로 아이콘 느낌을 텍스트 이모지로 대체 */
+            margin-bottom: 5px;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.2);
+        }
+        .folder-name-eng { font-size: 18px; font-weight: bold; }
+        .folder-name-kor { font-size: 14px; color: #333; margin-top: 4px; }
+
+        /* 텍스트 에디터 창 (클래식 윈도우 스타일) */
+        .editor-window {
+            background: #dfdfdf;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #000; border-bottom: 2px solid #000;
+            box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+            display: flex;
+            flex-direction: column;
+        }
+        .editor-titlebar {
+            background: #000080; /* 클래식 윈도우 블루 */
+            color: #fff;
+            padding: 3px 5px 3px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .editor-btn-group { display: flex; gap: 2px; }
+        .editor-close-btn {
+            background: #dfdfdf; color: #000;
+            border-top: 1px solid #fff; border-left: 1px solid #fff;
+            border-right: 1px solid #000; border-bottom: 1px solid #000;
+            width: 16px; height: 16px; font-size: 12px; font-weight: bold;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+        }
+        .editor-menu {
+            padding: 4px 8px;
+            font-size: 14px;
+            border-bottom: 1px solid #808080;
+        }
+        .editor-content {
+            background: #fff;
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            min-height: 150px;
+            margin: 5px;
+            padding: 10px;
+            font-size: 16px;
+            line-height: 1.4;
+        }
+
+        /* --- 3. 우측 (레트로 툴 & 위젯) --- */
+        .col-right {
+            width: 250px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* 오디오 플레이어 */
+        .audio-player {
+            display: flex; flex-direction: column; gap: 10px; text-align: center;
+        }
+        .audio-buttons { display: flex; justify-content: space-between; }
+        .btn-retro {
+            background: #dfdfdf; color: #000;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #555; border-bottom: 2px solid #555;
+            padding: 4px 10px; font-size: 14px; cursor: pointer;
+        }
+        .btn-retro:active {
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+        }
+
+        /* 방문자 카운터 */
+        .visitor-counter {
+            background: #000;
+            color: #fff;
+            border-top: 2px solid #555; border-left: 2px solid #555;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            padding: 8px;
+            text-align: center;
+            font-size: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* 페이크 배너 */
+        .retro-banner {
+            background: #000;
+            color: #00ffff;
+            border: 2px solid #fff;
+            padding: 15px 10px;
+            text-align: center;
+            font-size: 16px;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+
+        /* 미니 달력 */
+        .mini-calendar table {
+            width: 100%; border-collapse: collapse; text-align: center; font-size: 14px;
+        }
+        .mini-calendar th { font-weight: normal; border-bottom: 1px solid #808080; padding-bottom: 5px; }
+        .mini-calendar td { padding: 4px 0; }
+        .cal-today { background: #cc0000; color: #fff; } /* 핏빛 레드 포인트 */
+
+        /* 반응형 모바일 (세로 배치) */
+        @media screen and (max-width: 900px) {
+            .dashboard-container { flex-direction: column; padding: 15px; }
+            .col-left, .col-center, .col-right { width: 100%; min-width: 100%; }
+            .folder-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ==========================================
+           이전 기믹 (경고창 & 암전) 관련 코드는 그대로 숨겨둠
+           ========================================== */
+        .popup-overlay { display: none; }
+        .blackout-screen { display: none; }
     </style>
 </head>
 <body>
 
-    <div class="win-wrapper">
-        
-        <header class="top-bar">
-            <div class="top-menu">
-                <a href="index.html" class="back-btn pixel-font">◀ Back</a>
-                <button class="menu-btn pixel-font">file</button>
-                <button class="menu-btn pixel-font">favorites</button>
-                <button class="menu-btn pixel-font">help!</button>
+    <div id="screen-wrapper">
+        <div class="win-wrapper">
+            
+            <!-- 공통 상단 헤더 -->
+            <header class="top-bar">
+                <div class="top-menu">
+                    <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
+                    <button class="menu-btn pixel-font">file</button>
+                    <button class="menu-btn pixel-font">favorites</button>
+                    <button class="menu-btn pixel-font">help!</button>
+                    <button class="menu-btn pixel-font">lucky?</button>
+                    <button class="menu-btn pixel-font" onclick="location.href='ai/'">chat♡</button>
+                </div>
+            </header>
+            
+            <div class="menu-bar">
+                <div class="address-label pixel-font">Address</div>
+                <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
+                <div class="address-dropdown-btn pixel-font">▼</div>
             </div>
-            <div class="close-btn">X</div>
-        </header>
-        
-        <div class="menu-bar">
-            <div class="address-label pixel-font">Address</div>
-            <input type="text" class="address-field pixel-font" value="C:\MY_PROJECT_ARCHIVE\DATA" readonly>
-            <div class="address-dropdown-btn pixel-font">▼</div>
+
+            <!-- 👇 변경된 중앙 레이아웃 (3단 분할 대시보드) -->
+            <main class="dashboard-container">
+                
+                <!-- 1. 좌측 (프로필 & 링크) -->
+                <div class="col-left">
+                    <div class="col-title pixel-font">SYSTEM OPERATOR</div>
+                    <div class="retro-panel">
+                        <div class="profile-img-box pixel-font">
+                            [ IMG ]
+                        </div>
+                        <div class="profile-status pixel-font">
+                            Status: <span class="status-green">Online</span><br>
+                            Mood: 💤 (dreaming)<br>
+                            SysOp: realtimeotome
+                        </div>
+                    </div>
+                    
+                    <div class="nav-links pixel-font">
+                        <a href="#">[HOME]</a>
+                        <a href="#">[ARCHIVES]</a>
+                        <a href="#">[ABOUT ME]</a>
+                        <a href="#">[GUESTBOOK]</a>
+                        <a href="ai/">[AI CHAT]</a>
+                    </div>
+                </div>
+
+                <!-- 2. 중앙 (메인 아카이브 & 뷰어) -->
+                <div class="col-center">
+                    <div class="col-title pixel-font">MAIN ARCHIVE</div>
+                    
+                    <div class="marquee-box pixel-font">
+                        <marquee scrollamount="5">
+                            +++ WELCOME TO THE DIGITAL ARCHIVE +++ SYSTEM STABLE +++ BROWSE AT YOUR OWN RISK +++
+                        </marquee>
+                    </div>
+
+                    <div class="folder-grid">
+                        <div class="folder-item">
+                            <div class="folder-icon">📂</div>
+                            <div class="folder-name-eng pixel-font">BOOKLOGS</div>
+                            <div class="folder-name-kor pixel-font">독서 감상 기록</div>
+                        </div>
+                        <div class="folder-item">
+                            <div class="folder-icon">📂</div>
+                            <div class="folder-name-eng pixel-font">MOVIELOGS</div>
+                            <div class="folder-name-kor pixel-font">영화/애니 감상</div>
+                        </div>
+                        <div class="folder-item">
+                            <div class="folder-icon">📂</div>
+                            <div class="folder-name-eng pixel-font">ARTWORKS</div>
+                            <div class="folder-name-kor pixel-font">그림 백업</div>
+                        </div>
+                        <div class="folder-item">
+                            <div class="folder-icon">📂</div>
+                            <div class="folder-name-eng pixel-font">TRAVELOGS</div>
+                            <div class="folder-name-kor pixel-font">여행 사진 기록</div>
+                        </div>
+                    </div>
+
+                    <!-- 투박한 텍스트 뷰어 상자 -->
+                    <div class="editor-window">
+                        <div class="editor-titlebar">
+                            <span class="pixel-font">text editor</span>
+                            <div class="editor-btn-group">
+                                <div class="editor-close-btn pixel-font">_</div>
+                                <div class="editor-close-btn pixel-font">ㅁ</div>
+                                <div class="editor-close-btn pixel-font">X</div>
+                            </div>
+                        </div>
+                        <div class="editor-menu pixel-font">File &nbsp;&nbsp; Edit &nbsp;&nbsp; View</div>
+                        <div class="editor-content pixel-font">
+                            Recent: 2026.07.14 - System Log initialized.<br>
+                            &gt; Waiting for user input...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. 우측 (위젯) -->
+                <div class="col-right">
+                    <div class="col-title pixel-font">RETRO TOOLS</div>
+                    
+                    <div class="retro-panel audio-player">
+                        <div class="pixel-font" style="font-size: 14px;">BGM: 少女の幻想.mid</div>
+                        <div class="audio-buttons">
+                            <button class="btn-retro pixel-font">▶ PLAY</button>
+                            <button class="btn-retro pixel-font">■ STOP</button>
+                        </div>
+                    </div>
+
+                    <div class="retro-panel">
+                        <div class="pixel-font" style="text-align: center; margin-bottom: 5px;">VISITOR COUNTER</div>
+                        <div class="visitor-counter pixel-font">003241</div>
+                    </div>
+
+                    <div class="retro-banner pixel-font">
+                        ▶ BEST VIEWED WITH ◀<br>INTERNET EXPLORER 5.0
+                    </div>
+
+                    <div class="retro-panel mini-calendar">
+                        <div class="pixel-font" style="text-align: center; margin-bottom: 10px;">2026.07</div>
+                        <table class="pixel-font">
+                            <tr><th>S</th><th>M</th><th>T</th><th>W</th><th>T</th><th>F</th><th>S</th></tr>
+                            <tr><td></td><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+                            <tr><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td></tr>
+                            <tr><td>12</td><td>13</td><td class="cal-today">14</td><td>15</td><td>16</td><td>17</td><td>18</td></tr>
+                            <tr><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td></tr>
+                            <tr><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td><td></td></tr>
+                        </table>
+                    </div>
+                </div>
+            </main>
+
+            <!-- 공통 하단 바 -->
+            <footer class="bottom-bar">
+                <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
+                <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
+            </footer>
         </div>
-
-        <main class="content-area">
-            <div class="file-list">
-                <a href="#" class="file-item pixel-font">
-                    <span class="file-icon">📝</span> 센티넬_세계관_설정집.txt
-                </a>
-                <a href="#" class="file-item pixel-font">
-                    <span class="file-icon">💾</span> 프롬프트_태그_백업(병지_송곳니).log
-                </a>
-                <a href="#" class="file-item pixel-font">
-                    <span class="file-icon">📊</span> 진술축미_분석_메모.hwp
-                </a>
-                <a href="#" class="file-item pixel-font">
-                    <span class="file-icon">⚙️</span> SAVE_FILE.sys
-                </a>
-            </div>
-        </main>
-
-        <footer class="bottom-bar">
-            <div></div> <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
-        </footer>
     </div>
 
     <script>
@@ -264,7 +533,7 @@
             let month = now.getMonth() + 1;
             let date = now.getDate();
             let year = now.getFullYear();
-            
+
             month = month < 10 ? '0' + month : month;
             date = date < 10 ? '0' + date : date;
             const dateStr = month + '/' + date + '/' + year;
@@ -273,12 +542,13 @@
             let minutes = now.getMinutes();
             const ampm = hours >= 12 ? 'PM' : 'AM';
             hours = hours % 12;
-            hours = hours ? hours : 12; 
+            hours = hours ? hours : 12;
             minutes = minutes < 10 ? '0' + minutes : minutes;
             const timeStr = hours + ':' + minutes + ' ' + ampm;
 
             document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
         }
+
         setInterval(updateClock, 1000);
         updateClock();
     </script>
