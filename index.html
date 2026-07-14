@@ -232,6 +232,98 @@
             .address-field { border-right: none; } 
             .address-dropdown-btn { border-left: none; }
         }
+
+        /* ==========================================
+           👇 여기서부터 새로 추가된 기믹 (경고창 & 암전) CSS
+           ========================================== */
+        
+        /* 암전 화면 */
+        .blackout-screen {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
+            background: #000; z-index: 9999; display: none;
+        }
+
+        /* 팝업 오버레이 (배경은 투명하게 둬서 Y2K 감성 유지) */
+        .popup-overlay {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
+            z-index: 1000; display: none; justify-content: center; align-items: center;
+        }
+
+        /* 레트로 경고창 본체 */
+        .retro-popup {
+            width: 420px;
+            background: #c0c0c0; /* 윈도우 95/98 클래식 회색 */
+            border-top: 2px solid #fff;
+            border-left: 2px solid #fff;
+            border-right: 2px solid #000;
+            border-bottom: 2px solid #000;
+            box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px 5px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column;
+            user-select: none;
+        }
+
+        /* 쨍한 블루 타이틀 바 */
+        .popup-title {
+            background: #000080; /* 클래식 윈도우 블루 */
+            color: #fff;
+            padding: 3px 5px 3px 8px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        /* 닫기 (X) 버튼 */
+        .popup-close {
+            background: #c0c0c0; color: #000;
+            border-top: 1px solid #fff; border-left: 1px solid #fff;
+            border-right: 1px solid #000; border-bottom: 1px solid #000;
+            width: 18px; height: 18px; font-size: 12px; font-weight: bold;
+            display: flex; justify-content: center; align-items: center; cursor: pointer;
+            line-height: 1; padding-bottom: 2px; box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+        }
+        .popup-close:active {
+            border-top: 1px solid #000; border-left: 1px solid #000;
+            border-right: 1px solid #fff; border-bottom: 1px solid #fff;
+            box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
+        }
+
+        /* 팝업 내용 영역 */
+        .popup-body {
+            padding: 25px 20px 20px 20px;
+            display: flex; flex-direction: column; gap: 25px;
+        }
+
+        /* 경고 텍스트 */
+        .popup-text {
+            font-size: 16px;
+            color: #000;
+            line-height: 1.5;
+            word-break: keep-all;
+            transition: color 0.1s;
+        }
+
+        /* 더블클릭 시 변하는 핏빛 저주받은 텍스트 */
+        .popup-text.cursed {
+            color: #cc0000; /* 섬뜩한 핏빛 빨간색 */
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.2); /* 미세한 그림자로 기괴함 추가 */
+        }
+
+        /* OK 버튼 */
+        .popup-btn-wrap { display: flex; justify-content: center; }
+        .popup-ok-btn {
+            background: #c0c0c0; color: #000;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #000; border-bottom: 2px solid #000;
+            padding: 4px 35px; font-size: 16px; cursor: pointer;
+            box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
+            outline: 1px solid transparent; /* 포커스 대비 */
+        }
+        .popup-ok-btn:active {
+            border-top: 2px solid #000; border-left: 2px solid #000;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
+            padding: 5px 34px 3px 36px; /* 꾹 눌리는 효과 */
+        }
     </style>
 </head>
 <body>
@@ -240,16 +332,16 @@
         
         <header class="top-bar">
             <div class="top-menu">
-    <button class="menu-btn active pixel-font">main</button>
-    <button class="menu-btn pixel-font">file</button>
-    <button class="menu-btn pixel-font">favorites</button>
-    <button class="menu-btn pixel-font">help!</button>
-    <button class="menu-btn pixel-font">lucky?</button>
+                <button class="menu-btn active pixel-font">main</button>
+                <button class="menu-btn pixel-font">file</button>
+                <button class="menu-btn pixel-font">favorites</button>
+                <button class="menu-btn pixel-font">help!</button>
+                <button class="menu-btn pixel-font">lucky?</button>
 
-    <button class="menu-btn pixel-font" onclick="openChatStudio()">
-        chat♡
-    </button>
-</div>
+                <button class="menu-btn pixel-font" onclick="openChatStudio()">
+                    chat♡
+                </button>
+            </div>
         </header>
         
         <div class="menu-bar">
@@ -266,41 +358,104 @@
         </main>
 
         <footer class="bottom-bar">
-            <div class="start-btn"></div>
+            <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
     </div>
 
+    <div class="popup-overlay" id="resetPopupOverlay">
+        <div class="retro-popup" id="resetPopup">
+            <div class="popup-title">
+                <span class="pixel-font">Warning</span>
+                <div class="popup-close pixel-font" id="closePopupBtn">X</div>
+            </div>
+            <div class="popup-body">
+                <div class="popup-text pixel-font" id="popupMessage">
+                    Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?
+                </div>
+                <div class="popup-btn-wrap">
+                    <button class="popup-ok-btn pixel-font" id="popupOkBtn">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="blackout-screen" id="blackoutScreen"></div>
+
     <script>
-    function updateClock() {
-        const now = new Date();
+        function updateClock() {
+            const now = new Date();
 
-        let month = now.getMonth() + 1;
-        let date = now.getDate();
-        let year = now.getFullYear();
+            let month = now.getMonth() + 1;
+            let date = now.getDate();
+            let year = now.getFullYear();
 
-        month = month < 10 ? '0' + month : month;
-        date = date < 10 ? '0' + date : date;
-        const dateStr = month + '/' + date + '/' + year;
+            month = month < 10 ? '0' + month : month;
+            date = date < 10 ? '0' + date : date;
+            const dateStr = month + '/' + date + '/' + year;
 
-        let hours = now.getHours();
-        let minutes = now.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        hours = hours % 12;
-        hours = hours ? hours : 12;
-        minutes = minutes < 10 ? '0' + minutes : minutes;
-        const timeStr = hours + ':' + minutes + ' ' + ampm;
+            let hours = now.getHours();
+            let minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            const timeStr = hours + ':' + minutes + ' ' + ampm;
 
-        document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
-    }
+            document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
+        }
 
-    setInterval(updateClock, 1000);
-    updateClock();
+        setInterval(updateClock, 1000);
+        updateClock();
 
-    function openChatStudio() {
-        window.location.href = "ai/";
-    }
-</script>
+        function openChatStudio() {
+            window.location.href = "ai/";
+        }
+
+        // ==========================================
+        // 👇 여기서부터 새로 추가된 기믹 자바스크립트
+        // ==========================================
+        const resetBtn = document.getElementById('resetBtn');
+        const resetPopupOverlay = document.getElementById('resetPopupOverlay');
+        const resetPopup = document.getElementById('resetPopup');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+        const popupMessage = document.getElementById('popupMessage');
+        const popupOkBtn = document.getElementById('popupOkBtn');
+        const blackoutScreen = document.getElementById('blackoutScreen');
+
+        let isCursed = false;
+
+        // 1. 리셋 버튼 클릭 시 팝업 열기
+        resetBtn.addEventListener('click', () => {
+            resetPopupOverlay.style.display = 'flex';
+            // 창을 열 때마다 초기(영어) 상태로 리셋
+            isCursed = false;
+            popupMessage.classList.remove('cursed');
+            popupMessage.innerText = "Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?";
+            popupOkBtn.innerText = "OK";
+        });
+
+        // 2. 닫기(X) 버튼 클릭 시 팝업 닫기
+        closePopupBtn.addEventListener('click', (e) => {
+            e.stopPropagation(); // X버튼 연타로 인한 더블클릭 이벤트 방지
+            resetPopupOverlay.style.display = 'none';
+        });
+
+        // 3. 팝업창 내부를 더블클릭하면 발생하는 '저주받은 번역체' 기믹
+        resetPopup.addEventListener('dblclick', () => {
+            if (!isCursed) {
+                isCursed = true;
+                popupMessage.classList.add('cursed');
+                popupMessage.innerText = "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？";
+                popupOkBtn.innerText = "実行"; // 버튼도 일본어 번역투로 변경
+            }
+        });
+
+        // 4. OK(또는 実行) 버튼 클릭 시 화면 전체 암전
+        popupOkBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            blackoutScreen.style.display = 'block';
+        });
     </script>
 </body>
 </html>
