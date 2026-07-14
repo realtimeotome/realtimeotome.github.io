@@ -274,7 +274,7 @@
             box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px 5px rgba(0,0,0,0.3);
             display: flex; flex-direction: column;
             user-select: none;
-            max-width: 90%; /* 모바일에서 화면 넘어가지 않게 */
+            max-width: 90%; 
         }
 
         .popup-title {
@@ -336,49 +336,50 @@
         }
 
         /* ==========================================
-           👇 [대폭 수정] 쫄깃하고 빠른 브라운관 CRT TV 오프 효과
+           👇 [완전 개조] 칼날 같은 선 붕괴 CRT TV 오프 효과
            ========================================== */
         @keyframes crt-tv-off {
             0% {
                 transform: scale(1);
                 filter: brightness(1) contrast(1);
             }
-            8% {
-                /* 전원 오프 시작과 동시에 상하로 아주 살짝 늘어나며 번쩍임 */
-                transform: scaleY(1.01) scaleX(0.99);
-                filter: brightness(1.6) contrast(1.2);
-            }
-            14% {
-                /* 💡 빛의 속도로 납작한 가로 일자선으로 압축! (질질 끌지 않음) */
-                transform: scaleY(0.003) scaleX(1.02);
-                filter: brightness(2) contrast(1.5);
+            12% {
+                /* 💡 네모난 사각형 단계 탈출! 순식간에 칼날처럼 얇은 '가로 선'으로 압축 */
+                transform: scaleY(0.001) scaleX(1.03);
+                filter: brightness(2) contrast(1.4);
                 background: #ffffff;
             }
-            21% {
-                /* 💡 일자선이 바로 가로 중앙으로 팍! 빨려 들어가 하얀 점으로 변함 */
-                transform: scaleY(0.003) scaleX(0.003);
-                filter: brightness(5);
+            26% {
+                /* 칼날 같은 가로 선 상태를 철저히 유지하며 양 끝만 빛의 속도로 중앙 수축 */
+                transform: scaleY(0.001) scaleX(0.08);
+                filter: brightness(4) contrast(2);
+                background: #ffffff;
+                opacity: 1;
+            }
+            38% {
+                /* 완벽한 하나의 정중앙 백색 픽셀 점(Dot)으로 응축 */
+                transform: scaleY(0.001) scaleX(0.001);
+                filter: brightness(8);
                 opacity: 1;
                 background: #ffffff;
             }
-            35% {
-                /* 하얀 점 잔상이 미세하게 머물다 수축 시작 */
-                transform: scale(0.002);
-                filter: brightness(8);
-                opacity: 0.9;
+            65% {
+                /* 브라운관 특유의 영롱한 하얀 점 잔상이 찰나의 순간 은은하게 머무름 */
+                transform: scale(0.001);
+                filter: brightness(12);
+                opacity: 0.7;
             }
             100% {
-                /* 완전히 암흑속으로 소멸 */
+                /* 암흑 속으로 완전 완전 소멸 */
                 transform: scale(0);
-                filter: brightness(15);
                 opacity: 0;
             }
         }
 
-        /* 💡 0.38초 동안 세련된 Expo 감속 곡선으로 실행 */
+        /* 💡 0.46초 황금 밸런스 속도 + 화면 정중앙 붕괴 곡선 적용 */
         .tv-off-active {
-            animation: crt-tv-off 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            transform-origin: center; /* 화면 정중앙 기준 붕괴 */
+            animation: crt-tv-off 0.46s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+            transform-origin: center; 
         }
     </style>
 </head>
@@ -468,9 +469,7 @@
             window.location.href = "ai/";
         }
 
-        // ==========================================
         // 기믹 자바스크립트
-        // ==========================================
         const resetBtn = document.getElementById('resetBtn');
         const resetPopupOverlay = document.getElementById('resetPopupOverlay');
         const resetPopup = document.getElementById('resetPopup');
@@ -513,7 +512,6 @@
             popupOkBtn.innerText = selected.btn;
         });
 
-        // OK 버튼 누르면 순식간에 수축하는 오프 애니메이션 실행
         popupOkBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             screenWrapper.classList.add('tv-off-active'); 
