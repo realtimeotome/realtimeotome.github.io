@@ -12,8 +12,18 @@
             width: 100vw;
             height: 100dvh; 
             overflow: hidden;
-            background-color: #ffffff; 
+            background-color: #000000; /* 💡 TV가 꺼진 뒤 뒷배경이 될 칠흑 같은 암흑 */
             font-family: monospace;
+        }
+
+        /* 💡 원래의 흰색 배경 웹사이트 전체를 감싸는 화면 상자 */
+        #screen-wrapper {
+            width: 100%;
+            height: 100%;
+            background-color: #ffffff; /* 기존의 하얀 메인 배경 유지 */
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
 
         .pixel-font {
@@ -40,7 +50,7 @@
             user-select: none;
         }
         
-        /* 👇 모바일에서 좌우 스와이프 되도록 수정된 상단 메뉴 영역 */
+        /* 모바일에서 좌우 스와이프 되도록 수정된 상단 메뉴 영역 */
         .top-menu {
             display: flex;
             gap: 4px;
@@ -66,7 +76,7 @@
             cursor: pointer;
             font-size: 16px;
             color: #000;
-            flex-shrink: 0; /* 👇 화면 좁아져도 버튼 찌그러짐 방지 */
+            flex-shrink: 0; /* 화면 좁아져도 버튼 찌그러짐 방지 */
         }
 
         .menu-btn:active, .menu-btn.active {
@@ -249,11 +259,6 @@
            기믹 (경고창 & 암전) CSS
            ========================================== */
         
-        .blackout-screen {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
-            background: #000; z-index: 9999; display: none;
-        }
-
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
             z-index: 1000; display: none; justify-content: center; align-items: center;
@@ -329,63 +334,110 @@
             box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
             padding: 5px 34px 3px 36px;
         }
+
+        /* ==========================================
+           👇 [새로 추가됨] 브라운관 CRT TV 오프 효과 애니메이션
+           ========================================== */
+        @keyframes crt-tv-off {
+            0% {
+                transform: scale(1);
+                filter: brightness(1) contrast(1);
+            }
+            15% {
+                /* 1단계: 순간 전압 변동으로 위아래로 살짝 찌그러지며 강한 빛 발산 */
+                transform: scaleY(1.02) scaleX(0.98);
+                filter: brightness(1.8) contrast(1.5);
+            }
+            40% {
+                /* 2단계: 화면이 가로 일자 선으로 납작하게 압축됨 */
+                transform: scaleY(0.008) scaleX(1.05);
+                filter: brightness(2.5) contrast(2);
+                background: #ffffff;
+            }
+            70% {
+                /* 3단계: 일자 선이 가운데 아주 작은 하얀 점으로 압축됨 */
+                transform: scaleY(0.008) scaleX(0.08);
+                filter: brightness(4) contrast(3);
+                opacity: 1;
+                background: #ffffff;
+            }
+            90% {
+                /* 4단계: 극소형 하얀 점이 강하게 빛남 */
+                transform: scale(0.008);
+                filter: brightness(10);
+                opacity: 1;
+                background: #ffffff;
+            }
+            100% {
+                /* 5단계: 완전히 소멸하여 소멸 */
+                transform: scale(0);
+                filter: brightness(20);
+                opacity: 0;
+            }
+        }
+
+        /* 클래스가 추가되면 애니메이션 즉시 작동 */
+        .tv-off-active {
+            animation: crt-tv-off 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+            transform-origin: center; /* 무조건 화면 정중앙을 기준으로 붕괴 */
+        }
     </style>
 </head>
 <body>
 
-    <div class="win-wrapper">
-        
-        <header class="top-bar">
-            <div class="top-menu">
-                <button class="menu-btn active pixel-font">main</button>
-                <button class="menu-btn pixel-font">file</button>
-                <button class="menu-btn pixel-font">favorites</button>
-                <button class="menu-btn pixel-font">help!</button>
-                <button class="menu-btn pixel-font">lucky?</button>
+    <div id="screen-wrapper">
+        <div class="win-wrapper">
+            
+            <header class="top-bar">
+                <div class="top-menu">
+                    <button class="menu-btn active pixel-font">main</button>
+                    <button class="menu-btn pixel-font">file</button>
+                    <button class="menu-btn pixel-font">favorites</button>
+                    <button class="menu-btn pixel-font">help!</button>
+                    <button class="menu-btn pixel-font">lucky?</button>
 
-                <button class="menu-btn pixel-font" onclick="openChatStudio()">
-                    chat♡
-                </button>
+                    <button class="menu-btn pixel-font" onclick="openChatStudio()">
+                        chat♡
+                    </button>
+                </div>
+            </header>
+            
+            <div class="menu-bar">
+                <div class="address-label pixel-font">Address</div>
+                <input type="text" class="address-field pixel-font" placeholder="">
+                <div class="address-dropdown-btn pixel-font">▼</div>
             </div>
-        </header>
-        
-        <div class="menu-bar">
-            <div class="address-label pixel-font">Address</div>
-            <input type="text" class="address-field pixel-font" placeholder="">
-            <div class="address-dropdown-btn pixel-font">▼</div>
+
+            <main class="content-area">
+                <div class="left-image-zone"></div>
+                <div class="right-menu-zone">
+                    <a href="start.html" class="os-btn">START!</a>
+                </div>
+            </main>
+
+            <footer class="bottom-bar">
+                <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
+                <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
+            </footer>
         </div>
 
-        <main class="content-area">
-            <div class="left-image-zone"></div>
-            <div class="right-menu-zone">
-                <a href="start.html" class="os-btn">START!</a>
-            </div>
-        </main>
-
-        <footer class="bottom-bar">
-            <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
-            <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
-        </footer>
-    </div>
-
-    <div class="popup-overlay" id="resetPopupOverlay">
-        <div class="retro-popup" id="resetPopup">
-            <div class="popup-title">
-                <span class="pixel-font">Warning</span>
-                <div class="popup-close pixel-font" id="closePopupBtn">X</div>
-            </div>
-            <div class="popup-body">
-                <div class="popup-text pixel-font" id="popupMessage">
-                    Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?
+        <div class="popup-overlay" id="resetPopupOverlay">
+            <div class="retro-popup" id="resetPopup">
+                <div class="popup-title">
+                    <span class="pixel-font">Warning</span>
+                    <div class="popup-close pixel-font" id="closePopupBtn">X</div>
                 </div>
-                <div class="popup-btn-wrap">
-                    <button class="popup-ok-btn pixel-font" id="popupOkBtn">OK</button>
+                <div class="popup-body">
+                    <div class="popup-text pixel-font" id="popupMessage">
+                        Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?
+                    </div>
+                    <div class="popup-btn-wrap">
+                        <button class="popup-ok-btn pixel-font" id="popupOkBtn">OK</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div class="blackout-screen" id="blackoutScreen"></div>
 
     <script>
         function updateClock() {
@@ -426,7 +478,7 @@
         const closePopupBtn = document.getElementById('closePopupBtn');
         const popupMessage = document.getElementById('popupMessage');
         const popupOkBtn = document.getElementById('popupOkBtn');
-        const blackoutScreen = document.getElementById('blackoutScreen');
+        const screenWrapper = document.getElementById('screen-wrapper'); // 💡 화면 상자 불러오기
 
         let isCursed = false;
 
@@ -462,9 +514,10 @@
             popupOkBtn.innerText = selected.btn;
         });
 
+        // 💡 [수정됨] 이제 OK 버튼을 누르면 단순 암전 대신 TV 오프 애니메이션 실행!
         popupOkBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            blackoutScreen.style.display = 'block';
+            screenWrapper.classList.add('tv-off-active'); // 화면 상자에 오프 애니메이션 트리거!
         });
     </script>
 </body>
