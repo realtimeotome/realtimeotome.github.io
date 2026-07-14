@@ -40,9 +40,20 @@
             user-select: none;
         }
         
+        /* 👇 모바일에서 좌우 스와이프 되도록 수정된 상단 메뉴 영역 */
         .top-menu {
             display: flex;
             gap: 4px;
+            overflow-x: auto; /* 가로 스크롤 허용 */
+            white-space: nowrap; /* 줄바꿈 방지 */
+            -webkit-overflow-scrolling: touch; /* 폰에서 부드러운 스크롤 */
+            -ms-overflow-style: none; /* IE, Edge 스크롤바 숨기기 */
+            scrollbar-width: none; /* 파이어폭스 스크롤바 숨기기 */
+        }
+        
+        /* 크롬, 사파리 스크롤바 숨기기 */
+        .top-menu::-webkit-scrollbar {
+            display: none;
         }
 
         .menu-btn {
@@ -55,6 +66,7 @@
             cursor: pointer;
             font-size: 16px;
             color: #000;
+            flex-shrink: 0; /* 👇 화면 좁아져도 버튼 찌그러짐 방지 */
         }
 
         .menu-btn:active, .menu-btn.active {
@@ -161,7 +173,7 @@
             align-items: flex-end;
             gap: 20px;
             min-width: 250px;
-            margin-right: 130px;
+            margin-right: 130px; 
         }
 
         /* START 버튼 폰트 스타일링 */
@@ -226,7 +238,7 @@
                 align-items: center; 
                 margin-right: 0; 
             }
-            .os-btn { font-size: 34px; }
+            .os-btn { font-size: 34px; } 
             
             .address-label { display: none; }
             .address-field { border-right: none; } 
@@ -234,22 +246,19 @@
         }
 
         /* ==========================================
-           👇 여기서부터 새로 추가된 기믹 (경고창 & 암전) CSS
+           기믹 (경고창 & 암전) CSS
            ========================================== */
         
-        /* 암전 화면 */
         .blackout-screen {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
             background: #000; z-index: 9999; display: none;
         }
 
-        /* 팝업 오버레이 */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
             z-index: 1000; display: none; justify-content: center; align-items: center;
         }
 
-        /* 레트로 경고창 본체 */
         .retro-popup {
             width: 420px;
             background: #c0c0c0;
@@ -260,9 +269,9 @@
             box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080, 2px 2px 5px rgba(0,0,0,0.3);
             display: flex; flex-direction: column;
             user-select: none;
+            max-width: 90%; /* 모바일에서 화면 넘어가지 않게 */
         }
 
-        /* 쨍한 블루 타이틀 바 */
         .popup-title {
             background: #000080;
             color: #fff;
@@ -272,7 +281,6 @@
             display: flex; justify-content: space-between; align-items: center;
         }
 
-        /* 닫기 (X) 버튼 */
         .popup-close {
             background: #c0c0c0; color: #000;
             border-top: 1px solid #fff; border-left: 1px solid #fff;
@@ -287,13 +295,11 @@
             box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
         }
 
-        /* 팝업 내용 영역 */
         .popup-body {
             padding: 25px 20px 20px 20px;
             display: flex; flex-direction: column; gap: 25px;
         }
 
-        /* 경고 텍스트 - 글자 튀어나감 방지 추가됨! */
         .popup-text {
             font-size: 16px;
             color: #000;
@@ -303,13 +309,11 @@
             transition: color 0.1s;
         }
 
-        /* 더블클릭 시 변하는 핏빛 저주받은 텍스트 */
         .popup-text.cursed {
             color: #cc0000;
             text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
         }
 
-        /* OK 버튼 */
         .popup-btn-wrap { display: flex; justify-content: center; }
         .popup-ok-btn {
             background: #c0c0c0; color: #000;
@@ -414,7 +418,7 @@
         }
 
         // ==========================================
-        // 👇 여기서부터 새로 추가된 기믹 자바스크립트
+        // 기믹 자바스크립트
         // ==========================================
         const resetBtn = document.getElementById('resetBtn');
         const resetPopupOverlay = document.getElementById('resetPopupOverlay');
@@ -426,31 +430,14 @@
 
         let isCursed = false;
 
-        // 🩸 5개 국어 저주받은 번역체 데이터베이스
         const cursedMessages = [
-            { // 1. 한국어
-                text: "당신의 세계는 당신을 기다리고 있습니다. 당신의 기억의 모든 흔적들은 오버라이트(덮어쓰기) 됩니다. 당신은 정말로 돌아가는 것에 대해 확신합니까?",
-                btn: "실행"
-            },
-            { // 2. 일본어
-                text: "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？",
-                btn: "実行"
-            },
-            { // 3. 독일어
-                text: "Deine Welt wartet auf dich. Alle Spuren deiner Erinnerung werden überschrieben. Bist du sicher, dass du zurückkehren willst?",
-                btn: "Ausführen"
-            },
-            { // 4. 프랑스어
-                text: "Ton monde t'attend. Toutes les traces de ta mémoire seront écrasées. Es-tu sûr de vouloir y retourner ?",
-                btn: "Exécuter"
-            },
-            { // 5. 러시아어
-                text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписаны. Ты уверен, что хочешь вернуться?",
-                btn: "Выполнить"
-            }
+            { text: "당신의 세계는 당신을 기다리고 있습니다. 당신의 기억의 모든 흔적들은 오버라이트(덮어쓰기) 됩니다. 당신은 정말로 돌아가는 것에 대해 확신합니까?", btn: "실행" },
+            { text: "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？", btn: "実行" },
+            { text: "Deine Welt wartet auf dich. Alle Spuren deiner Erinnerung werden überschrieben. Bist du sicher, dass du zurückkehren willst?", btn: "Ausführen" },
+            { text: "Ton monde t'attend. Toutes les traces de ta mémoire seront écrasées. Es-tu sûr de vouloir y retourner ?", btn: "Exécuter" },
+            { text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписаны. Ты уверен, что хочешь вернуться?", btn: "Выполнить" }
         ];
 
-        // 1. 리셋 버튼 클릭 시 팝업 열기
         resetBtn.addEventListener('click', () => {
             resetPopupOverlay.style.display = 'flex';
             isCursed = false;
@@ -459,13 +446,11 @@
             popupOkBtn.innerText = "OK";
         });
 
-        // 2. 닫기(X) 버튼 클릭 시 팝업 닫기
         closePopupBtn.addEventListener('click', (e) => {
             e.stopPropagation(); 
             resetPopupOverlay.style.display = 'none';
         });
 
-        // 3. 팝업창 더블클릭 기믹: 5개 국어 랜덤 가챠
         resetPopup.addEventListener('dblclick', () => {
             isCursed = true;
             popupMessage.classList.add('cursed');
@@ -477,7 +462,6 @@
             popupOkBtn.innerText = selected.btn;
         });
 
-        // 4. OK(또는 실행) 버튼 클릭 시 화면 전체 암전
         popupOkBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             blackoutScreen.style.display = 'block';
