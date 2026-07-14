@@ -58,15 +58,25 @@
                 <div class="profile-section">
                     <div class="section-title galmuri-font">MEDIA_MODULE</div>
                     <div class="media-box panel-sunken galmuri-font">
-                        <div class="stat-line">> <span class="editable">少女の幻想.mid</span></div>
-                        <div class="stat-line">VOL: ■■■■■■■□□□</div>
+                        
+                        <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
+                            > 
+                            <select id="song-select" class="retro-select panel-sunken galmuri-font" style="width: 140px;">
+                                <option value="music1.mp3">少女の幻想.mid</option>
+                                <option value="music2.mp3">Cyber_Angel.mp3</option>
+                                <option value="music3.mp3">System_Error.wav</option>
+                                <option value="music4.mp3">Secret_Track.mp3</option>
+                            </select>
+                        </div>
+                        
+                        <div class="stat-line">VOL: <span id="vol-blocks" style="cursor: pointer; user-select: none;">■■■■■■■□□□</span></div>
                     </div>
                     <div class="media-controls">
                         <button class="control-btn panel-raised galmuri-font" id="btn-prev">[ &lt;&lt; ]</button>
                         <button class="control-btn panel-raised galmuri-font" id="btn-stop">[ STOP ]</button>
                         <button class="control-btn panel-raised galmuri-font" id="btn-play">[ PLAY ]</button>
                     </div>
-                    <audio id="bgm-player" src="music.mp3" loop></audio>
+                    <audio id="bgm-player" src="music1.mp3" loop></audio>
                 </div>
 
                 <div class="etched-line"></div>
