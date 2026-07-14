@@ -4,340 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>realtimeotom3 - START</title>
+    <!-- 폰트 불러오기 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/neodgm/neodgm-webfont@1.530/neodgm/style.css">
-    
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body, html {
-            width: 100vw;
-            height: 100dvh; 
-            overflow: hidden;
-            background-color: #ffffff; 
-            font-family: monospace;
-        }
-
-        .pixel-font {
-            font-family: 'NeoDunggeunmo', monospace;
-            -webkit-font-smoothing: none; 
-        }
-
-        .win-wrapper {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* -------------------------------------------
-           상단 & 하단 바 (오리지널 코드 100% 유지)
-           ------------------------------------------- */
-        .top-bar {
-            height: 35px;
-            background: #dfdfdf;
-            border-bottom: 2px solid #808080; 
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 10px;
-            user-select: none;
-            flex-shrink: 0;
-        }
-        
-        .top-menu {
-            display: flex;
-            gap: 4px;
-            overflow-x: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .top-menu::-webkit-scrollbar { display: none; }
-
-        .menu-btn {
-            background: #dfdfdf;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #555;
-            border-bottom: 2px solid #555;
-            padding: 2px 8px;
-            cursor: pointer;
-            font-size: 16px;
-            color: #000;
-            flex-shrink: 0;
-        }
-
-        .menu-btn:active, .menu-btn.active {
-            border-top: 2px solid #555;
-            border-left: 2px solid #555;
-            border-right: 2px solid #fff;
-            border-bottom: 2px solid #fff;
-            padding: 3px 7px 1px 9px; 
-            background: #d4d4d4; 
-        }
-
-        .menu-bar {
-            height: 34px; 
-            background: #dfdfdf;
-            border-top: 2px solid #ffffff; 
-            border-bottom: 3px solid #808080;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            gap: 8px; 
-            flex-shrink: 0;
-        }
-
-        .address-label { font-size: 16px; color: #000; }
-
-        .address-field {
-            flex-grow: 1; 
-            height: 22px;
-            background: #fff;
-            border-top: 2px solid #555;
-            border-left: 2px solid #555;
-            border-right: 2px solid #fff;
-            border-bottom: 2px solid #fff;
-            padding: 0 8px;
-            color: #000;
-            font-size: 14px;
-            outline: none; 
-        }
-
-        .address-dropdown-btn {
-            width: 22px;
-            height: 22px;
-            background: #dfdfdf;
-            border-top: 2px solid #fff;
-            border-left: 2px solid #fff;
-            border-right: 2px solid #555;
-            border-bottom: 2px solid #555;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; font-size: 12px; color: #000;
-        }
-        .address-dropdown-btn:active {
-            border-top: 2px solid #555; border-left: 2px solid #555;
-            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-            padding: 1px 0 0 1px; 
-        }
-
-        .bottom-bar {
-            height: 45px;
-            background: #dfdfdf;
-            border-top: 3px solid #999;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 15px;
-            flex-shrink: 0;
-        }
-        
-        .start-btn {
-            background: #dfdfdf;
-            border-top: 2px solid #fff; border-left: 2px solid #fff;
-            border-right: 2px solid #555; border-bottom: 2px solid #555;
-            padding: 4px 20px; height: 30px; cursor: pointer;
-        }
-        .start-btn:active {
-            border-top: 2px solid #555; border-left: 2px solid #555;
-            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-        }
-        #clock { font-size: 16px; user-select: none; }
-
-        /* ==========================================
-           👇 공중부양(Floating) 3D 입체 레이아웃 CSS
-           ========================================== */
-        
-        /* 1. 배경을 순백색으로 지정하여 대비 효과 극대화 */
-        .main-layout {
-            flex: 1;
-            display: flex;
-            padding: 20px;
-            gap: 20px;
-            background-color: #ffffff; 
-            overflow: hidden;
-        }
-
-        /* 2. 양각 효과 (공중에 튀어나와 떠 있는 패널) */
-        .panel-raised {
-            background: #dfdfdf; 
-            border-top: 2px solid #ffffff; 
-            border-left: 2px solid #ffffff;
-            border-right: 2px solid #555555; 
-            border-bottom: 2px solid #555555;
-            box-shadow: 1px 1px 0px #000000, inset 1px 1px 0px #ffffff; 
-        }
-        
-        /* 3. 음각 효과 (패널 안으로 깊게 파고 들어간 흰 상자) */
-        .panel-sunken {
-            background: #ffffff;
-            border-top: 2px solid #808080; 
-            border-left: 2px solid #808080;
-            border-right: 2px solid #ffffff; 
-            border-bottom: 2px solid #ffffff;
-        }
-
-        /* 윈도우 조각선 */
-        .etched-line {
-            height: 2px;
-            background: #808080;
-            border-bottom: 1px solid #ffffff;
-            margin: 5px 0;
-        }
-
-        /* ── 좌측 컬럼 (떠 있는 회색 패널) ── */
-        .left-col {
-            width: 310px;
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            gap: 25px;
-            overflow-y: scroll; /* 조절 바 기능 활성화 */
-            flex-shrink: 0;
-        }
-
-        /* 좌측 내부의 음각 상자 */
-        .img-box {
-            width: 100%;
-            height: 220px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
-            font-style: italic;
-            color: #808080;
-            flex-shrink: 0;
-        }
-
-        /* 체크리스트 영역 */
-        .checklist-group {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            padding: 5px 0;
-        }
-
-        .checklist-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .check-line {
-            flex-grow: 1;
-            margin-right: 15px;
-        }
-
-        /* 깊게 파인 체크박스 */
-        .check-square {
-            width: 24px;
-            height: 24px;
-            flex-shrink: 0;
-        }
-
-        /* 둥근 버튼 (기본 상태는 입체적으로 튀어나옴) */
-        .rounded-btn {
-            width: 100%;
-            height: 42px;
-            border-radius: 21px; 
-            background: #dfdfdf;
-            border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
-            border-right: 2px solid #555555; border-bottom: 2px solid #555555;
-            cursor: pointer;
-            box-shadow: inset 1px 1px 0px #ffffff;
-        }
-        .rounded-btn:active {
-            border-top: 2px solid #555555; border-left: 2px solid #555555;
-            border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
-            box-shadow: none;
-        }
-
-        /* ── 우측 영역 (배경 없음, 흰 도화지 위에 떠 있는 느낌 유도) ── */
-        .right-col {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            overflow: hidden;
-        }
-
-        /* 우측 상단 (떠 있는 회색 패널) */
-        .right-top-box {
-            width: 100%;
-            height: 140px;
-            flex-shrink: 0;
-            padding: 15px;
-        }
-
-        /* 우측 하단 (하단 빈 여백 남도록 높이 300px 고정) */
-        .right-bottom-split {
-            height: 300px; 
-            display: flex;
-            gap: 20px;
-        }
-
-        /* backup & archive 테두리 (떠 있는 회색 그룹박스) */
-        fieldset.retro-groupbox {
-            flex: 1;
-            border: 2px solid #ffffff; 
-            border-right-color: #555555;
-            border-bottom-color: #555555;
-            padding: 20px 15px 15px 15px;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            overflow-y: auto;
-        }
-
-        /* 선 쪼개고 정가운데 들어가는 레트로 타이틀 */
-        legend.box-title {
-            padding: 0 10px;
-            font-size: 18px;
-            color: #000;
-            margin-left: 15px;
-        }
-
-        /* 음각 백업 입력칸 */
-        .backup-item {
-            width: 100%;
-            height: 32px;
-            flex-shrink: 0;
-        }
-
-        /* archive 리스트 아이템 */
-        .archive-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 5px;
-        }
-
-        /* 음각 동그라미 */
-        .archive-circle {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%; 
-            flex-shrink: 0;
-        }
-
-        .archive-line {
-            flex-grow: 1;
-        }
-
-        /* 💡 반응형 (세로 모드 짤림 방지 완벽 해결!) */
-        @media screen and (max-width: 900px) {
-            .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
-            .left-col { width: 100%; height: auto; overflow-y: visible; }
-            .right-col { overflow: visible; /* 여기서 내용 짤리던 거 해결! */ }
-            .right-bottom-split { flex-direction: column; height: auto; }
-        }
-    </style>
+    <!-- 분리한 CSS 파일 연결! -->
+    <link rel="stylesheet" href="start.css">
 </head>
 <body>
 
     <div class="win-wrapper">
         
+        <!-- 상단 바 -->
         <header class="top-bar">
             <div class="top-menu">
                 <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
@@ -357,34 +33,54 @@
 
         <main class="main-layout">
             
+            <!-- 💻 좌측 컬럼: SYS.OP 프로필 패널 -->
             <div class="left-col panel-raised">
                 <div class="img-box panel-sunken pixel-font">img</div>
                 
-                <div class="checklist-group">
-                    <div class="checklist-item">
-                        <div class="check-line etched-line"></div>
-                        <div class="check-square panel-sunken"></div>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-line etched-line"></div>
-                        <div class="check-square panel-sunken"></div>
-                    </div>
-                    <div class="checklist-item">
-                        <div class="check-line etched-line"></div>
-                        <div class="check-square panel-sunken"></div>
+                <!-- 1. 스탯창 구역 -->
+                <div class="profile-section">
+                    <div class="section-title pixel-font">SYS.OP_STATUS</div>
+                    <div class="status-box panel-sunken pixel-font">
+                        <div class="stat-line">NAME: <span class="editable">Anonymous</span></div>
+                        <div class="stat-line">LV.<span class="editable">99</span> | HP <span class="editable">999</span> | MP <span class="editable">000</span></div>
+                        <div class="stat-line">MOOD: <span class="editable">💤 (Sleep)</span></div>
+                        <div class="stat-line">SYNC: <span class="editable">2026.07.15</span></div>
                     </div>
                 </div>
 
-                <div class="rounded-btn"></div>
-                <div class="rounded-btn"></div>
+                <div class="etched-line"></div>
+
+                <!-- 2. 미디어 플레이어 구역 -->
+                <div class="profile-section">
+                    <div class="section-title pixel-font">MEDIA_MODULE</div>
+                    <div class="media-box panel-sunken pixel-font">
+                        <div class="stat-line">▶ <span class="editable">少女の幻想.mid</span></div>
+                        <div class="stat-line">VOL: ■■■■■■■□□□</div>
+                    </div>
+                    <div class="media-controls">
+                        <button class="control-btn panel-raised pixel-font" id="btn-prev">⏪</button>
+                        <button class="control-btn panel-raised pixel-font" id="btn-stop">⏹</button>
+                        <button class="control-btn panel-raised pixel-font" id="btn-play">▶</button>
+                    </div>
+                    <!-- 실제 노래가 나오는 숨겨진 태그 (src 경로에 실제 음악 파일 이름 넣기!) -->
+                    <audio id="bgm-player" src="music.mp3" loop></audio>
+                </div>
+
+                <div class="etched-line"></div>
+
+                <!-- 3. 시스템 커맨드 구역 -->
+                <div class="profile-section command-group">
+                    <button class="action-btn panel-raised pixel-font">💌 GUESTBOOK</button>
+                    <button class="action-btn panel-raised pixel-font">📧 SEND MAIL</button>
+                    <button class="action-btn panel-raised pixel-font" style="color: #cc0000;">🔌 SHUT DOWN</button>
+                </div>
             </div>
 
+            <!-- 📁 우측 컬럼: 아카이브 영역 -->
             <div class="right-col">
-                
                 <div class="right-top-box panel-raised"></div>
                 
                 <div class="right-bottom-split">
-                    
                     <fieldset class="retro-groupbox panel-raised">
                         <legend class="pixel-font box-title">- backup -</legend>
                         <div class="backup-item panel-sunken"></div>
@@ -410,7 +106,6 @@
                             <div class="archive-line etched-line"></div>
                         </div>
                     </fieldset>
-
                 </div>
             </div>
 
@@ -422,30 +117,7 @@
         </footer>
     </div>
 
-    <script>
-        function updateClock() {
-            const now = new Date();
-            let month = now.getMonth() + 1;
-            let date = now.getDate();
-            let year = now.getFullYear();
-
-            month = month < 10 ? '0' + month : month;
-            date = date < 10 ? '0' + date : date;
-            const dateStr = month + '/' + date + '/' + year;
-
-            let hours = now.getHours();
-            let minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            hours = hours % 12;
-            hours = hours ? hours : 12;
-            minutes = minutes < 10 ? '0' + minutes : minutes;
-            const timeStr = hours + ':' + minutes + ' ' + ampm;
-
-            document.getElementById('clock').innerHTML = dateStr + ' ' + timeStr;
-        }
-
-        setInterval(updateClock, 1000);
-        updateClock();
-    </script>
+    <!-- 분리한 JS 파일 연결! (맨 아래에 두는 게 좋음) -->
+    <script src="start.js"></script>
 </body>
 </html>
