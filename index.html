@@ -161,13 +161,13 @@
             align-items: flex-end;
             gap: 20px;
             min-width: 250px;
-            margin-right: 130px; /* 👇 좀 더 왼쪽으로 확 밀었음 */
+            margin-right: 130px;
         }
 
         /* START 버튼 폰트 스타일링 */
         .os-btn {
             font-family: 'NeoDunggeunmo', monospace;
-            font-size: 46px; /* 👇 1.2배 뻥튀기함 */
+            font-size: 46px; 
             font-weight: normal; 
             font-style: italic; 
             letter-spacing: 2px; 
@@ -226,7 +226,7 @@
                 align-items: center; 
                 margin-right: 0; 
             }
-            .os-btn { font-size: 34px; } /* 👇 모바일 크기도 1.2배 키움 */
+            .os-btn { font-size: 34px; }
             
             .address-label { display: none; }
             .address-field { border-right: none; } 
@@ -243,7 +243,7 @@
             background: #000; z-index: 9999; display: none;
         }
 
-        /* 팝업 오버레이 (배경은 투명하게 둬서 Y2K 감성 유지) */
+        /* 팝업 오버레이 */
         .popup-overlay {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
             z-index: 1000; display: none; justify-content: center; align-items: center;
@@ -252,7 +252,7 @@
         /* 레트로 경고창 본체 */
         .retro-popup {
             width: 420px;
-            background: #c0c0c0; /* 윈도우 95/98 클래식 회색 */
+            background: #c0c0c0;
             border-top: 2px solid #fff;
             border-left: 2px solid #fff;
             border-right: 2px solid #000;
@@ -264,7 +264,7 @@
 
         /* 쨍한 블루 타이틀 바 */
         .popup-title {
-            background: #000080; /* 클래식 윈도우 블루 */
+            background: #000080;
             color: #fff;
             padding: 3px 5px 3px 8px;
             font-size: 14px;
@@ -293,19 +293,20 @@
             display: flex; flex-direction: column; gap: 25px;
         }
 
-        /* 경고 텍스트 */
+        /* 경고 텍스트 - 글자 튀어나감 방지 추가됨! */
         .popup-text {
             font-size: 16px;
             color: #000;
             line-height: 1.5;
-            word-break: keep-all;
+            word-break: break-all;
+            overflow-wrap: break-word;
             transition: color 0.1s;
         }
 
         /* 더블클릭 시 변하는 핏빛 저주받은 텍스트 */
         .popup-text.cursed {
-            color: #cc0000; /* 섬뜩한 핏빛 빨간색 */
-            text-shadow: 1px 1px 0px rgba(0,0,0,0.2); /* 미세한 그림자로 기괴함 추가 */
+            color: #cc0000;
+            text-shadow: 1px 1px 0px rgba(0,0,0,0.2);
         }
 
         /* OK 버튼 */
@@ -316,13 +317,13 @@
             border-right: 2px solid #000; border-bottom: 2px solid #000;
             padding: 4px 35px; font-size: 16px; cursor: pointer;
             box-shadow: inset 1px 1px #dfdfdf, inset -1px -1px #808080;
-            outline: 1px solid transparent; /* 포커스 대비 */
+            outline: 1px solid transparent; 
         }
         .popup-ok-btn:active {
             border-top: 2px solid #000; border-left: 2px solid #000;
             border-right: 2px solid #fff; border-bottom: 2px solid #fff;
             box-shadow: inset 1px 1px #808080, inset -1px -1px #dfdfdf;
-            padding: 5px 34px 3px 36px; /* 꾹 눌리는 효과 */
+            padding: 5px 34px 3px 36px;
         }
     </style>
 </head>
@@ -425,10 +426,33 @@
 
         let isCursed = false;
 
+        // 🩸 5개 국어 저주받은 번역체 데이터베이스
+        const cursedMessages = [
+            { // 1. 한국어
+                text: "당신의 세계는 당신을 기다리고 있습니다. 당신의 기억의 모든 흔적들은 오버라이트(덮어쓰기) 됩니다. 당신은 정말로 돌아가는 것에 대해 확신합니까?",
+                btn: "실행"
+            },
+            { // 2. 일본어
+                text: "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？",
+                btn: "実行"
+            },
+            { // 3. 독일어
+                text: "Deine Welt wartet auf dich. Alle Spuren deiner Erinnerung werden überschrieben. Bist du sicher, dass du zurückkehren willst?",
+                btn: "Ausführen"
+            },
+            { // 4. 프랑스어
+                text: "Ton monde t'attend. Toutes les traces de ta mémoire seront écrasées. Es-tu sûr de vouloir y retourner ?",
+                btn: "Exécuter"
+            },
+            { // 5. 러시아어
+                text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписаны. Ты уверен, что хочешь вернуться?",
+                btn: "Выполнить"
+            }
+        ];
+
         // 1. 리셋 버튼 클릭 시 팝업 열기
         resetBtn.addEventListener('click', () => {
             resetPopupOverlay.style.display = 'flex';
-            // 창을 열 때마다 초기(영어) 상태로 리셋
             isCursed = false;
             popupMessage.classList.remove('cursed');
             popupMessage.innerText = "Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?";
@@ -437,21 +461,23 @@
 
         // 2. 닫기(X) 버튼 클릭 시 팝업 닫기
         closePopupBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // X버튼 연타로 인한 더블클릭 이벤트 방지
+            e.stopPropagation(); 
             resetPopupOverlay.style.display = 'none';
         });
 
-        // 3. 팝업창 내부를 더블클릭하면 발생하는 '저주받은 번역체' 기믹
+        // 3. 팝업창 더블클릭 기믹: 5개 국어 랜덤 가챠
         resetPopup.addEventListener('dblclick', () => {
-            if (!isCursed) {
-                isCursed = true;
-                popupMessage.classList.add('cursed');
-                popupMessage.innerText = "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？";
-                popupOkBtn.innerText = "実行"; // 버튼도 일본어 번역투로 변경
-            }
+            isCursed = true;
+            popupMessage.classList.add('cursed');
+            
+            const randomIndex = Math.floor(Math.random() * cursedMessages.length);
+            const selected = cursedMessages[randomIndex];
+
+            popupMessage.innerText = selected.text;
+            popupOkBtn.innerText = selected.btn;
         });
 
-        // 4. OK(또는 実行) 버튼 클릭 시 화면 전체 암전
+        // 4. OK(또는 실행) 버튼 클릭 시 화면 전체 암전
         popupOkBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             blackoutScreen.style.display = 'block';
