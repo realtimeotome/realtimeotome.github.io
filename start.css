@@ -4,20 +4,12 @@ body, html {
     background-color: #ffffff; font-family: monospace;
 }
 
-/* 💡 1. 오리지널 윈도우 98 느낌의 두꺼운 픽셀 폰트 (상/하단 바 전용) */
-.pixel-font {
-    font-family: 'NeoDunggeunmo', monospace;
-    -webkit-font-smoothing: none; 
-}
-
-/* 💡 2. 시스템/해커 느낌의 얇고 날카로운 픽셀 폰트 (내부 대시보드 전용) */
-.galmuri-font {
-    font-family: 'Galmuri11', monospace;
-    -webkit-font-smoothing: none; 
-}
+.pixel-font { font-family: 'NeoDunggeunmo', monospace; -webkit-font-smoothing: none; }
+.galmuri-font { font-family: 'Galmuri11', monospace; -webkit-font-smoothing: none; }
 
 .win-wrapper { width: 100%; height: 100%; display: flex; flex-direction: column; }
 
+/* 상단/하단바 */
 .top-bar {
     height: 35px; background: #dfdfdf; border-bottom: 2px solid #808080; 
     display: flex; justify-content: space-between; align-items: center;
@@ -78,6 +70,7 @@ body, html {
 }
 #clock { font-size: 16px; user-select: none; }
 
+/* 메인 대시보드 */
 .panel-raised {
     background: #dfdfdf; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
     border-right: 2px solid #555555; border-bottom: 2px solid #555555;
@@ -91,27 +84,20 @@ body, html {
     height: 2px; background: #808080; border-bottom: 1px solid #ffffff; margin: 5px 0;
 }
 
-.main-layout {
-    flex: 1; display: flex; padding: 20px; gap: 20px; background-color: #ffffff; overflow: hidden;
-}
+.main-layout { flex: 1; display: flex; padding: 20px; gap: 20px; background-color: #ffffff; overflow: hidden; }
 
-.left-col {
-    width: 320px; display: flex; flex-direction: column; padding: 20px; gap: 15px; overflow-y: scroll; flex-shrink: 0;
-}
-.img-box {
-    width: 100%; height: 220px; display: flex; justify-content: center;
-    align-items: center; font-size: 40px; font-style: italic; color: #808080; flex-shrink: 0;
-}
+.left-col { width: 320px; display: flex; flex-direction: column; padding: 20px; gap: 15px; overflow-y: scroll; flex-shrink: 0; }
+.img-box { width: 100%; height: 220px; display: flex; justify-content: center; align-items: center; font-size: 40px; font-style: italic; color: #808080; flex-shrink: 0; }
 
 .profile-section { display: flex; flex-direction: column; gap: 5px; }
 .section-title { font-size: 14px; color: #555; font-weight: bold; margin-bottom: 2px; }
-
 .status-box, .media-box { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 
+/* 드롭다운 디자인 */
 .retro-select {
     padding: 0px 4px; height: 20px; outline: none; cursor: pointer;
-    font-size: 13px; color: #000;
+    font-size: 13px; color: #000; text-overflow: ellipsis;
 }
 
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
@@ -126,15 +112,8 @@ body, html {
 }
 
 .command-group { gap: 10px; margin-top: 5px; }
-.action-btn {
-    width: 100%; height: 35px; cursor: pointer; font-size: 14px; 
-    display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px;
-}
-.action-btn:active {
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    box-shadow: none; padding: 1px 0 0 1px;
-}
+.action-btn { width: 100%; height: 35px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
+.action-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
 .right-col { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .right-top-box { width: 100%; height: 140px; flex-shrink: 0; padding: 15px; }
