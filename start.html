@@ -12,7 +12,7 @@
             width: 100vw;
             height: 100dvh; 
             overflow: hidden;
-            background-color: #ffffff; /* 깔끔한 화이트 배경 */
+            background-color: #ffffff; 
             font-family: monospace;
         }
 
@@ -29,7 +29,7 @@
         }
 
         /* -------------------------------------------
-           상단 & 하단 바 (원래 설정 100% 유지)
+           상단 & 하단 바 (오리지널 코드 100% 유지)
            ------------------------------------------- */
         .top-bar {
             height: 35px;
@@ -145,61 +145,70 @@
         #clock { font-size: 16px; user-select: none; }
 
         /* ==========================================
-           👇 스케치 기반 메인 레이아웃 (선화 스타일)
+           👇 메인 레이아웃 (클래식 양각/음각 UI 적용)
            ========================================== */
         
+        /* 공통 3D 효과 클래스 */
+        .panel-raised {
+            background: #dfdfdf; /* 레트로 윈도우 기본 옅은 회색 */
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #808080; border-bottom: 2px solid #808080;
+        }
+        
+        .panel-sunken {
+            background: #fff;
+            border-top: 2px solid #808080; border-left: 2px solid #808080;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+        }
+
+        .etched-line {
+            height: 2px;
+            background: #808080;
+            border-bottom: 1px solid #fff;
+            margin: 5px 0;
+        }
+
         .main-layout {
             flex: 1;
             display: flex;
-            padding: 20px;
-            gap: 20px;
-            background-color: #ffffff;
-            overflow: hidden; /* 전체 페이지 스크롤 방지 */
+            padding: 15px;
+            gap: 15px;
+            background-color: #dfdfdf; /* 레퍼런스 감성의 기본 바탕색 */
+            overflow: hidden;
         }
 
-        /* 1. 좌측 영역 (스크롤 가능) */
+        /* 1. 좌측 영역 (스크롤바 포함, 살짝 파인 패널 느낌) */
         .left-col {
-            width: 320px;
-            border: 2px solid #000;
+            width: 300px;
             display: flex;
             flex-direction: column;
             padding: 15px;
             gap: 20px;
-            overflow-y: scroll; /* 스케치 요구사항: "여기 조절 바" */
+            overflow-y: scroll;
             flex-shrink: 0;
-            background: #fff;
+            background: #dfdfdf;
+            border-top: 2px solid #808080; border-left: 2px solid #808080;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
         }
 
-        /* 좌측 내부 요소들 */
+        /* IMG 박스 (깊게 파인 하얀 상자) */
         .img-box {
             width: 100%;
-            height: 250px;
-            border: 2px solid #000;
+            height: 220px;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 40px;
             font-style: italic;
+            color: #555;
+            flex-shrink: 0;
         }
 
-        .striped-bar {
-            width: 100%;
-            height: 35px;
-            border: 2px solid #000;
-            /* 사선 패턴 구현 */
-            background: repeating-linear-gradient(
-                -45deg,
-                #fff,
-                #fff 10px,
-                #000 10px,
-                #000 15px
-            );
-        }
-
+        /* 체크리스트 영역 */
         .checklist-group {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             padding: 10px 0;
         }
 
@@ -209,26 +218,31 @@
             justify-content: space-between;
         }
 
-        .line-wave {
+        .check-line {
             flex-grow: 1;
-            height: 2px;
-            background: #000;
             margin-right: 15px;
-            /* 스케치의 구불구불한 선 대신 깔끔한 직선 처리, 필요시 수정 가능 */
         }
 
+        /* 체크박스 (음각) */
         .check-square {
-            width: 24px;
-            height: 24px;
-            border: 2px solid #000;
+            width: 22px;
+            height: 22px;
             flex-shrink: 0;
         }
 
+        /* 둥근 버튼 (양각) */
         .rounded-btn {
             width: 100%;
-            height: 45px;
-            border: 2px solid #000;
-            border-radius: 25px; /* 스케치의 타원형 버튼 */
+            height: 38px;
+            border-radius: 19px; 
+            background: #dfdfdf;
+            border-top: 2px solid #fff; border-left: 2px solid #fff;
+            border-right: 2px solid #808080; border-bottom: 2px solid #808080;
+            cursor: pointer;
+        }
+        .rounded-btn:active {
+            border-top: 2px solid #808080; border-left: 2px solid #808080;
+            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
         }
 
         /* 2. 우측 영역 */
@@ -236,84 +250,80 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            overflow: hidden;
+            gap: 15px;
+            overflow: hidden; /* 스크롤 방지 */
         }
 
-        /* 우측 상단 박스 */
+        /* 우측 상단 박스 (파인 느낌) */
         .right-top-box {
             width: 100%;
-            height: 150px;
-            border: 2px solid #000;
+            height: 140px;
             flex-shrink: 0;
         }
 
         /* 우측 하단 2분할 영역 */
         .right-bottom-split {
-            flex: 1;
+            /* flex: 1을 빼고 고정 높이를 주어 하단에 여백 생성! */
+            height: 320px; 
             display: flex;
-            gap: 20px;
-            overflow: hidden;
+            gap: 15px;
         }
 
-        /* backup & archive 공통 스타일 */
-        .bottom-box {
+        /* backup & archive 테두리 (Fieldset 적용) */
+        fieldset.retro-groupbox {
             flex: 1;
-            border: 2px solid #000;
-            padding: 20px;
+            /* 윈도우 특유의 그룹박스 테두리 */
+            border: 2px solid #808080;
+            border-right-color: #fff;
+            border-bottom-color: #fff;
+            padding: 15px;
+            margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             overflow-y: auto;
         }
 
-        .box-title {
-            font-size: 24px;
-            margin-bottom: 10px;
+        /* 선 중간을 파먹고 들어가는 텍스트 */
+        legend.box-title {
+            padding: 0 8px;
+            font-size: 18px;
+            color: #000;
+            margin-left: 10px;
         }
 
-        /* backup 리스트 형태 */
+        /* backup 리스트 아이템 (음각 박스) */
         .backup-item {
             width: 100%;
-            height: 40px;
-            border: 2px solid #000;
+            height: 30px;
+            flex-shrink: 0;
         }
 
-        .backup-wave {
-            width: 80%;
-            height: 2px;
-            background: #000;
-            margin-top: -5px;
-            margin-bottom: 10px;
-        }
-
-        /* archive 리스트 형태 */
+        /* archive 리스트 아이템 */
         .archive-item {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 15px;
+            margin-bottom: 5px;
         }
 
+        /* 동그라미 (음각) */
         .archive-circle {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #000;
-            border-radius: 50%; /* 스케치의 동그라미 */
+            width: 45px;
+            height: 45px;
+            border-radius: 50%; 
             flex-shrink: 0;
         }
 
         .archive-line {
             flex-grow: 1;
-            height: 2px;
-            background: #000;
         }
 
-        /* 반응형 (화면 좁아질 때 세로로 떨어지게) */
+        /* 반응형 */
         @media screen and (max-width: 900px) {
             .main-layout { flex-direction: column; overflow-y: auto; }
             .left-col { width: 100%; overflow-y: visible; }
-            .right-bottom-split { flex-direction: column; }
+            .right-bottom-split { flex-direction: column; height: auto; }
         }
     </style>
 </head>
@@ -339,26 +349,27 @@
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
 
-        <!-- 👇 스케치와 동일하게 구현된 메인 레이아웃 -->
+        <!-- 👇 3D 엠보싱이 들어간 메인 뼈대 레이아웃 -->
         <main class="main-layout">
             
-            <!-- 1. 좌측 (조절바 포함) -->
+            <!-- 1. 좌측 (조절바 포함 음각 패널) -->
             <div class="left-col">
-                <div class="img-box pixel-font">img</div>
-                <div class="striped-bar"></div>
+                <div class="img-box panel-sunken pixel-font">img</div>
+                
+                <!-- 사선 스트라이프 제거됨 -->
                 
                 <div class="checklist-group">
                     <div class="checklist-item">
-                        <div class="line-wave"></div>
-                        <div class="check-square"></div>
+                        <div class="check-line etched-line"></div>
+                        <div class="check-square panel-sunken"></div>
                     </div>
                     <div class="checklist-item">
-                        <div class="line-wave"></div>
-                        <div class="check-square"></div>
+                        <div class="check-line etched-line"></div>
+                        <div class="check-square panel-sunken"></div>
                     </div>
                     <div class="checklist-item">
-                        <div class="line-wave"></div>
-                        <div class="check-square"></div>
+                        <div class="check-line etched-line"></div>
+                        <div class="check-square panel-sunken"></div>
                     </div>
                 </div>
 
@@ -369,37 +380,38 @@
             <!-- 2. 우측 -->
             <div class="right-col">
                 
-                <!-- 우측 상단 -->
-                <div class="right-top-box"></div>
+                <!-- 우측 상단 (음각 박스) -->
+                <div class="right-top-box panel-sunken"></div>
                 
-                <!-- 우측 하단 (Backup / Archive) -->
+                <!-- 우측 하단 (높이를 고정하여 하단에 여백을 남김) -->
                 <div class="right-bottom-split">
                     
-                    <div class="bottom-box">
-                        <div class="box-title pixel-font">- backup -</div>
-                        <div class="backup-item"></div>
-                        <div class="backup-wave"></div>
-                        <div class="backup-item"></div>
-                        <div class="backup-wave"></div>
-                        <div class="backup-item"></div>
-                        <div class="backup-wave"></div>
-                    </div>
+                    <!-- HTML Fieldset을 사용하여 선 중간에 글씨 배치 -->
+                    <fieldset class="retro-groupbox">
+                        <legend class="pixel-font box-title">- backup -</legend>
+                        <div class="backup-item panel-sunken"></div>
+                        <div class="etched-line" style="width: 80%; margin-left: 10%;"></div>
+                        <div class="backup-item panel-sunken"></div>
+                        <div class="etched-line" style="width: 80%; margin-left: 10%;"></div>
+                        <div class="backup-item panel-sunken"></div>
+                        <div class="etched-line" style="width: 80%; margin-left: 10%;"></div>
+                    </fieldset>
 
-                    <div class="bottom-box">
-                        <div class="box-title pixel-font">- archive -</div>
+                    <fieldset class="retro-groupbox">
+                        <legend class="pixel-font box-title">- archive -</legend>
                         <div class="archive-item">
-                            <div class="archive-circle"></div>
-                            <div class="archive-line"></div>
+                            <div class="archive-circle panel-sunken"></div>
+                            <div class="archive-line etched-line"></div>
                         </div>
                         <div class="archive-item">
-                            <div class="archive-circle"></div>
-                            <div class="archive-line"></div>
+                            <div class="archive-circle panel-sunken"></div>
+                            <div class="archive-line etched-line"></div>
                         </div>
                         <div class="archive-item">
-                            <div class="archive-circle"></div>
-                            <div class="archive-line"></div>
+                            <div class="archive-circle panel-sunken"></div>
+                            <div class="archive-line etched-line"></div>
                         </div>
-                    </div>
+                    </fieldset>
 
                 </div>
             </div>
