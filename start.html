@@ -145,53 +145,58 @@
         #clock { font-size: 16px; user-select: none; }
 
         /* ==========================================
-           👇 메인 레이아웃 (클래식 양각/음각 UI 적용)
+           👇 [대개조] 공중부양(Floating) 3D 입체 레이아웃 CSS
            ========================================== */
         
-        /* 공통 3D 효과 클래스 */
-        .panel-raised {
-            background: #dfdfdf; /* 레트로 윈도우 기본 옅은 회색 */
-            border-top: 2px solid #fff; border-left: 2px solid #fff;
-            border-right: 2px solid #808080; border-bottom: 2px solid #808080;
-        }
-        
-        .panel-sunken {
-            background: #fff;
-            border-top: 2px solid #808080; border-left: 2px solid #808080;
-            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-        }
-
-        .etched-line {
-            height: 2px;
-            background: #808080;
-            border-bottom: 1px solid #fff;
-            margin: 5px 0;
-        }
-
+        /* 1. 배경을 순백색으로 지정하여 대비 효과 극대화 */
         .main-layout {
             flex: 1;
             display: flex;
-            padding: 15px;
-            gap: 15px;
-            background-color: #dfdfdf; /* 레퍼런스 감성의 기본 바탕색 */
+            padding: 20px;
+            gap: 20px;
+            background-color: #ffffff; /* 💡 칠하지 않은 도화지 느낌의 순백색 */
             overflow: hidden;
         }
 
-        /* 1. 좌측 영역 (스크롤바 포함, 살짝 파인 패널 느낌) */
-        .left-col {
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            padding: 15px;
-            gap: 20px;
-            overflow-y: scroll;
-            flex-shrink: 0;
-            background: #dfdfdf;
-            border-top: 2px solid #808080; border-left: 2px solid #808080;
-            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+        /* 2. 양각 효과 (공중에 튀어나와 떠 있는 패널) */
+        .panel-raised {
+            background: #dfdfdf; /* 클래식 옅은 회색 */
+            border-top: 2px solid #ffffff; 
+            border-left: 2px solid #ffffff;
+            border-right: 2px solid #555555; 
+            border-bottom: 2px solid #555555;
+            box-shadow: 1px 1px 0px #000000, inset 1px 1px 0px #ffffff; /* 이중 하이라이트로 공중부양 연출 */
+        }
+        
+        /* 3. 음각 효과 (패널 안으로 깊게 파고 들어간 흰 상자) */
+        .panel-sunken {
+            background: #ffffff;
+            border-top: 2px solid #808080; 
+            border-left: 2px solid #808080;
+            border-right: 2px solid #ffffff; 
+            border-bottom: 2px solid #ffffff;
         }
 
-        /* IMG 박스 (깊게 파인 하얀 상자) */
+        /* 윈도우 조각선 */
+        .etched-line {
+            height: 2px;
+            background: #808080;
+            border-bottom: 1px solid #ffffff;
+            margin: 5px 0;
+        }
+
+        /* ── 좌측 컬럼 (떠 있는 회색 패널) ── */
+        .left-col {
+            width: 310px;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            gap: 25px;
+            overflow-y: scroll; /* 조절 바 기능 활성화 */
+            flex-shrink: 0;
+        }
+
+        /* 좌측 내부의 음각 상자 */
         .img-box {
             width: 100%;
             height: 220px;
@@ -200,7 +205,7 @@
             align-items: center;
             font-size: 40px;
             font-style: italic;
-            color: #555;
+            color: #808080;
             flex-shrink: 0;
         }
 
@@ -208,8 +213,8 @@
         .checklist-group {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            padding: 10px 0;
+            gap: 15px;
+            padding: 5px 0;
         }
 
         .checklist-item {
@@ -223,79 +228,80 @@
             margin-right: 15px;
         }
 
-        /* 체크박스 (음각) */
+        /* 깊게 파인 체크박스 */
         .check-square {
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             flex-shrink: 0;
         }
 
-        /* 둥근 버튼 (양각) */
+        /* 둥근 버튼 (기본 상태는 입체적으로 튀어나옴) */
         .rounded-btn {
             width: 100%;
-            height: 38px;
-            border-radius: 19px; 
+            height: 42px;
+            border-radius: 21px; 
             background: #dfdfdf;
-            border-top: 2px solid #fff; border-left: 2px solid #fff;
-            border-right: 2px solid #808080; border-bottom: 2px solid #808080;
+            border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
+            border-right: 2px solid #555555; border-bottom: 2px solid #555555;
             cursor: pointer;
+            box-shadow: inset 1px 1px 0px #ffffff;
         }
         .rounded-btn:active {
-            border-top: 2px solid #808080; border-left: 2px solid #808080;
-            border-right: 2px solid #fff; border-bottom: 2px solid #fff;
+            border-top: 2px solid #555555; border-left: 2px solid #555555;
+            border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
+            box-shadow: none;
         }
 
-        /* 2. 우측 영역 */
+        /* ── 우측 영역 (배경 없음, 흰 도화지 위에 떠 있는 느낌 유도) ── */
         .right-col {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 15px;
-            overflow: hidden; /* 스크롤 방지 */
+            gap: 20px;
+            overflow: hidden;
         }
 
-        /* 우측 상단 박스 (파인 느낌) */
+        /* 우측 상단 (떠 있는 회색 패널) */
         .right-top-box {
             width: 100%;
             height: 140px;
             flex-shrink: 0;
+            padding: 15px;
         }
 
-        /* 우측 하단 2분할 영역 */
+        /* 우측 하단 (하단 빈 여백 남도록 높이 300px 고정) */
         .right-bottom-split {
-            /* flex: 1을 빼고 고정 높이를 주어 하단에 여백 생성! */
-            height: 320px; 
+            height: 300px; /* 💡 하단에 넉넉한 흰 배경 여백을 남김 */
             display: flex;
-            gap: 15px;
+            gap: 20px;
         }
 
-        /* backup & archive 테두리 (Fieldset 적용) */
+        /* backup & archive 테두리 (떠 있는 회색 그룹박스) */
         fieldset.retro-groupbox {
             flex: 1;
-            /* 윈도우 특유의 그룹박스 테두리 */
-            border: 2px solid #808080;
-            border-right-color: #fff;
-            border-bottom-color: #fff;
-            padding: 15px;
+            border: 2px solid #ffffff; /* 그룹박스 외곽도 입체적 양각 윈도우 스타일 */
+            border-right-color: #555555;
+            border-bottom-color: #555555;
+            padding: 20px 15px 15px 15px;
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 15px;
             overflow-y: auto;
         }
 
-        /* 선 중간을 파먹고 들어가는 텍스트 */
+        /* 선 쪼개고 정가운데 들어가는 레트로 타이틀 */
         legend.box-title {
-            padding: 0 8px;
+            padding: 0 10px;
             font-size: 18px;
             color: #000;
-            margin-left: 10px;
+            margin-left: 15px;
         }
 
-        /* backup 리스트 아이템 (음각 박스) */
+        /* 음각 백업 입력칸 */
         .backup-item {
             width: 100%;
-            height: 30px;
+            height: 32px;
             flex-shrink: 0;
         }
 
@@ -307,10 +313,10 @@
             margin-bottom: 5px;
         }
 
-        /* 동그라미 (음각) */
+        /* 음각 동그라미 */
         .archive-circle {
-            width: 45px;
-            height: 45px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%; 
             flex-shrink: 0;
         }
@@ -321,7 +327,7 @@
 
         /* 반응형 */
         @media screen and (max-width: 900px) {
-            .main-layout { flex-direction: column; overflow-y: auto; }
+            .main-layout { flex-direction: column; overflow-y: auto; background-color: #ffffff; }
             .left-col { width: 100%; overflow-y: visible; }
             .right-bottom-split { flex-direction: column; height: auto; }
         }
@@ -331,7 +337,6 @@
 
     <div class="win-wrapper">
         
-        <!-- 공통 상단 헤더 -->
         <header class="top-bar">
             <div class="top-menu">
                 <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
@@ -349,14 +354,10 @@
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
 
-        <!-- 👇 3D 엠보싱이 들어간 메인 뼈대 레이아웃 -->
         <main class="main-layout">
             
-            <!-- 1. 좌측 (조절바 포함 음각 패널) -->
-            <div class="left-col">
+            <div class="left-col panel-raised">
                 <div class="img-box panel-sunken pixel-font">img</div>
-                
-                <!-- 사선 스트라이프 제거됨 -->
                 
                 <div class="checklist-group">
                     <div class="checklist-item">
@@ -377,17 +378,13 @@
                 <div class="rounded-btn"></div>
             </div>
 
-            <!-- 2. 우측 -->
             <div class="right-col">
                 
-                <!-- 우측 상단 (음각 박스) -->
-                <div class="right-top-box panel-sunken"></div>
+                <div class="right-top-box panel-raised"></div>
                 
-                <!-- 우측 하단 (높이를 고정하여 하단에 여백을 남김) -->
                 <div class="right-bottom-split">
                     
-                    <!-- HTML Fieldset을 사용하여 선 중간에 글씨 배치 -->
-                    <fieldset class="retro-groupbox">
+                    <fieldset class="retro-groupbox panel-raised">
                         <legend class="pixel-font box-title">- backup -</legend>
                         <div class="backup-item panel-sunken"></div>
                         <div class="etched-line" style="width: 80%; margin-left: 10%;"></div>
@@ -397,7 +394,7 @@
                         <div class="etched-line" style="width: 80%; margin-left: 10%;"></div>
                     </fieldset>
 
-                    <fieldset class="retro-groupbox">
+                    <fieldset class="retro-groupbox panel-raised">
                         <legend class="pixel-font box-title">- archive -</legend>
                         <div class="archive-item">
                             <div class="archive-circle panel-sunken"></div>
@@ -418,7 +415,6 @@
 
         </main>
 
-        <!-- 공통 하단 바 -->
         <footer class="bottom-bar">
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
