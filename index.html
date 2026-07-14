@@ -12,11 +12,11 @@
             width: 100vw;
             height: 100dvh; 
             overflow: hidden;
-            background-color: #000000; /* 💡 TV가 꺼진 뒤 뒷배경이 될 칠흑 같은 암흑 */
+            background-color: #000000; /* TV가 꺼진 뒤 뒷배경이 될 칠흑 같은 암흑 */
             font-family: monospace;
         }
 
-        /* 💡 원래의 흰색 배경 웹사이트 전체를 감싸는 화면 상자 */
+        /* 원래의 흰색 배경 웹사이트 전체를 감싸는 화면 상자 */
         #screen-wrapper {
             width: 100%;
             height: 100%;
@@ -336,50 +336,49 @@
         }
 
         /* ==========================================
-           👇 [새로 추가됨] 브라운관 CRT TV 오프 효과 애니메이션
+           👇 [대폭 수정] 쫄깃하고 빠른 브라운관 CRT TV 오프 효과
            ========================================== */
         @keyframes crt-tv-off {
             0% {
                 transform: scale(1);
                 filter: brightness(1) contrast(1);
             }
-            15% {
-                /* 1단계: 순간 전압 변동으로 위아래로 살짝 찌그러지며 강한 빛 발산 */
-                transform: scaleY(1.02) scaleX(0.98);
-                filter: brightness(1.8) contrast(1.5);
+            8% {
+                /* 전원 오프 시작과 동시에 상하로 아주 살짝 늘어나며 번쩍임 */
+                transform: scaleY(1.01) scaleX(0.99);
+                filter: brightness(1.6) contrast(1.2);
             }
-            40% {
-                /* 2단계: 화면이 가로 일자 선으로 납작하게 압축됨 */
-                transform: scaleY(0.008) scaleX(1.05);
-                filter: brightness(2.5) contrast(2);
+            14% {
+                /* 💡 빛의 속도로 납작한 가로 일자선으로 압축! (질질 끌지 않음) */
+                transform: scaleY(0.003) scaleX(1.02);
+                filter: brightness(2) contrast(1.5);
                 background: #ffffff;
             }
-            70% {
-                /* 3단계: 일자 선이 가운데 아주 작은 하얀 점으로 압축됨 */
-                transform: scaleY(0.008) scaleX(0.08);
-                filter: brightness(4) contrast(3);
+            21% {
+                /* 💡 일자선이 바로 가로 중앙으로 팍! 빨려 들어가 하얀 점으로 변함 */
+                transform: scaleY(0.003) scaleX(0.003);
+                filter: brightness(5);
                 opacity: 1;
                 background: #ffffff;
             }
-            90% {
-                /* 4단계: 극소형 하얀 점이 강하게 빛남 */
-                transform: scale(0.008);
-                filter: brightness(10);
-                opacity: 1;
-                background: #ffffff;
+            35% {
+                /* 하얀 점 잔상이 미세하게 머물다 수축 시작 */
+                transform: scale(0.002);
+                filter: brightness(8);
+                opacity: 0.9;
             }
             100% {
-                /* 5단계: 완전히 소멸하여 소멸 */
+                /* 완전히 암흑속으로 소멸 */
                 transform: scale(0);
-                filter: brightness(20);
+                filter: brightness(15);
                 opacity: 0;
             }
         }
 
-        /* 클래스가 추가되면 애니메이션 즉시 작동 */
+        /* 💡 0.38초 동안 세련된 Expo 감속 곡선으로 실행 */
         .tv-off-active {
-            animation: crt-tv-off 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-            transform-origin: center; /* 무조건 화면 정중앙을 기준으로 붕괴 */
+            animation: crt-tv-off 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            transform-origin: center; /* 화면 정중앙 기준 붕괴 */
         }
     </style>
 </head>
@@ -478,7 +477,7 @@
         const closePopupBtn = document.getElementById('closePopupBtn');
         const popupMessage = document.getElementById('popupMessage');
         const popupOkBtn = document.getElementById('popupOkBtn');
-        const screenWrapper = document.getElementById('screen-wrapper'); // 💡 화면 상자 불러오기
+        const screenWrapper = document.getElementById('screen-wrapper'); 
 
         let isCursed = false;
 
@@ -514,10 +513,10 @@
             popupOkBtn.innerText = selected.btn;
         });
 
-        // 💡 [수정됨] 이제 OK 버튼을 누르면 단순 암전 대신 TV 오프 애니메이션 실행!
+        // OK 버튼 누르면 순식간에 수축하는 오프 애니메이션 실행
         popupOkBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            screenWrapper.classList.add('tv-off-active'); // 화면 상자에 오프 애니메이션 트리거!
+            screenWrapper.classList.add('tv-off-active'); 
         });
     </script>
 </body>
