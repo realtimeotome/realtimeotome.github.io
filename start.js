@@ -1,6 +1,3 @@
-// =====================================
-// 1. 시스템 하단 시계 업데이트
-// =====================================
 function updateClock() {
     const now = new Date();
     let month = now.getMonth() + 1;
@@ -24,34 +21,21 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// =====================================
-// 2. 더블클릭 시스템 변조 (해킹) 기믹
-// =====================================
-// 이제 노래 제목은 드롭다운이므로, NAME, LV, HP, MP 등만 해킹 가능
 const editables = document.querySelectorAll('.editable');
-
 editables.forEach(el => {
     el.addEventListener('dblclick', function() {
         this.setAttribute('contenteditable', 'true');
         this.setAttribute('spellcheck', 'false');
         this.focus();
     });
-
     el.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter') {
-            e.preventDefault();
-            this.blur();
-        }
+        if (e.key === 'Enter') { e.preventDefault(); this.blur(); }
     });
-
     el.addEventListener('blur', function() {
         this.setAttribute('contenteditable', 'false');
     });
 });
 
-// =====================================
-// 3. 미디어 플레이어 작동 로직 (재생, 정지, 되감기, 볼륨, 곡 선택)
-// =====================================
 const audio = document.getElementById('bgm-player');
 const btnPlay = document.getElementById('btn-play');
 const btnStop = document.getElementById('btn-stop');
@@ -59,24 +43,18 @@ const btnPrev = document.getElementById('btn-prev');
 const volBlocks = document.getElementById('vol-blocks');
 const songSelect = document.getElementById('song-select');
 
-// 💡 재생 목록에서 다른 곡을 골랐을 때
 songSelect.addEventListener('change', function() {
-    const wasPlaying = !audio.paused; // 원래 재생 중이었는지 확인
-    audio.src = this.value; // 선택한 <option>의 value 값으로 오디오 소스 변경
+    const wasPlaying = !audio.paused; 
+    audio.src = this.value; 
     audio.load();
-    
-    // 원래 재생 중이었다면 곡이 바뀌자마자 바로 재생!
-    // (지금은 실제 파일이 없으므로 콘솔에 에러 안 뜨게 catch 처리해둠)
     if (wasPlaying) {
-        audio.play().catch(e => console.log("아직 파일이 없어서 재생 대기중입니다!"));
+        audio.play().catch(e => console.log("파일 대기중"));
     }
 });
 
-// 초기 볼륨 설정 (70%로 설정)
 let currentVolume = 0.7;
 audio.volume = currentVolume;
 
-// 💡 텍스트 클릭식 볼륨 조절 구현
 volBlocks.addEventListener('click', function(e) {
     const rect = this.getBoundingClientRect();
     const clickX = e.clientX - rect.left; 
@@ -89,21 +67,31 @@ volBlocks.addEventListener('click', function(e) {
     this.innerText = '■'.repeat(volLevel) + '□'.repeat(10 - volLevel);
 });
 
-// ▶ [ PLAY ]
-btnPlay.addEventListener('click', () => {
-    audio.play().catch(e => console.log("아직 엠피쓰리 파일이 연결되지 않았습니다!"));
-});
-
-// ⏹ [ STOP ] 
-btnStop.addEventListener('click', () => {
-    audio.pause();
-    audio.currentTime = 0; 
-});
-
-// ⏪ [ << ]
+btnPlay.addEventListener('click', () => { audio.play().catch(e => console.log("파일 없음")); });
+btnStop.addEventListener('click', () => { audio.pause(); audio.currentTime = 0; });
 btnPrev.addEventListener('click', () => {
     audio.currentTime = 0; 
-    if (audio.paused) {
-        audio.play().catch(e => console.log("파일 없음"));
+    if (audio.paused) { audio.play().catch(e => console.log("파일 없음")); }
+});
+
+// =====================================
+// 💡 신규: GUESTBOOK IRC 팝업 로직
+// =====================================
+const btnGuestbook = document.getElementById('btn-guestbook');
+const ircModal = document.getElementById('irc-modal');
+const closeIrcBtn = document.getElementById('close-irc');
+
+btnGuestbook.addEventListener('click', () => {
+    ircModal.style.display = 'flex'; // 팝업 열기
+});
+
+closeIrcBtn.addEventListener('click', () => {
+    ircModal.style.display = 'none'; // 팝업 닫기
+});
+
+// 검은 배경 클릭 시 닫기 (선택 사항)
+ircModal.addEventListener('click', (e) => {
+    if (e.target === ircModal) {
+        ircModal.style.display = 'none';
     }
 });
