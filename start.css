@@ -44,22 +44,26 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
     letter-spacing: 1px;
 }
 
-/* 💡 신규 추가: 카오모지 전용 은은한 음각 유리 질감 */
+/* 💡 수정됨: 투명도(rgba)를 대폭 높이고 색상을 연하게 뺀 유리 질감 */
 #kaomoji-display {
     text-align: center; 
     font-size: 15px; 
     padding: 6px; 
     margin-bottom: 4px; 
     letter-spacing: 1px;
-    /* 은은한 소라색 그라데이션 */
-    background: linear-gradient(180deg, #eaf4fd 0%, #cce0f5 48%, #a9cced 50%, #d4e6f8 100%);
-    /* 깊게 파인 음각 테두리 */
+    
+    /* 투명도 30~70% 믹스로 아주 연하고 맑은 소라색 그라데이션 */
+    background: linear-gradient(180deg, rgba(234, 244, 253, 0.7) 0%, rgba(204, 224, 245, 0.4) 48%, rgba(169, 204, 237, 0.3) 50%, rgba(212, 230, 248, 0.6) 100%);
+    
     border-top: 2px solid #808080; border-left: 2px solid #808080; 
     border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
-    /* 안으로 파고드는 강력한 그림자 (액정 질감) */
-    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.15), inset -1px -1px 2px rgba(255, 255, 255, 0.8);
-    color: #2b4f73; /* 딥 블루 글씨로 유리랑 깔맞춤 */
-    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.6); /* 글씨가 깎여 들어간 느낌 */
+    
+    /* 그림자도 좀 더 여리여리하게 뺌 */
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.08), inset -1px -1px 2px rgba(255, 255, 255, 0.6);
+    
+    /* 맑아진 배경에 맞춰 글씨 색상도 살짝 부드러운 톤으로 변경 */
+    color: #4a749e; 
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8); 
 }
 
 .status-box, .media-box { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
