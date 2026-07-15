@@ -28,7 +28,6 @@
             <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
-
         <main class="main-layout">
             
             <div class="left-col panel-raised">
@@ -40,16 +39,17 @@
                         <div class="stat-line">◆ NAME: <span class="editable">Anonymous</span></div>
                         <div class="stat-line">✦ LV: <span class="editable">99</span></div>
                         
-                        <!-- 💡 수정됨: HP/MP 클릭형 게이지 바 (색상 예쁘게 변경) -->
-                        <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>♥ HP</span>
-                            <span id="hp-blocks" style="color: #ff5e7e; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■■■■■■■■</span>
-                            <span id="hp-val">100</span>
-                        </div>
-                        <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
-                            <span>★ MP</span>
-                            <span id="mp-blocks" style="color: #87b4e6; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■■■■□□□□</span>
-                            <span id="mp-val">060</span>
+                        <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span>♥ HP</span>
+                                <span id="hp-blocks" style="color: #3cd6ff; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■■■</span>
+                                <span id="hp-val" style="display: none;">100</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 4px;">
+                                <span>★ MP</span>
+                                <span id="mp-blocks" style="color: #87b4e6; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■□□</span>
+                                <span id="mp-val" style="display: none;">060</span>
+                            </div>
                         </div>
                         
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
@@ -87,10 +87,9 @@
                         <div class="stat-line">VOL: <span id="vol-blocks" style="cursor: pointer; user-select: none;">■■■■■■■□□□</span></div>
                     </div>
                     <div class="media-controls">
-                        <!-- 💡 수정됨: 컨트롤 버튼에 glass-btn 클래스 추가 -->
-                        <button class="control-btn glass-btn galmuri-font" id="btn-prev">[ &lt;&lt; ]</button>
-                        <button class="control-btn glass-btn galmuri-font" id="btn-stop">[ STOP ]</button>
-                        <button class="control-btn glass-btn galmuri-font" id="btn-play">[ PLAY ]</button>
+                        <button class="control-btn panel-raised galmuri-font" id="btn-prev">[ &lt;&lt; ]</button>
+                        <button class="control-btn panel-raised galmuri-font" id="btn-stop">[ STOP ]</button>
+                        <button class="control-btn panel-raised galmuri-font" id="btn-play">[ PLAY ]</button>
                     </div>
                     <audio id="bgm-player" src="music1.mp3" loop></audio>
                 </div>
@@ -142,7 +141,6 @@
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
-
         <div id="irc-modal" class="popup-overlay">
             <div class="irc-window panel-raised">
                 <div class="irc-header galmuri-font">
