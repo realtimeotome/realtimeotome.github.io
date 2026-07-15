@@ -12,7 +12,6 @@
 
     <div class="win-wrapper">
         
-        <!-- 🔒 [고정 영역] 상단 바 -->
         <header class="top-bar">
             <div class="top-menu">
                 <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
@@ -29,23 +28,31 @@
             <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
-        <!-- 🔒 상단 바 고정 끝 -->
-
         <main class="main-layout">
             
             <div class="left-col panel-raised">
                 <div class="img-box panel-sunken galmuri-font">img</div>
                 
                 <div class="profile-section">
-                    <!-- 💡 업데이트 됨: 유리 캡슐 룩 -->
                     <div class="y2k-title-bar pixel-font">// ABOUT_ME</div>
                     <div class="status-box panel-sunken galmuri-font">
-                        <div class="stat-line">NAME: <span class="editable">Anonymous</span></div>
-                        <div class="stat-line">LV.<span class="editable">99</span> | HP <span class="editable">999</span> | MP <span class="editable">000</span></div>
+                        <div class="stat-line">◆ NAME: <span class="editable">Anonymous</span></div>
+                        <div class="stat-line">✦ LV: <span class="editable">99</span></div>
                         
-                        <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
-                            MOOD: 
-                            <select class="retro-select panel-sunken galmuri-font">
+                        <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>♥ HP</span>
+                            <span style="color: #cc0000; letter-spacing: -1px;">[■■■■■■■■■■]</span>
+                            <span class="editable">999</span>
+                        </div>
+                        <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
+                            <span>★ MP</span>
+                            <span style="color: #87b4e6; letter-spacing: -1px;">[■■■■■■□□□□]</span>
+                            <span class="editable">000</span>
+                        </div>
+                        
+                        <div class="stat-line" style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
+                            ● MOOD: 
+                            <select class="retro-select galmuri-font">
                                 <option>[ Sleep Mode ]</option>
                                 <option>[ System Normal ]</option>
                                 <option>[ Archiving... ]</option>
@@ -53,19 +60,23 @@
                             </select>
                         </div>
                         
-                        <div class="stat-line">SYNC: <span class="editable">2026.07.15</span></div>
+                        <div class="stat-line" style="margin-top: 2px;">■ SYNC: <span class="editable">2026.07.15</span></div>
                     </div>
                 </div>
 
                 <div class="etched-line"></div>
 
                 <div class="profile-section">
-                    <!-- 💡 업데이트 됨: 유리 캡슐 룩 -->
                     <div class="y2k-title-bar pixel-font">// NOW_PLAYING</div>
                     <div class="media-box panel-sunken galmuri-font">
+                        
+                        <div class="lcd-screen panel-sunken">
+                            <marquee id="marquee-text" scrollamount="3" class="galmuri-font">PLAYING: 少女の幻想.mid</marquee>
+                        </div>
+
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
-                            > 
-                            <select id="song-select" class="retro-select panel-sunken galmuri-font" style="flex: 1;">
+                            ♪ 
+                            <select id="song-select" class="retro-select galmuri-font" style="flex: 1;">
                                 <option value="music1.mp3">少女の幻想.mid</option>
                                 <option value="music2.mp3">Cyber_Angel.mp3</option>
                                 <option value="music3.mp3">System_Error.wav</option>
@@ -124,14 +135,10 @@
 
         </main>
 
-        <!-- 🔒 [고정 영역] 하단 바 -->
         <footer class="bottom-bar">
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
-        <!-- 🔒 하단 바 고정 끝 -->
-
-        <!-- 💬 1-C: IRC 채팅방 방명록 팝업 -->
         <div id="irc-modal" class="popup-overlay">
             <div class="irc-window panel-raised">
                 <div class="irc-header galmuri-font">
@@ -147,6 +154,20 @@
                 <div style="display: flex; gap: 5px; margin-top: 10px;">
                     <input type="text" class="panel-sunken galmuri-font" style="flex: 1; padding: 3px; outline: none;" placeholder="메시지 입력...">
                     <button class="panel-raised galmuri-font" style="padding: 0 10px;">SEND</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="auth-modal" class="popup-overlay">
+            <div class="irc-window panel-raised" style="width: 280px;">
+                <div class="irc-header galmuri-font">
+                    <span># SECURITY_CHECK</span>
+                    <button id="close-auth" class="galmuri-font">X</button>
+                </div>
+                <div class="status-box panel-sunken galmuri-font" style="text-align: center; padding: 20px;">
+                    <p style="margin-bottom: 12px; font-weight: bold; color: #cc0000;">[ SYS.OP LOGIN ]</p>
+                    <input type="password" id="sys-password" class="panel-sunken galmuri-font" style="width: 100%; padding: 4px; margin-bottom: 15px; outline: none; text-align: center; letter-spacing: 2px;" placeholder="PASSWORD">
+                    <button id="auth-submit" class="action-btn panel-raised galmuri-font" style="height: 28px;">[ ENTER ]</button>
                 </div>
             </div>
         </div>
