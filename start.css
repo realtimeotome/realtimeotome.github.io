@@ -40,7 +40,7 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .profile-section { display: flex; flex-direction: column; gap: 4px; }
 
-/* 영롱한 소라색 유리 캡슐 타이틀 (좌측 메뉴용) */
+/* 영롱한 소라색 유리 캡슐 타이틀 */
 .y2k-title-bar {
     background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
     color: #ffffff; padding: 4px 14px; font-size: 15px;
@@ -65,9 +65,17 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .action-btn { width: 100%; height: 32px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
 .action-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
+/* 💡 우측 컬럼 비율 고정 */
 .right-col { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .right-top-box { width: 100%; height: 140px; flex-shrink: 0; padding: 15px; }
-.right-bottom-split { flex: 1; display: flex; gap: 20px; overflow: hidden; }
+
+/* 💡 하단 탭 늘어남 방지 (고정 높이 280px로 원상복구 및 축소 방지) */
+.right-bottom-split { 
+    height: 280px; 
+    flex-shrink: 0; 
+    display: flex; 
+    gap: 20px; 
+}
 
 fieldset.retro-groupbox { flex: 1; border: 2px solid #ffffff; border-right-color: #555555; border-bottom-color: #555555; padding: 20px 15px 15px 15px; margin: 0; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
 legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 15px; }
@@ -84,8 +92,6 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
     display: none; justify-content: center; align-items: center; z-index: 1000;
 }
 .irc-window { width: 450px; padding: 4px; display: flex; flex-direction: column; }
-
-/* 💡 신규 변경: 팝업 헤더에도 통일된 유리 질감 코팅 쫙 발라줌! */
 .irc-header {
     background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
     color: #fff; padding: 6px 8px; font-weight: bold; font-size: 14px;
@@ -94,11 +100,11 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
     text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1); 
 }
-
 #close-irc { background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; width: 20px; height: 20px; cursor: pointer; font-weight: bold; }
 #close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
 .irc-chat-box { height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
 
+/* 💡 모바일 대응 */
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
     .left-col { width: 100%; height: auto; overflow: visible; }
