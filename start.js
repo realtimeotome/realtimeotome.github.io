@@ -36,32 +36,26 @@ editables.forEach(el => {
     });
 });
 
-// HP, MP 게이지 바 클릭 조작 함수 (5칸 기준 연동 완료)
-function setupInteractiveBar(blockId, valId, maxBlocks) {
-    const blockEl = document.getElementById(blockId);
-    const valEl = document.getElementById(valId);
-    
-    if(!blockEl || !valEl) return;
+// 💡 신규: 카오모지 입력 및 반영 로직
+const kaomojiDisplay = document.getElementById('kaomoji-display');
+const kaomojiInput = document.getElementById('kaomoji-input');
+const btnKaomoji = document.getElementById('btn-kaomoji');
 
-    blockEl.addEventListener('click', function(e) {
-        const rect = this.getBoundingClientRect();
-        const clickX = e.clientX - rect.left; 
-        const width = rect.width;             
-        const pct = clickX / width;           
-        
-        let level = Math.min(Math.max(Math.ceil(pct * maxBlocks), 0), maxBlocks);
-        if (pct < 0.05) level = 0; 
-        
-        this.innerText = '■'.repeat(level) + '□'.repeat(maxBlocks - level);
-        
-        let numericValue = level * (100 / maxBlocks);
-        valEl.innerText = numericValue.toString().padStart(3, '0');
+if (btnKaomoji && kaomojiInput && kaomojiDisplay) {
+    btnKaomoji.addEventListener('click', () => {
+        if(kaomojiInput.value.trim() !== '') {
+            kaomojiDisplay.innerText = kaomojiInput.value;
+            kaomojiInput.value = ''; // 입력창 비우기
+        }
+    });
+    
+    // 입력창에서 엔터 쳐도 바로 반영되게 설정
+    kaomojiInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            btnKaomoji.click();
+        }
     });
 }
-
-// 💡 5칸 작동 연동
-setupInteractiveBar('hp-blocks', 'hp-val', 5);
-setupInteractiveBar('mp-blocks', 'mp-val', 5);
 
 const audio = document.getElementById('bgm-player');
 const btnPlay = document.getElementById('btn-play');
