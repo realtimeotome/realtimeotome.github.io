@@ -12,6 +12,7 @@
 
     <div class="win-wrapper">
         
+        <!-- 🔒 [고정 영역] 상단 바 -->
         <header class="top-bar">
             <div class="top-menu">
                 <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
@@ -28,12 +29,15 @@
             <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
+        <!-- 🔒 상단 바 고정 끝 -->
+
         <main class="main-layout">
             
             <div class="left-col panel-raised">
                 <div class="img-box panel-sunken galmuri-font">img</div>
                 
                 <div class="profile-section">
+                    <!-- 💡 업데이트 됨: 유리 캡슐 룩 -->
                     <div class="y2k-title-bar pixel-font">// ABOUT_ME</div>
                     <div class="status-box panel-sunken galmuri-font">
                         <div class="stat-line">NAME: <span class="editable">Anonymous</span></div>
@@ -56,6 +60,7 @@
                 <div class="etched-line"></div>
 
                 <div class="profile-section">
+                    <!-- 💡 업데이트 됨: 유리 캡슐 룩 -->
                     <div class="y2k-title-bar pixel-font">// NOW_PLAYING</div>
                     <div class="media-box panel-sunken galmuri-font">
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
@@ -119,10 +124,14 @@
 
         </main>
 
+        <!-- 🔒 [고정 영역] 하단 바 -->
         <footer class="bottom-bar">
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
+        <!-- 🔒 하단 바 고정 끝 -->
+
+        <!-- 💬 1-C: IRC 채팅방 방명록 팝업 -->
         <div id="irc-modal" class="popup-overlay">
             <div class="irc-window panel-raised">
                 <div class="irc-header galmuri-font">
