@@ -60,9 +60,9 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
     background-repeat: no-repeat; background-position: right 6px center; background-size: 8px;
 }
 
-/* 💡 수정됨: 심해 네이비 블루 배경으로 교체 (더 Y2K스럽고 예쁨) */
+/* 심해 네이비 블루 배경 */
 .lcd-screen {
-    background-color: #0b1320; /* 칠흑 딥 네이비 */
+    background-color: #0b1320; 
     border-top: 2px solid #555555; border-left: 2px solid #555555;
     border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
     height: 26px; padding: 0 8px;
@@ -71,22 +71,10 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .lcd-screen marquee {
     color: #9cb4d4; 
     font-size: 12px;
-    text-shadow: 0 0 4px rgba(156, 180, 212, 0.8); /* 네온 발광 추가 */
+    text-shadow: 0 0 4px rgba(156, 180, 212, 0.8); 
 }
 
-/* 💡 신규 추가: 과하지 않은 포인트용 반투명 유리 버튼 클래스 */
-.glass-btn {
-    background: linear-gradient(180deg, #f0f7fd 0%, #d4e6f8 48%, #b3d2ef 50%, #eaf4fd 100%);
-    border: 1px solid #7a9cc2;
-    border-radius: 4px;
-    color: #2b4f73;
-    font-weight: bold;
-    box-shadow: inset 0px 1px 2px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(0,0,0,0.1);
-}
-.glass-btn:active {
-    background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #d4e6f8 50%, #f0f7fd 100%);
-    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
-}
+/* ❌ 구린 유리 버튼(.glass-btn) 스타일 완전히 쳐내고 삭제함 */
 
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
 .editable:focus { outline: none; background-color: #000; color: #00ff00; border: 1px dashed #555; }
