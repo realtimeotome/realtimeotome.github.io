@@ -44,6 +44,24 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
     letter-spacing: 1px;
 }
 
+/* 💡 신규 추가: 카오모지 전용 은은한 음각 유리 질감 */
+#kaomoji-display {
+    text-align: center; 
+    font-size: 15px; 
+    padding: 6px; 
+    margin-bottom: 4px; 
+    letter-spacing: 1px;
+    /* 은은한 소라색 그라데이션 */
+    background: linear-gradient(180deg, #eaf4fd 0%, #cce0f5 48%, #a9cced 50%, #d4e6f8 100%);
+    /* 깊게 파인 음각 테두리 */
+    border-top: 2px solid #808080; border-left: 2px solid #808080; 
+    border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
+    /* 안으로 파고드는 강력한 그림자 (액정 질감) */
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.15), inset -1px -1px 2px rgba(255, 255, 255, 0.8);
+    color: #2b4f73; /* 딥 블루 글씨로 유리랑 깔맞춤 */
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.6); /* 글씨가 깎여 들어간 느낌 */
+}
+
 .status-box, .media-box { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 
@@ -60,7 +78,6 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
     background-repeat: no-repeat; background-position: right 6px center; background-size: 8px;
 }
 
-/* 심해 네이비 블루 배경 */
 .lcd-screen {
     background-color: #0b1320; 
     border-top: 2px solid #555555; border-left: 2px solid #555555;
@@ -73,8 +90,6 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
     font-size: 12px;
     text-shadow: 0 0 4px rgba(156, 180, 212, 0.8); 
 }
-
-/* ❌ 구린 유리 버튼(.glass-btn) 스타일 완전히 쳐내고 삭제함 */
 
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
 .editable:focus { outline: none; background-color: #000; color: #00ff00; border: 1px dashed #555; }
