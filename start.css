@@ -31,16 +31,23 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .profile-section { display: flex; flex-direction: column; gap: 5px; }
 
-/* 💡 신규 변경: 깔끔하고 플랫한 소라색 띠 (양각/음각 없음) */
+/* 💡 신규 변경: 투명하고 반짝이는 유리 캡슐 룩 (Aqua Glass Style) */
 .y2k-title-bar {
-    background-color: #9cb4d4; 
+    /* 위는 밝고 아래는 진한 전형적인 유리 그라데이션 */
+    background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
     color: #ffffff;
-    padding: 3px 8px;
+    padding: 4px 14px;
     font-size: 15px;
-    border: 1px solid #555; /* 단일 실선으로 깔끔하게 */
-    margin-bottom: 2px;
-    display: block;
-    text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+    border: 1px solid #7a9cc2;
+    border-radius: 20px; /* 완전히 둥근 모서리 */
+    margin-bottom: 6px;
+    display: inline-block;
+    align-self: flex-start; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    /* 상단 반사광과 하단 그림자로 볼록한 입체감 구현 */
+    box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), 
+                inset 0px -1px 2px rgba(0, 0, 0, 0.1), 
+                1px 2px 3px rgba(0, 0, 0, 0.15); 
     letter-spacing: 1px;
 }
 
