@@ -31,28 +31,20 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .profile-section { display: flex; flex-direction: column; gap: 5px; }
 
-/* 🎨 신규 추가: 차가운 소라색 타이틀 바 */
-.blue-title-bar {
-    background-color: #9cb4d4; /* 레퍼런스 감성의 Icy Blue */
+/* 💡 신규 변경: 깔끔하고 플랫한 소라색 띠 (양각/음각 없음) */
+.y2k-title-bar {
+    background-color: #9cb4d4; 
     color: #ffffff;
-    padding: 2px 6px;
-    font-size: 14px;
-    font-weight: bold;
-    display: inline-block;
-    align-self: flex-start;
-    border-top: 1px solid #ffffff; border-left: 1px solid #ffffff;
-    border-right: 1px solid #555555; border-bottom: 1px solid #555555;
+    padding: 3px 8px;
+    font-size: 15px;
+    border: 1px solid #555; /* 단일 실선으로 깔끔하게 */
+    margin-bottom: 2px;
+    display: block;
+    text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
     letter-spacing: 1px;
 }
 
-/* 🎨 신규 추가: 점선(Dashed) 테두리 상자 */
-.retro-dashed-box {
-    border: 1px dashed #9cb4d4; /* 소라색 점선 */
-    padding: 10px;
-    background: #fdfdfd; 
-}
-
-.status-box, .media-box { display: flex; flex-direction: column; gap: 8px; }
+.status-box, .media-box { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 .retro-select { padding: 0px 4px; height: 20px; outline: none; cursor: pointer; font-size: 13px; color: #000; text-overflow: ellipsis; }
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
@@ -84,21 +76,14 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
     background: rgba(0, 0, 0, 0.3);
     display: none; justify-content: center; align-items: center; z-index: 1000;
 }
-.irc-window {
-    width: 450px; padding: 4px; display: flex; flex-direction: column;
-}
+.irc-window { width: 450px; padding: 4px; display: flex; flex-direction: column; }
 .irc-header {
     background: #9cb4d4; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 14px;
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
 }
-#close-irc {
-    background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000;
-    width: 20px; height: 20px; cursor: pointer; font-weight: bold;
-}
+#close-irc { background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; width: 20px; height: 20px; cursor: pointer; font-weight: bold; }
 #close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
-.irc-chat-box {
-    height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5;
-}
+.irc-chat-box { height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
 
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
