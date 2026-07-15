@@ -4,7 +4,7 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .galmuri-font { font-family: 'Galmuri11', monospace; -webkit-font-smoothing: none; }
 .win-wrapper { width: 100%; height: 100%; display: flex; flex-direction: column; }
 
-/* 🔒 상/하단바 고정 (절대 안 건드림) */
+/* 🔒 상/하단바 고정 */
 .top-bar { height: 35px; background: #dfdfdf; border-bottom: 2px solid #808080; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; user-select: none; flex-shrink: 0; }
 .top-menu { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; }
 .top-menu::-webkit-scrollbar { display: none; }
@@ -27,30 +27,20 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .main-layout { flex: 1; display: flex; padding: 15px; gap: 15px; background-color: #ffffff; overflow: hidden; }
 
-/* 💡 신규 변경: 좌측 컬럼 스크롤 제거 및 간격 압축 */
+/* 좌측 컬럼 */
 .left-col { 
-    width: 320px; 
-    display: flex; 
-    flex-direction: column; 
-    padding: 15px; 
-    gap: 10px; /* 창이 작아도 다 들어가게 간격 살짝 줄임 */
-    overflow: hidden; /* 스크롤바 영구 삭제! */
-    flex-shrink: 0; 
+    width: 320px; display: flex; flex-direction: column; padding: 15px; gap: 10px; 
+    overflow: hidden; flex-shrink: 0; 
 }
-
-/* 💡 신규 변경: 이미지 박스가 화면 세로 길이에 맞춰 자동 수축/팽창함 */
 .img-box { 
-    width: 100%; 
-    flex: 1; /* 이게 핵심! 남는 세로 공간을 얘가 다 흡수함 */
-    min-height: 80px; /* 아무리 찌그러져도 최소 80px은 유지 */
-    max-height: 220px; /* 화면이 아무리 커도 최대 220px까지만 커짐 */
+    width: 100%; flex: 1; min-height: 80px; max-height: 220px; 
     display: flex; justify-content: center; align-items: center; 
     font-size: 30px; font-style: italic; color: #808080; 
 }
 
 .profile-section { display: flex; flex-direction: column; gap: 4px; }
 
-/* 영롱한 소라색 유리 캡슐 타이틀 */
+/* 영롱한 소라색 유리 캡슐 타이틀 (좌측 메뉴용) */
 .y2k-title-bar {
     background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
     color: #ffffff; padding: 4px 14px; font-size: 15px;
@@ -94,19 +84,25 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
     display: none; justify-content: center; align-items: center; z-index: 1000;
 }
 .irc-window { width: 450px; padding: 4px; display: flex; flex-direction: column; }
+
+/* 💡 신규 변경: 팝업 헤더에도 통일된 유리 질감 코팅 쫙 발라줌! */
 .irc-header {
-    background: #9cb4d4; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 14px;
+    background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
+    color: #fff; padding: 6px 8px; font-weight: bold; font-size: 14px;
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
+    border: 1px solid #7a9cc2;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1); 
 }
+
 #close-irc { background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; width: 20px; height: 20px; cursor: pointer; font-weight: bold; }
 #close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
 .irc-chat-box { height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
 
-/* 💡 모바일/좁은 화면에서는 다시 원래대로 위아래로 떨어지게 세팅 */
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
     .left-col { width: 100%; height: auto; overflow: visible; }
-    .img-box { min-height: 220px; flex: none; } /* 모바일에서는 이미지 크기 고정 */
+    .img-box { min-height: 220px; flex: none; }
     .right-col { overflow: visible; }
     .right-bottom-split { flex-direction: column; height: auto; overflow: visible; }
 }
