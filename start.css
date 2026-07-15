@@ -47,43 +47,45 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .status-box, .media-box { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 
-/* 💡 3번 반영: 모바일 잔재를 처단한 윈도우 95 스타일 드롭다운 */
 .retro-select {
     appearance: none;
     -webkit-appearance: none;
     background-color: #ffffff;
     border-top: 1px solid #808080; border-left: 1px solid #808080;
     border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
-    border-radius: 0 !important; /* iOS 둥근 모서리 강제 삭제 */
+    border-radius: 0 !important;
     padding: 2px 20px 2px 4px;
-    height: 22px;
-    outline: none;
-    cursor: pointer;
-    font-size: 13px;
-    color: #000;
-    /* 윈도우 95 스타일 클래식 삼각형 화살표 */
+    height: 22px; outline: none; cursor: pointer; font-size: 13px; color: #000;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><polygon points='1,3 9,3 5,7' fill='%23000000'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 6px center;
-    background-size: 8px;
+    background-repeat: no-repeat; background-position: right 6px center; background-size: 8px;
 }
 
-/* 💡 4번 반영: 제트오디오 스타일 LCD 전광판 화면 */
+/* 💡 수정됨: 심해 네이비 블루 배경으로 교체 (더 Y2K스럽고 예쁨) */
 .lcd-screen {
-    background-color: #000000; /* 칠흑 같은 검정 화면 */
+    background-color: #0b1320; /* 칠흑 딥 네이비 */
     border-top: 2px solid #555555; border-left: 2px solid #555555;
     border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
-    height: 26px;
-    padding: 0 8px;
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-    margin-bottom: 4px;
+    height: 26px; padding: 0 8px;
+    display: flex; align-items: center; overflow: hidden; margin-bottom: 4px;
 }
 .lcd-screen marquee {
-    color: #9cb4d4; /* 소라색 테마 깔맞춤 네온 컬러 */
+    color: #9cb4d4; 
     font-size: 12px;
-    text-shadow: 0 0 3px #9cb4d4; /* 은은한 전광판 야광(네온) 발광 효과 */
+    text-shadow: 0 0 4px rgba(156, 180, 212, 0.8); /* 네온 발광 추가 */
+}
+
+/* 💡 신규 추가: 과하지 않은 포인트용 반투명 유리 버튼 클래스 */
+.glass-btn {
+    background: linear-gradient(180deg, #f0f7fd 0%, #d4e6f8 48%, #b3d2ef 50%, #eaf4fd 100%);
+    border: 1px solid #7a9cc2;
+    border-radius: 4px;
+    color: #2b4f73;
+    font-weight: bold;
+    box-shadow: inset 0px 1px 2px rgba(255, 255, 255, 0.9), 1px 1px 2px rgba(0,0,0,0.1);
+}
+.glass-btn:active {
+    background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #d4e6f8 50%, #f0f7fd 100%);
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
@@ -91,7 +93,6 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .media-controls { display: flex; justify-content: space-between; gap: 5px; margin-top: 2px; }
 .control-btn { flex: 1; height: 26px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 13px; }
-.control-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
 .command-group { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
 .action-btn { width: 100%; height: 32px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
@@ -109,19 +110,13 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
 .archive-circle { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
 .archive-line { flex-grow: 1; }
 
-/* 💬 1-C: IRC 팝업 스타일 */
-.popup-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.3);
-    display: none; justify-content: center; align-items: center; z-index: 1000;
-}
+.popup-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0, 0, 0, 0.3); display: none; justify-content: center; align-items: center; z-index: 1000; }
 .irc-window { width: 450px; padding: 4px; display: flex; flex-direction: column; }
 .irc-header {
     background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
     color: #fff; padding: 6px 8px; font-weight: bold; font-size: 14px;
     display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
-    border: 1px solid #7a9cc2;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    border: 1px solid #7a9cc2; text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1); 
 }
 #close-irc { background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000; width: 20px; height: 20px; cursor: pointer; font-weight: bold; }
