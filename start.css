@@ -28,15 +28,8 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .main-layout { flex: 1; display: flex; padding: 15px; gap: 15px; background-color: #ffffff; overflow: hidden; }
 
 /* 좌측 컬럼 */
-.left-col { 
-    width: 320px; display: flex; flex-direction: column; padding: 15px; gap: 10px; 
-    overflow: hidden; flex-shrink: 0; 
-}
-.img-box { 
-    width: 100%; flex: 1; min-height: 80px; max-height: 220px; 
-    display: flex; justify-content: center; align-items: center; 
-    font-size: 30px; font-style: italic; color: #808080; 
-}
+.left-col { width: 320px; display: flex; flex-direction: column; padding: 15px; gap: 10px; overflow: hidden; flex-shrink: 0; }
+.img-box { width: 100%; flex: 1; min-height: 80px; max-height: 220px; display: flex; justify-content: center; align-items: center; font-size: 30px; font-style: italic; color: #808080; }
 
 .profile-section { display: flex; flex-direction: column; gap: 4px; }
 
@@ -53,7 +46,46 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 
 .status-box, .media-box { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
-.retro-select { padding: 0px 4px; height: 20px; outline: none; cursor: pointer; font-size: 13px; color: #000; text-overflow: ellipsis; }
+
+/* 💡 3번 반영: 모바일 잔재를 처단한 윈도우 95 스타일 드롭다운 */
+.retro-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #ffffff;
+    border-top: 1px solid #808080; border-left: 1px solid #808080;
+    border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
+    border-radius: 0 !important; /* iOS 둥근 모서리 강제 삭제 */
+    padding: 2px 20px 2px 4px;
+    height: 22px;
+    outline: none;
+    cursor: pointer;
+    font-size: 13px;
+    color: #000;
+    /* 윈도우 95 스타일 클래식 삼각형 화살표 */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'><polygon points='1,3 9,3 5,7' fill='%23000000'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+    background-size: 8px;
+}
+
+/* 💡 4번 반영: 제트오디오 스타일 LCD 전광판 화면 */
+.lcd-screen {
+    background-color: #000000; /* 칠흑 같은 검정 화면 */
+    border-top: 2px solid #555555; border-left: 2px solid #555555;
+    border-right: 1px solid #ffffff; border-bottom: 1px solid #ffffff;
+    height: 26px;
+    padding: 0 8px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+.lcd-screen marquee {
+    color: #9cb4d4; /* 소라색 테마 깔맞춤 네온 컬러 */
+    font-size: 12px;
+    text-shadow: 0 0 3px #9cb4d4; /* 은은한 전광판 야광(네온) 발광 효과 */
+}
+
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
 .editable:focus { outline: none; background-color: #000; color: #00ff00; border: 1px dashed #555; }
 
@@ -65,17 +97,9 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .action-btn { width: 100%; height: 32px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
 .action-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
-/* 💡 우측 컬럼 비율 고정 */
 .right-col { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .right-top-box { width: 100%; height: 140px; flex-shrink: 0; padding: 15px; }
-
-/* 💡 하단 탭 늘어남 방지 (고정 높이 280px로 원상복구 및 축소 방지) */
-.right-bottom-split { 
-    height: 280px; 
-    flex-shrink: 0; 
-    display: flex; 
-    gap: 20px; 
-}
+.right-bottom-split { height: 280px; flex-shrink: 0; display: flex; gap: 20px; }
 
 fieldset.retro-groupbox { flex: 1; border: 2px solid #ffffff; border-right-color: #555555; border-bottom-color: #555555; padding: 20px 15px 15px 15px; margin: 0; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
 legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 15px; }
@@ -104,7 +128,6 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
 #close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
 .irc-chat-box { height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
 
-/* 💡 모바일 대응 */
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
     .left-col { width: 100%; height: auto; overflow: visible; }
