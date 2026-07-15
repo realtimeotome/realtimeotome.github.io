@@ -4,7 +4,7 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .galmuri-font { font-family: 'Galmuri11', monospace; -webkit-font-smoothing: none; }
 .win-wrapper { width: 100%; height: 100%; display: flex; flex-direction: column; }
 
-/* 🔒 상/하단바 고정 */
+/* 🔒 상/하단바 고정 (절대 안 건드림) */
 .top-bar { height: 35px; background: #dfdfdf; border-bottom: 2px solid #808080; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; user-select: none; flex-shrink: 0; }
 .top-menu { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; }
 .top-menu::-webkit-scrollbar { display: none; }
@@ -20,54 +20,64 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .start-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 #clock { font-size: 16px; user-select: none; }
 
-/* 3D 패널 */
+/* 3D 패널 공통 */
 .panel-raised { background: #dfdfdf; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #555555; border-bottom: 2px solid #555555; box-shadow: 1px 1px 0px #000000, inset 1px 1px 0px #ffffff; }
 .panel-sunken { background: #ffffff; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; }
-.etched-line { height: 2px; background: #808080; border-bottom: 1px solid #ffffff; margin: 5px 0; }
+.etched-line { height: 2px; background: #808080; border-bottom: 1px solid #ffffff; margin: 4px 0; }
 
-.main-layout { flex: 1; display: flex; padding: 20px; gap: 20px; background-color: #ffffff; overflow: hidden; }
-.left-col { width: 320px; display: flex; flex-direction: column; padding: 20px; gap: 15px; overflow-y: scroll; flex-shrink: 0; }
-.img-box { width: 100%; height: 220px; display: flex; justify-content: center; align-items: center; font-size: 40px; font-style: italic; color: #808080; flex-shrink: 0; }
+.main-layout { flex: 1; display: flex; padding: 15px; gap: 15px; background-color: #ffffff; overflow: hidden; }
 
-.profile-section { display: flex; flex-direction: column; gap: 5px; }
+/* 💡 신규 변경: 좌측 컬럼 스크롤 제거 및 간격 압축 */
+.left-col { 
+    width: 320px; 
+    display: flex; 
+    flex-direction: column; 
+    padding: 15px; 
+    gap: 10px; /* 창이 작아도 다 들어가게 간격 살짝 줄임 */
+    overflow: hidden; /* 스크롤바 영구 삭제! */
+    flex-shrink: 0; 
+}
 
-/* 💡 신규 변경: 투명하고 반짝이는 유리 캡슐 룩 (Aqua Glass Style) */
+/* 💡 신규 변경: 이미지 박스가 화면 세로 길이에 맞춰 자동 수축/팽창함 */
+.img-box { 
+    width: 100%; 
+    flex: 1; /* 이게 핵심! 남는 세로 공간을 얘가 다 흡수함 */
+    min-height: 80px; /* 아무리 찌그러져도 최소 80px은 유지 */
+    max-height: 220px; /* 화면이 아무리 커도 최대 220px까지만 커짐 */
+    display: flex; justify-content: center; align-items: center; 
+    font-size: 30px; font-style: italic; color: #808080; 
+}
+
+.profile-section { display: flex; flex-direction: column; gap: 4px; }
+
+/* 영롱한 소라색 유리 캡슐 타이틀 */
 .y2k-title-bar {
-    /* 위는 밝고 아래는 진한 전형적인 유리 그라데이션 */
     background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%);
-    color: #ffffff;
-    padding: 4px 14px;
-    font-size: 15px;
-    border: 1px solid #7a9cc2;
-    border-radius: 20px; /* 완전히 둥근 모서리 */
-    margin-bottom: 6px;
-    display: inline-block;
-    align-self: flex-start; 
+    color: #ffffff; padding: 4px 14px; font-size: 15px;
+    border: 1px solid #7a9cc2; border-radius: 20px; 
+    margin-bottom: 2px; display: inline-block; align-self: flex-start; 
     text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
-    /* 상단 반사광과 하단 그림자로 볼록한 입체감 구현 */
-    box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), 
-                inset 0px -1px 2px rgba(0, 0, 0, 0.1), 
-                1px 2px 3px rgba(0, 0, 0, 0.15); 
+    box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1), 1px 2px 3px rgba(0, 0, 0, 0.15); 
     letter-spacing: 1px;
 }
 
-.status-box, .media-box { display: flex; flex-direction: column; gap: 8px; padding: 10px; }
+.status-box, .media-box { display: flex; flex-direction: column; gap: 6px; padding: 8px 10px; }
 .stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 .retro-select { padding: 0px 4px; height: 20px; outline: none; cursor: pointer; font-size: 13px; color: #000; text-overflow: ellipsis; }
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
 .editable:focus { outline: none; background-color: #000; color: #00ff00; border: 1px dashed #555; }
 
-.media-controls { display: flex; justify-content: space-between; gap: 5px; margin-top: 5px; }
-.control-btn { flex: 1; height: 28px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 13px; }
+.media-controls { display: flex; justify-content: space-between; gap: 5px; margin-top: 2px; }
+.control-btn { flex: 1; height: 26px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 13px; }
 .control-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
-.command-group { gap: 10px; margin-top: 5px; }
-.action-btn { width: 100%; height: 35px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
+.command-group { display: flex; flex-direction: column; gap: 6px; margin-top: 2px; }
+.action-btn { width: 100%; height: 32px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
 .action-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
 .right-col { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .right-top-box { width: 100%; height: 140px; flex-shrink: 0; padding: 15px; }
-.right-bottom-split { height: 300px; display: flex; gap: 20px; }
+.right-bottom-split { flex: 1; display: flex; gap: 20px; overflow: hidden; }
 
 fieldset.retro-groupbox { flex: 1; border: 2px solid #ffffff; border-right-color: #555555; border-bottom-color: #555555; padding: 20px 15px 15px 15px; margin: 0; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
 legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 15px; }
@@ -92,9 +102,11 @@ legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 1
 #close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
 .irc-chat-box { height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5; }
 
+/* 💡 모바일/좁은 화면에서는 다시 원래대로 위아래로 떨어지게 세팅 */
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
-    .left-col { width: 100%; height: auto; overflow-y: visible; }
+    .left-col { width: 100%; height: auto; overflow: visible; }
+    .img-box { min-height: 220px; flex: none; } /* 모바일에서는 이미지 크기 고정 */
     .right-col { overflow: visible; }
-    .right-bottom-split { flex-direction: column; height: auto; }
+    .right-bottom-split { flex-direction: column; height: auto; overflow: visible; }
 }
