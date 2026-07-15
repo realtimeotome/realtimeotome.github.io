@@ -1,115 +1,66 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body, html {
-    width: 100vw; height: 100dvh; overflow: hidden;
-    background-color: #ffffff; font-family: monospace;
-}
-
+body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #ffffff; font-family: monospace; }
 .pixel-font { font-family: 'NeoDunggeunmo', monospace; -webkit-font-smoothing: none; }
 .galmuri-font { font-family: 'Galmuri11', monospace; -webkit-font-smoothing: none; }
-
 .win-wrapper { width: 100%; height: 100%; display: flex; flex-direction: column; }
 
-/* 상단/하단바 */
-.top-bar {
-    height: 35px; background: #dfdfdf; border-bottom: 2px solid #808080; 
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 10px; user-select: none; flex-shrink: 0;
-}
-.top-menu {
-    display: flex; gap: 4px; overflow-x: auto; white-space: nowrap;
-    -webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none;
-}
+/* 🔒 상/하단바 고정 */
+.top-bar { height: 35px; background: #dfdfdf; border-bottom: 2px solid #808080; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; user-select: none; flex-shrink: 0; }
+.top-menu { display: flex; gap: 4px; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; -ms-overflow-style: none; scrollbar-width: none; }
 .top-menu::-webkit-scrollbar { display: none; }
-.menu-btn {
-    background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff;
-    border-right: 2px solid #555; border-bottom: 2px solid #555;
-    padding: 2px 8px; cursor: pointer; font-size: 16px; color: #000; flex-shrink: 0;
-}
-.menu-btn:active, .menu-btn.active {
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    padding: 3px 7px 1px 9px; background: #d4d4d4; 
-}
-.menu-bar {
-    height: 34px; background: #dfdfdf; border-top: 2px solid #ffffff; 
-    border-bottom: 3px solid #808080; display: flex; align-items: center;
-    padding: 0 10px; gap: 8px; flex-shrink: 0;
-}
+.menu-btn { background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #555; border-bottom: 2px solid #555; padding: 2px 8px; cursor: pointer; font-size: 16px; color: #000; flex-shrink: 0; }
+.menu-btn:active, .menu-btn.active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; padding: 3px 7px 1px 9px; background: #d4d4d4; }
+.menu-bar { height: 34px; background: #dfdfdf; border-top: 2px solid #ffffff; border-bottom: 3px solid #808080; display: flex; align-items: center; padding: 0 10px; gap: 8px; flex-shrink: 0; }
 .address-label { font-size: 16px; color: #000; }
-.address-field {
-    flex-grow: 1; height: 22px; background: #fff;
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    padding: 0 8px; color: #000; font-size: 14px; outline: none; 
-}
-.address-dropdown-btn {
-    width: 22px; height: 22px; background: #dfdfdf;
-    border-top: 2px solid #fff; border-left: 2px solid #fff;
-    border-right: 2px solid #555; border-bottom: 2px solid #555;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; font-size: 12px; color: #000;
-}
-.address-dropdown-btn:active {
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    padding: 1px 0 0 1px; 
-}
-.bottom-bar {
-    height: 45px; background: #dfdfdf; border-top: 3px solid #999;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 15px; flex-shrink: 0;
-}
-.start-btn {
-    background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff;
-    border-right: 2px solid #555; border-bottom: 2px solid #555;
-    padding: 4px 20px; height: 30px; cursor: pointer;
-}
-.start-btn:active {
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-}
+.address-field { flex-grow: 1; height: 22px; background: #fff; border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; padding: 0 8px; color: #000; font-size: 14px; outline: none; }
+.address-dropdown-btn { width: 22px; height: 22px; background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #555; border-bottom: 2px solid #555; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 12px; color: #000; }
+.address-dropdown-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; padding: 1px 0 0 1px; }
+.bottom-bar { height: 45px; background: #dfdfdf; border-top: 3px solid #999; display: flex; justify-content: space-between; align-items: center; padding: 0 15px; flex-shrink: 0; }
+.start-btn { background: #dfdfdf; border-top: 2px solid #fff; border-left: 2px solid #fff; border-right: 2px solid #555; border-bottom: 2px solid #555; padding: 4px 20px; height: 30px; cursor: pointer; }
+.start-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; }
 #clock { font-size: 16px; user-select: none; }
 
-/* 메인 대시보드 */
-.panel-raised {
-    background: #dfdfdf; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff;
-    border-right: 2px solid #555555; border-bottom: 2px solid #555555;
-    box-shadow: 1px 1px 0px #000000, inset 1px 1px 0px #ffffff; 
-}
-.panel-sunken {
-    background: #ffffff; border-top: 2px solid #808080; border-left: 2px solid #808080;
-    border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff;
-}
-.etched-line {
-    height: 2px; background: #808080; border-bottom: 1px solid #ffffff; margin: 5px 0;
-}
+/* 3D 패널 */
+.panel-raised { background: #dfdfdf; border-top: 2px solid #ffffff; border-left: 2px solid #ffffff; border-right: 2px solid #555555; border-bottom: 2px solid #555555; box-shadow: 1px 1px 0px #000000, inset 1px 1px 0px #ffffff; }
+.panel-sunken { background: #ffffff; border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; }
+.etched-line { height: 2px; background: #808080; border-bottom: 1px solid #ffffff; margin: 5px 0; }
 
 .main-layout { flex: 1; display: flex; padding: 20px; gap: 20px; background-color: #ffffff; overflow: hidden; }
-
 .left-col { width: 320px; display: flex; flex-direction: column; padding: 20px; gap: 15px; overflow-y: scroll; flex-shrink: 0; }
 .img-box { width: 100%; height: 220px; display: flex; justify-content: center; align-items: center; font-size: 40px; font-style: italic; color: #808080; flex-shrink: 0; }
 
 .profile-section { display: flex; flex-direction: column; gap: 5px; }
-.section-title { font-size: 14px; color: #555; font-weight: bold; margin-bottom: 2px; }
-.status-box, .media-box { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
-.stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
 
-/* 드롭다운 디자인 */
-.retro-select {
-    padding: 0px 4px; height: 20px; outline: none; cursor: pointer;
-    font-size: 13px; color: #000; text-overflow: ellipsis;
+/* 🎨 신규 추가: 차가운 소라색 타이틀 바 */
+.blue-title-bar {
+    background-color: #9cb4d4; /* 레퍼런스 감성의 Icy Blue */
+    color: #ffffff;
+    padding: 2px 6px;
+    font-size: 14px;
+    font-weight: bold;
+    display: inline-block;
+    align-self: flex-start;
+    border-top: 1px solid #ffffff; border-left: 1px solid #ffffff;
+    border-right: 1px solid #555555; border-bottom: 1px solid #555555;
+    letter-spacing: 1px;
 }
 
+/* 🎨 신규 추가: 점선(Dashed) 테두리 상자 */
+.retro-dashed-box {
+    border: 1px dashed #9cb4d4; /* 소라색 점선 */
+    padding: 10px;
+    background: #fdfdfd; 
+}
+
+.status-box, .media-box { display: flex; flex-direction: column; gap: 8px; }
+.stat-line { font-size: 13px; color: #000; letter-spacing: -0.5px; }
+.retro-select { padding: 0px 4px; height: 20px; outline: none; cursor: pointer; font-size: 13px; color: #000; text-overflow: ellipsis; }
 .editable { cursor: text; padding: 0 2px; border: 1px solid transparent; transition: all 0.1s; }
 .editable:focus { outline: none; background-color: #000; color: #00ff00; border: 1px dashed #555; }
 
 .media-controls { display: flex; justify-content: space-between; gap: 5px; margin-top: 5px; }
 .control-btn { flex: 1; height: 28px; cursor: pointer; display: flex; justify-content: center; align-items: center; font-size: 13px; }
-.control-btn:active {
-    border-top: 2px solid #555; border-left: 2px solid #555;
-    border-right: 2px solid #fff; border-bottom: 2px solid #fff;
-    box-shadow: none; padding: 1px 0 0 1px;
-}
+.control-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
 .command-group { gap: 10px; margin-top: 5px; }
 .action-btn { width: 100%; height: 35px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
@@ -119,16 +70,35 @@ body, html {
 .right-top-box { width: 100%; height: 140px; flex-shrink: 0; padding: 15px; }
 .right-bottom-split { height: 300px; display: flex; gap: 20px; }
 
-fieldset.retro-groupbox {
-    flex: 1; border: 2px solid #ffffff; border-right-color: #555555; border-bottom-color: #555555;
-    padding: 20px 15px 15px 15px; margin: 0; display: flex; flex-direction: column; gap: 15px; overflow-y: auto;
-}
+fieldset.retro-groupbox { flex: 1; border: 2px solid #ffffff; border-right-color: #555555; border-bottom-color: #555555; padding: 20px 15px 15px 15px; margin: 0; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
 legend.box-title { padding: 0 10px; font-size: 16px; color: #000; margin-left: 15px; }
 
 .backup-item { width: 100%; height: 32px; flex-shrink: 0; }
 .archive-item { display: flex; align-items: center; gap: 15px; margin-bottom: 5px; }
 .archive-circle { width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0; }
 .archive-line { flex-grow: 1; }
+
+/* 💬 1-C: IRC 팝업 스타일 */
+.popup-overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    display: none; justify-content: center; align-items: center; z-index: 1000;
+}
+.irc-window {
+    width: 450px; padding: 4px; display: flex; flex-direction: column;
+}
+.irc-header {
+    background: #9cb4d4; color: #fff; padding: 4px 8px; font-weight: bold; font-size: 14px;
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;
+}
+#close-irc {
+    background: #dfdfdf; border-top: 1px solid #fff; border-left: 1px solid #fff; border-right: 1px solid #000; border-bottom: 1px solid #000;
+    width: 20px; height: 20px; cursor: pointer; font-weight: bold;
+}
+#close-irc:active { border-top: 1px solid #000; border-left: 1px solid #000; border-right: 1px solid #fff; border-bottom: 1px solid #fff; }
+.irc-chat-box {
+    height: 250px; padding: 10px; overflow-y: auto; font-size: 13px; line-height: 1.5;
+}
 
 @media screen and (max-width: 900px) {
     .main-layout { flex-direction: column; overflow-y: auto; overflow-x: hidden; background-color: #ffffff; }
