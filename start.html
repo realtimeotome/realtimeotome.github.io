@@ -19,7 +19,7 @@
                 <button class="menu-btn pixel-font">favorites</button>
                 <button class="menu-btn pixel-font">help!</button>
                 <button class="menu-btn pixel-font">lucky?</button>
-                <button class="menu-btn pixel-font" onclick="location.href='ai/'">chat♡</button>
+                <button class="menu-btn pixel-font" id="btn-chat">chat♡</button>
             </div>
         </header>
         
@@ -28,6 +28,7 @@
             <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
+
         <main class="main-layout">
             
             <div class="left-col panel-raised">
@@ -39,15 +40,16 @@
                         <div class="stat-line">◆ NAME: <span class="editable">Anonymous</span></div>
                         <div class="stat-line">✦ LV: <span class="editable">99</span></div>
                         
+                        <!-- 💡 수정됨: HP/MP 클릭형 게이지 바 (색상 예쁘게 변경) -->
                         <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
                             <span>♥ HP</span>
-                            <span style="color: #cc0000; letter-spacing: -1px;">[■■■■■■■■■■]</span>
-                            <span class="editable">999</span>
+                            <span id="hp-blocks" style="color: #ff5e7e; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■■■■■■■■</span>
+                            <span id="hp-val">100</span>
                         </div>
                         <div class="stat-line" style="display: flex; justify-content: space-between; align-items: center;">
                             <span>★ MP</span>
-                            <span style="color: #87b4e6; letter-spacing: -1px;">[■■■■■■□□□□]</span>
-                            <span class="editable">000</span>
+                            <span id="mp-blocks" style="color: #87b4e6; letter-spacing: -1px; cursor: pointer; user-select: none;">■■■■■■□□□□</span>
+                            <span id="mp-val">060</span>
                         </div>
                         
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
@@ -71,7 +73,7 @@
                     <div class="media-box panel-sunken galmuri-font">
                         
                         <div class="lcd-screen panel-sunken">
-                            <marquee id="marquee-text" scrollamount="3" class="galmuri-font">PLAYING: 少女の幻想.mid</marquee>
+                            <marquee id="marquee-text" scrollamount="4" class="galmuri-font" style="width: 100%;">PLAYING: 少女の幻想.mid</marquee>
                         </div>
 
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
@@ -85,9 +87,10 @@
                         <div class="stat-line">VOL: <span id="vol-blocks" style="cursor: pointer; user-select: none;">■■■■■■■□□□</span></div>
                     </div>
                     <div class="media-controls">
-                        <button class="control-btn panel-raised galmuri-font" id="btn-prev">[ &lt;&lt; ]</button>
-                        <button class="control-btn panel-raised galmuri-font" id="btn-stop">[ STOP ]</button>
-                        <button class="control-btn panel-raised galmuri-font" id="btn-play">[ PLAY ]</button>
+                        <!-- 💡 수정됨: 컨트롤 버튼에 glass-btn 클래스 추가 -->
+                        <button class="control-btn glass-btn galmuri-font" id="btn-prev">[ &lt;&lt; ]</button>
+                        <button class="control-btn glass-btn galmuri-font" id="btn-stop">[ STOP ]</button>
+                        <button class="control-btn glass-btn galmuri-font" id="btn-play">[ PLAY ]</button>
                     </div>
                     <audio id="bgm-player" src="music1.mp3" loop></audio>
                 </div>
@@ -139,6 +142,7 @@
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
+
         <div id="irc-modal" class="popup-overlay">
             <div class="irc-window panel-raised">
                 <div class="irc-header galmuri-font">
