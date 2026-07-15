@@ -36,24 +36,31 @@ editables.forEach(el => {
     });
 });
 
-// 💡 신규: 카오모지 입력 및 반영 로직
+// 💡 신규: 카오모지 랜덤 가챠 로직
+const kaomojis = [
+    "( - _ - ) zzz", 
+    "＼(ﾟｰﾟ＼)", 
+    "(*^▽^*)", 
+    "( ˘ ³˘)♥", 
+    "¯\\_(ツ)_/¯", 
+    "( ╥ω╥ )", 
+    "٩(◕‿◕｡)۶", 
+    "(✯◡✯)", 
+    "(´･ω･`)",
+    "(ﾒ` ﾛ ´)",
+    "(✧ω✧)",
+    "(/_ _ )/",
+    "(￣▽￣)"
+];
+
 const kaomojiDisplay = document.getElementById('kaomoji-display');
-const kaomojiInput = document.getElementById('kaomoji-input');
 const btnKaomoji = document.getElementById('btn-kaomoji');
 
-if (btnKaomoji && kaomojiInput && kaomojiDisplay) {
+if (btnKaomoji && kaomojiDisplay) {
     btnKaomoji.addEventListener('click', () => {
-        if(kaomojiInput.value.trim() !== '') {
-            kaomojiDisplay.innerText = kaomojiInput.value;
-            kaomojiInput.value = ''; // 입력창 비우기
-        }
-    });
-    
-    // 입력창에서 엔터 쳐도 바로 반영되게 설정
-    kaomojiInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            btnKaomoji.click();
-        }
+        // 배열에서 랜덤으로 하나 뽑아서 텍스트 바꿔치기
+        const randomIcon = kaomojis[Math.floor(Math.random() * kaomojis.length)];
+        kaomojiDisplay.innerText = randomIcon;
     });
 }
 
