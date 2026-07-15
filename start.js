@@ -1,6 +1,3 @@
-// =====================================
-// 1. 시스템 하단 시계 업데이트
-// =====================================
 function updateClock() {
     const now = new Date();
     let month = now.getMonth() + 1;
@@ -24,9 +21,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-// =====================================
-// 2. 더블클릭 시스템 변조 (해킹) 기믹
-// =====================================
 const editables = document.querySelectorAll('.editable');
 editables.forEach(el => {
     el.addEventListener('dblclick', function() {
@@ -42,24 +36,47 @@ editables.forEach(el => {
     });
 });
 
-// =====================================
-// 3. 미디어 플레이어 및 전광판 동기화 로직
-// =====================================
+// 💡 신규 추가: 게이지 바(HP, MP) 클릭 로직 함수
+function setupInteractiveBar(blockId, valId, maxBlocks) {
+    const blockEl = document.getElementById(blockId);
+    const valEl = document.getElementById(valId);
+    
+    if(!blockEl || !valEl) return;
+
+    blockEl.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const clickX = e.clientX - rect.left; 
+        const width = rect.width;             
+        const pct = clickX / width;           
+        
+        let level = Math.min(Math.max(Math.ceil(pct * maxBlocks), 0), maxBlocks);
+        if (pct < 0.05) level = 0; // 맨 앞부분 누르면 0 되도록 예외 처리
+        
+        this.innerText = '■'.repeat(level) + '□'.repeat(maxBlocks - level);
+        
+        // 100점 만점 기준으로 변환해서 텍스트 업데이트 (ex: 3칸 -> 030)
+        let numericValue = level * (100 / maxBlocks);
+        valEl.innerText = numericValue.toString().padStart(3, '0');
+    });
+}
+
+// HP(10칸), MP(10칸) 설정
+setupInteractiveBar('hp-blocks', 'hp-val', 10);
+setupInteractiveBar('mp-blocks', 'mp-val', 10);
+
 const audio = document.getElementById('bgm-player');
 const btnPlay = document.getElementById('btn-play');
 const btnStop = document.getElementById('btn-stop');
 const btnPrev = document.getElementById('btn-prev');
 const volBlocks = document.getElementById('vol-blocks');
 const songSelect = document.getElementById('song-select');
-const marqueeText = document.getElementById('marquee-text'); // 💡 신규 추가됨
+const marqueeText = document.getElementById('marquee-text');
 
-// 💡 재생 목록에서 곡 변경 시 전광판 텍스트와 실제 플레이어 동시 업데이트
 songSelect.addEventListener('change', function() {
     const wasPlaying = !audio.paused; 
     audio.src = this.value; 
     audio.load();
     
-    // 💡 전광판 글씨 실시간 변경 기믹
     const selectedTitle = this.options[this.selectedIndex].text;
     marqueeText.innerText = "PLAYING: " + selectedTitle;
     
@@ -68,11 +85,9 @@ songSelect.addEventListener('change', function() {
     }
 });
 
-// 초기 볼륨 설정 (70%로 설정)
 let currentVolume = 0.7;
 audio.volume = currentVolume;
 
-// 텍스트 클릭식 볼륨 조절 구현
 volBlocks.addEventListener('click', function(e) {
     const rect = this.getBoundingClientRect();
     const clickX = e.clientX - rect.left; 
@@ -85,7 +100,6 @@ volBlocks.addEventListener('click', function(e) {
     this.innerText = '■'.repeat(volLevel) + '□'.repeat(10 - volLevel);
 });
 
-// PLAY, STOP, << 버튼 제어
 btnPlay.addEventListener('click', () => { audio.play().catch(e => console.log("파일 없음")); });
 btnStop.addEventListener('click', () => { audio.pause(); audio.currentTime = 0; });
 btnPrev.addEventListener('click', () => {
@@ -93,9 +107,6 @@ btnPrev.addEventListener('click', () => {
     if (audio.paused) { audio.play().catch(e => console.log("파일 없음")); }
 });
 
-// =====================================
-// 4. GUESTBOOK IRC 팝업 로직
-// =====================================
 const btnGuestbook = document.getElementById('btn-guestbook');
 const ircModal = document.getElementById('irc-modal');
 const closeIrcBtn = document.getElementById('close-irc');
@@ -104,15 +115,11 @@ btnGuestbook.addEventListener('click', () => { ircModal.style.display = 'flex'; 
 closeIrcBtn.addEventListener('click', () => { ircModal.style.display = 'none'; });
 ircModal.addEventListener('click', (e) => { if (e.target === ircModal) { ircModal.style.display = 'none'; } });
 
-// =====================================
-// 5. 관리자 전용 CHAT 탭 암호 로직
-// =====================================
 const btnChat = document.getElementById('btn-chat');
 const authModal = document.getElementById('auth-modal');
 const closeAuth = document.getElementById('close-auth');
 const authSubmit = document.getElementById('auth-submit');
 const sysPassword = document.getElementById('sys-password');
-
 const SECRET_PW = "0000"; 
 
 btnChat.addEventListener('click', () => {
@@ -120,9 +127,7 @@ btnChat.addEventListener('click', () => {
     sysPassword.value = '';
     sysPassword.focus();
 });
-
 closeAuth.addEventListener('click', () => { authModal.style.display = 'none'; });
-
 authSubmit.addEventListener('click', () => {
     if (sysPassword.value === SECRET_PW) {
         location.href = 'ai/';
@@ -132,7 +137,6 @@ authSubmit.addEventListener('click', () => {
         sysPassword.focus();
     }
 });
-
 sysPassword.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') { authSubmit.click(); }
 });
