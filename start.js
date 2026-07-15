@@ -36,7 +36,6 @@ editables.forEach(el => {
     });
 });
 
-// 💡 신규: 카오모지 랜덤 가챠 로직
 const kaomojis = [
     "( - _ - ) zzz", 
     "＼(ﾟｰﾟ＼)", 
@@ -58,7 +57,6 @@ const btnKaomoji = document.getElementById('btn-kaomoji');
 
 if (btnKaomoji && kaomojiDisplay) {
     btnKaomoji.addEventListener('click', () => {
-        // 배열에서 랜덤으로 하나 뽑아서 텍스트 바꿔치기
         const randomIcon = kaomojis[Math.floor(Math.random() * kaomojis.length)];
         kaomojiDisplay.innerText = randomIcon;
     });
@@ -76,13 +74,9 @@ songSelect.addEventListener('change', function() {
     const wasPlaying = !audio.paused; 
     audio.src = this.value; 
     audio.load();
-    
     const selectedTitle = this.options[this.selectedIndex].text;
     marqueeText.innerText = "PLAYING: " + selectedTitle;
-    
-    if (wasPlaying) {
-        audio.play().catch(e => console.log("파일 대기중"));
-    }
+    if (wasPlaying) { audio.play().catch(e => console.log("파일 대기중")); }
 });
 
 let currentVolume = 0.7;
@@ -93,9 +87,7 @@ volBlocks.addEventListener('click', function(e) {
     const clickX = e.clientX - rect.left; 
     const width = rect.width;             
     const pct = clickX / width;           
-    
     let volLevel = Math.min(Math.max(Math.round(pct * 10), 0), 10);
-    
     audio.volume = volLevel / 10;
     this.innerText = '■'.repeat(volLevel) + '□'.repeat(10 - volLevel);
 });
@@ -115,28 +107,51 @@ btnGuestbook.addEventListener('click', () => { ircModal.style.display = 'flex'; 
 closeIrcBtn.addEventListener('click', () => { ircModal.style.display = 'none'; });
 ircModal.addEventListener('click', (e) => { if (e.target === ircModal) { ircModal.style.display = 'none'; } });
 
-const btnChat = document.getElementById('btn-chat');
-const authModal = document.getElementById('auth-modal');
-const closeAuth = document.getElementById('close-auth');
-const authSubmit = document.getElementById('auth-submit');
-const sysPassword = document.getElementById('sys-password');
-const SECRET_PW = "0000"; 
+const resetBtn = document.getElementById('resetBtn');
+const resetPopupOverlay = document.getElementById('resetPopupOverlay');
+const resetPopup = document.getElementById('resetPopup');
+const closePopupBtn = document.getElementById('closePopupBtn');
+const popupMessage = document.getElementById('popupMessage');
+const popupOkBtn = document.getElementById('popupOkBtn');
+const screenWrapper = document.getElementById('screen-wrapper'); 
 
-btnChat.addEventListener('click', () => {
-    authModal.style.display = 'flex';
-    sysPassword.value = '';
-    sysPassword.focus();
-});
-closeAuth.addEventListener('click', () => { authModal.style.display = 'none'; });
-authSubmit.addEventListener('click', () => {
-    if (sysPassword.value === SECRET_PW) {
-        location.href = 'ai/';
-    } else {
-        alert("ACCESS DENIED: 인가되지 않은 사용자입니다.");
-        sysPassword.value = '';
-        sysPassword.focus();
-    }
-});
-sysPassword.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') { authSubmit.click(); }
-});
+let isCursed = false;
+
+const cursedMessages = [
+    { text: "당신의 세계는 당신을 기다리고 있습니다. 당신의 기억의 모든 흔적들은 오버라이트(덮어쓰기) 됩니다. 당신은 정말로 돌아가는 것에 대해 확신합니까?", btn: "실행" },
+    { text: "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？", btn: "実行" },
+    { text: "Deine Welt wartet auf dich. Alle Spuren deiner Erinnerung werden überschrieben. Bist du sicher, dass du zurückkehren willst?", btn: "Ausführen" },
+    { text: "Ton monde t'attend. Toutes les traces de ta mémoire seront écrasées. Es-tu sûr de vouloir y retourner ?", btn: "Exécuter" },
+    { text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписаны. Ты уверен, что хочешь вернуться?", btn: "Выполнить" }
+];
+
+if (resetBtn && resetPopupOverlay) {
+    resetBtn.addEventListener('click', () => {
+        resetPopupOverlay.style.display = 'flex';
+        isCursed = false;
+        popupMessage.classList.remove('cursed');
+        popupMessage.innerText = "Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?";
+        popupOkBtn.innerText = "OK";
+    });
+
+    closePopupBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        resetPopupOverlay.style.display = 'none';
+    });
+
+    resetPopup.addEventListener('dblclick', () => {
+        isCursed = true;
+        popupMessage.classList.add('cursed');
+        
+        const randomIndex = Math.floor(Math.random() * cursedMessages.length);
+        const selected = cursedMessages[randomIndex];
+
+        popupMessage.innerText = selected.text;
+        popupOkBtn.innerText = selected.btn;
+    });
+
+    popupOkBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        screenWrapper.classList.add('tv-off-active'); 
+    });
+}
