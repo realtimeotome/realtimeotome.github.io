@@ -34,8 +34,8 @@
                 <div class="img-box panel-sunken galmuri-font">img</div>
                 
                 <div class="profile-section">
-                    <div class="section-title galmuri-font">SYS.OP_STATUS</div>
-                    <div class="status-box panel-sunken galmuri-font">
+                    <div class="blue-title-bar galmuri-font">SYS.OP_STATUS</div>
+                    <div class="status-box panel-sunken retro-dashed-box galmuri-font">
                         <div class="stat-line">NAME: <span class="editable">Anonymous</span></div>
                         <div class="stat-line">LV.<span class="editable">99</span> | HP <span class="editable">999</span> | MP <span class="editable">000</span></div>
                         
@@ -56,19 +56,16 @@
                 <div class="etched-line"></div>
 
                 <div class="profile-section">
-                    <div class="section-title galmuri-font">MEDIA_MODULE</div>
-                    <div class="media-box panel-sunken galmuri-font">
-                        
+                    <div class="blue-title-bar galmuri-font">MEDIA_MODULE</div>
+                    <div class="media-box panel-sunken retro-dashed-box galmuri-font">
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px;">
                             > 
                             <select id="song-select" class="retro-select panel-sunken galmuri-font" style="flex: 1;">
                                 <option value="music1.mp3">少女の幻想.mid</option>
                                 <option value="music2.mp3">Cyber_Angel.mp3</option>
                                 <option value="music3.mp3">System_Error.wav</option>
-                                <option value="music4.mp3">Secret_Track.mp3</option>
                             </select>
                         </div>
-                        
                         <div class="stat-line">VOL: <span id="vol-blocks" style="cursor: pointer; user-select: none;">■■■■■■■□□□</span></div>
                     </div>
                     <div class="media-controls">
@@ -82,7 +79,7 @@
                 <div class="etched-line"></div>
 
                 <div class="profile-section command-group">
-                    <button class="action-btn panel-raised galmuri-font">* GUESTBOOK</button>
+                    <button id="btn-guestbook" class="action-btn panel-raised galmuri-font">* GUESTBOOK</button>
                     <button class="action-btn panel-raised galmuri-font">* SEND MAIL</button>
                     <button class="action-btn panel-raised galmuri-font" style="color: #cc0000;">! SHUT DOWN</button>
                 </div>
@@ -126,7 +123,26 @@
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
+        <div id="irc-modal" class="popup-overlay">
+            <div class="irc-window panel-raised">
+                <div class="irc-header galmuri-font">
+                    <span>#GUESTBOOK_IRC</span>
+                    <button id="close-irc" class="galmuri-font">X</button>
+                </div>
+                <div class="irc-chat-box panel-sunken galmuri-font retro-dashed-box">
+                    <div style="color: #888;">*** 서버에 연결되었습니다...</div>
+                    <div style="color: #888;">*** Anonymous_1 님이 입장하셨습니다.</div>
+                    <div style="margin-top: 5px;"><span style="color: #7289da; font-weight: bold;">&lt;User_0435&gt;</span> 여기 사이트 분위기 미쳤네요 ㄷㄷ</div>
+                    <div><span style="color: #9cb4d4; font-weight: bold;">&lt;SYS.OP&gt;</span> 방문을 환영합니다.</div>
+                </div>
+                <div style="display: flex; gap: 5px; margin-top: 10px;">
+                    <input type="text" class="panel-sunken galmuri-font" style="flex: 1; padding: 3px; outline: none;" placeholder="메시지 입력...">
+                    <button class="panel-raised galmuri-font" style="padding: 0 10px;">SEND</button>
+                </div>
+            </div>
         </div>
+
+    </div>
 
     <script src="start.js"></script>
 </body>
