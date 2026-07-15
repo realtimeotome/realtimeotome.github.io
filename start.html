@@ -12,7 +12,6 @@
 
     <div class="win-wrapper">
         
-        <!-- 🔒 [고정 영역] 상단 바 -->
         <header class="top-bar">
             <div class="top-menu">
                 <button class="menu-btn pixel-font" onclick="location.href='index.html'">main</button>
@@ -29,8 +28,6 @@
             <input type="text" class="address-field pixel-font" placeholder="file:///C:/realtimeotome/start.html" readonly>
             <div class="address-dropdown-btn pixel-font">▼</div>
         </div>
-        <!-- 🔒 상단 바 고정 끝 -->
-
         <main class="main-layout">
             
             <div class="left-col panel-raised">
@@ -40,13 +37,6 @@
                     <div class="y2k-title-bar pixel-font">// ABOUT_ME</div>
                     <div class="status-box panel-sunken galmuri-font">
                         <div class="stat-line">◆ NAME: <span class="editable">Anonymous</span></div>
-                        
-                        <!-- 💡 신규 추가: 카오모지 전광판 및 입력 폼 -->
-                        <div id="kaomoji-display" class="panel-sunken galmuri-font" style="text-align: center; font-size: 15px; padding: 6px; margin: 6px 0; background-color: #fff; letter-spacing: 1px;">( - _ - ) zzz</div>
-                        <div style="display: flex; gap: 4px; margin-bottom: 6px;">
-                            <input type="text" id="kaomoji-input" class="panel-sunken galmuri-font" style="flex: 1; padding: 2px 4px; font-size: 12px; outline: none;" placeholder="ex: ＼(ﾟｰﾟ＼)">
-                            <button id="btn-kaomoji" class="panel-raised galmuri-font" style="font-size: 12px; padding: 0 8px; cursor: pointer;">SET</button>
-                        </div>
                         
                         <div class="stat-line" style="display: flex; align-items: center; gap: 5px; margin-top: 2px;">
                             ● MOOD: 
@@ -59,6 +49,10 @@
                         </div>
                         
                         <div class="stat-line" style="margin-top: 2px;">■ SYNC: <span class="editable">2026.07.15</span></div>
+
+                        <div class="etched-line" style="margin: 6px 0;"></div>
+                        <div id="kaomoji-display" class="panel-sunken galmuri-font" style="text-align: center; font-size: 15px; padding: 6px; margin-bottom: 4px; background-color: #fff; letter-spacing: 1px;">( - _ - ) zzz</div>
+                        <button id="btn-kaomoji" class="control-btn panel-raised galmuri-font" style="width: 100%; height: 24px; font-size: 12px; letter-spacing: 1px;">[ RANDOM ]</button>
                     </div>
                 </div>
 
@@ -133,13 +127,10 @@
 
         </main>
 
-        <!-- 🔒 [고정 영역] 하단 바 -->
         <footer class="bottom-bar">
             <div class="start-btn pixel-font" id="resetBtn" style="display:flex; align-items:center; justify-content:center; font-weight:bold; font-size:16px;">reset</div>
             <div id="clock" class="pixel-font">00/00/0000 00:00 PM</div>
         </footer>
-        <!-- 🔒 하단 바 고정 끝 -->
-
         <div id="irc-modal" class="popup-overlay">
             <div class="irc-window panel-raised">
                 <div class="irc-header galmuri-font">
