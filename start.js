@@ -1,3 +1,6 @@
+// =====================================
+// 1. 시스템 하단 시계 업데이트
+// =====================================
 function updateClock() {
     const now = new Date();
     let month = now.getMonth() + 1;
@@ -21,6 +24,9 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
+// =====================================
+// 2. 더블클릭 시스템 변조 (해킹) 기믹
+// =====================================
 const editables = document.querySelectorAll('.editable');
 editables.forEach(el => {
     el.addEventListener('dblclick', function() {
@@ -36,25 +42,37 @@ editables.forEach(el => {
     });
 });
 
+// =====================================
+// 3. 미디어 플레이어 및 전광판 동기화 로직
+// =====================================
 const audio = document.getElementById('bgm-player');
 const btnPlay = document.getElementById('btn-play');
 const btnStop = document.getElementById('btn-stop');
 const btnPrev = document.getElementById('btn-prev');
 const volBlocks = document.getElementById('vol-blocks');
 const songSelect = document.getElementById('song-select');
+const marqueeText = document.getElementById('marquee-text'); // 💡 신규 추가됨
 
+// 💡 재생 목록에서 곡 변경 시 전광판 텍스트와 실제 플레이어 동시 업데이트
 songSelect.addEventListener('change', function() {
     const wasPlaying = !audio.paused; 
     audio.src = this.value; 
     audio.load();
+    
+    // 💡 전광판 글씨 실시간 변경 기믹
+    const selectedTitle = this.options[this.selectedIndex].text;
+    marqueeText.innerText = "PLAYING: " + selectedTitle;
+    
     if (wasPlaying) {
         audio.play().catch(e => console.log("파일 대기중"));
     }
 });
 
+// 초기 볼륨 설정 (70%로 설정)
 let currentVolume = 0.7;
 audio.volume = currentVolume;
 
+// 텍스트 클릭식 볼륨 조절 구현
 volBlocks.addEventListener('click', function(e) {
     const rect = this.getBoundingClientRect();
     const clickX = e.clientX - rect.left; 
@@ -67,6 +85,7 @@ volBlocks.addEventListener('click', function(e) {
     this.innerText = '■'.repeat(volLevel) + '□'.repeat(10 - volLevel);
 });
 
+// PLAY, STOP, << 버튼 제어
 btnPlay.addEventListener('click', () => { audio.play().catch(e => console.log("파일 없음")); });
 btnStop.addEventListener('click', () => { audio.pause(); audio.currentTime = 0; });
 btnPrev.addEventListener('click', () => {
@@ -75,23 +94,45 @@ btnPrev.addEventListener('click', () => {
 });
 
 // =====================================
-// 💡 신규: GUESTBOOK IRC 팝업 로직
+// 4. GUESTBOOK IRC 팝업 로직
 // =====================================
 const btnGuestbook = document.getElementById('btn-guestbook');
 const ircModal = document.getElementById('irc-modal');
 const closeIrcBtn = document.getElementById('close-irc');
 
-btnGuestbook.addEventListener('click', () => {
-    ircModal.style.display = 'flex'; // 팝업 열기
+btnGuestbook.addEventListener('click', () => { ircModal.style.display = 'flex'; });
+closeIrcBtn.addEventListener('click', () => { ircModal.style.display = 'none'; });
+ircModal.addEventListener('click', (e) => { if (e.target === ircModal) { ircModal.style.display = 'none'; } });
+
+// =====================================
+// 5. 관리자 전용 CHAT 탭 암호 로직
+// =====================================
+const btnChat = document.getElementById('btn-chat');
+const authModal = document.getElementById('auth-modal');
+const closeAuth = document.getElementById('close-auth');
+const authSubmit = document.getElementById('auth-submit');
+const sysPassword = document.getElementById('sys-password');
+
+const SECRET_PW = "0000"; 
+
+btnChat.addEventListener('click', () => {
+    authModal.style.display = 'flex';
+    sysPassword.value = '';
+    sysPassword.focus();
 });
 
-closeIrcBtn.addEventListener('click', () => {
-    ircModal.style.display = 'none'; // 팝업 닫기
-});
+closeAuth.addEventListener('click', () => { authModal.style.display = 'none'; });
 
-// 검은 배경 클릭 시 닫기 (선택 사항)
-ircModal.addEventListener('click', (e) => {
-    if (e.target === ircModal) {
-        ircModal.style.display = 'none';
+authSubmit.addEventListener('click', () => {
+    if (sysPassword.value === SECRET_PW) {
+        location.href = 'ai/';
+    } else {
+        alert("ACCESS DENIED: 인가되지 않은 사용자입니다.");
+        sysPassword.value = '';
+        sysPassword.focus();
     }
+});
+
+sysPassword.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') { authSubmit.click(); }
 });
