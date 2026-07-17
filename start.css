@@ -31,7 +31,22 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .img-box { width: 100%; flex: 1; min-height: 80px; max-height: 220px; display: flex; justify-content: center; align-items: center; font-size: 30px; font-style: italic; color: #808080; }
 
 .profile-section { display: flex; flex-direction: column; gap: 4px; }
-.y2k-title-bar { background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%); color: #ffffff; padding: 4px 14px; font-size: 15px; border: 1px solid #7a9cc2; border-radius: 20px; margin-bottom: 2px; display: inline-block; align-self: flex-start; text-shadow: 1px 1px 2px rgba(0,0,0,0.4); box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1), 1px 2px 3px rgba(0, 0, 0, 0.15); letter-spacing: 1px; }
+
+/* 💡 수정됨: 둥근 모서리 삭제, 가로 100% 채움, 패딩 미세조정 */
+.y2k-title-bar { 
+    background: linear-gradient(180deg, #eaf4fd 0%, #b3d2ef 48%, #87b4e6 50%, #b9def6 100%); 
+    color: #ffffff; 
+    padding: 4px 10px; 
+    font-size: 15px; 
+    border: 1px solid #7a9cc2; 
+    border-radius: 0px; 
+    margin-bottom: 2px; 
+    display: block; 
+    width: 100%; 
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.4); 
+    box-shadow: inset 0px 2px 4px rgba(255, 255, 255, 0.9), inset 0px -1px 2px rgba(0, 0, 0, 0.1), 1px 2px 3px rgba(0, 0, 0, 0.15); 
+    letter-spacing: 1px; 
+}
 
 #kaomoji-display { text-align: center; font-size: 15px; padding: 6px; margin-bottom: 4px; letter-spacing: 1px; background: linear-gradient(180deg, rgba(234, 244, 253, 0.7) 0%, rgba(204, 224, 245, 0.4) 48%, rgba(169, 204, 237, 0.3) 50%, rgba(212, 230, 248, 0.6) 100%); border-top: 2px solid #808080; border-left: 2px solid #808080; border-right: 2px solid #ffffff; border-bottom: 2px solid #ffffff; box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.08), inset -1px -1px 2px rgba(255, 255, 255, 0.6); color: #4a749e; text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.8); }
 
@@ -51,7 +66,6 @@ body, html { width: 100vw; height: 100dvh; overflow: hidden; background-color: #
 .action-btn { width: 100%; height: 32px; cursor: pointer; font-size: 14px; display: flex; justify-content: center; align-items: center; letter-spacing: 0.5px; }
 .action-btn:active { border-top: 2px solid #555; border-left: 2px solid #555; border-right: 2px solid #fff; border-bottom: 2px solid #fff; box-shadow: none; padding: 1px 0 0 1px; }
 
-/* 💡 가로/세로 축소 및 우측, 하단 여백 확보 (파란 선 비율 반영) */
 .right-col { flex: 1; display: flex; flex-direction: column; gap: 20px; overflow: hidden; }
 .right-top-box { width: 75%; height: 130px; flex-shrink: 0; padding: 15px; }
 .right-bottom-split { width: 75%; height: 260px; flex-shrink: 0; display: flex; gap: 20px; }
