@@ -124,4 +124,36 @@ const cursedMessages = [
     { text: "あなたの世界はあなたを待っています。あなたの記憶のすべての痕跡は上書きされます。あなたは本当に戻ることを確信していますか？", btn: "実行" },
     { text: "Deine Welt wartet auf dich. Alle Spuren deiner Erinnerung werden überschrieben. Bist du sicher, dass du zurückkehren willst?", btn: "Ausführen" },
     { text: "Ton monde t'attend. Toutes les traces de ta mémoire seront écrasées. Es-tu sûr de vouloir y retourner ?", btn: "Exécuter" },
-    { text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписа
+    { text: "Твой мир ждет тебя. Все следы твоей памяти будут перезаписаны. Ты уверен, что хочешь вернуться?", btn: "Выполнить" }
+];
+
+if (resetBtn && resetPopupOverlay) {
+    resetBtn.addEventListener('click', () => {
+        resetPopupOverlay.style.display = 'flex';
+        isCursed = false;
+        popupMessage.classList.remove('cursed');
+        popupMessage.innerText = "Your world is waiting for you. All traces of your memory will be overwritten. Are you sure you want to go back?";
+        popupOkBtn.innerText = "OK";
+    });
+
+    closePopupBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); 
+        resetPopupOverlay.style.display = 'none';
+    });
+
+    resetPopup.addEventListener('dblclick', () => {
+        isCursed = true;
+        popupMessage.classList.add('cursed');
+        
+        const randomIndex = Math.floor(Math.random() * cursedMessages.length);
+        const selected = cursedMessages[randomIndex];
+
+        popupMessage.innerText = selected.text;
+        popupOkBtn.innerText = selected.btn;
+    });
+
+    popupOkBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        screenWrapper.classList.add('tv-off-active'); 
+    });
+}
